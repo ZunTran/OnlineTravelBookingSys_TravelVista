@@ -4,6 +4,7 @@
  */
 package com.qd.pojo;
 
+import com.qd.enums.PaymentStatus;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -25,6 +26,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
 /**
  *
@@ -52,9 +55,9 @@ public class Orders implements Serializable {
     @NotNull
     @Column(name = "total_amount")
     private BigDecimal totalAmount;
-    @Size(max = 7)
+    @Enumerated(EnumType.STRING)
     @Column(name = "payment_status")
-    private String paymentStatus;
+    private PaymentStatus paymentStatus = PaymentStatus.PENDING;
     @Size(max = 150)
     @Column(name = "transaction_reference")
     private String transactionReference;
@@ -100,13 +103,6 @@ public class Orders implements Serializable {
         this.totalAmount = totalAmount;
     }
 
-    public String getPaymentStatus() {
-        return paymentStatus;
-    }
-
-    public void setPaymentStatus(String paymentStatus) {
-        this.paymentStatus = paymentStatus;
-    }
 
     public String getTransactionReference() {
         return transactionReference;
@@ -179,6 +175,20 @@ public class Orders implements Serializable {
     @Override
     public String toString() {
         return "com.qd.pojo.Orders[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the paymentStatus
+     */
+    public PaymentStatus getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    /**
+     * @param paymentStatus the paymentStatus to set
+     */
+    public void setPaymentStatus(PaymentStatus paymentStatus) {
+        this.paymentStatus = paymentStatus;
     }
     
 }

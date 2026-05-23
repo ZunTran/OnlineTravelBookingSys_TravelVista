@@ -4,6 +4,7 @@
  */
 package com.qd.pojo;
 
+import com.qd.enums.OrderStatus;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,10 +19,11 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
 /**
  *
@@ -50,9 +52,9 @@ public class ProviderOrders implements Serializable {
     @NotNull
     @Column(name = "subtotal")
     private BigDecimal subtotal;
-    @Size(max = 11)
+    @Enumerated(EnumType.STRING)
     @Column(name = "order_status")
-    private String orderStatus;
+    private OrderStatus orderStatus = OrderStatus.PENDING;
     @Basic(optional = false)
     @NotNull
     @Column(name = "order_month")
@@ -99,14 +101,6 @@ public class ProviderOrders implements Serializable {
 
     public void setSubtotal(BigDecimal subtotal) {
         this.subtotal = subtotal;
-    }
-
-    public String getOrderStatus() {
-        return orderStatus;
-    }
-
-    public void setOrderStatus(String orderStatus) {
-        this.orderStatus = orderStatus;
     }
 
     public int getOrderMonth() {
@@ -172,6 +166,20 @@ public class ProviderOrders implements Serializable {
     @Override
     public String toString() {
         return "com.qd.pojo.ProviderOrders[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the orderStatus
+     */
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
+
+    /**
+     * @param orderStatus the orderStatus to set
+     */
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
     }
     
 }

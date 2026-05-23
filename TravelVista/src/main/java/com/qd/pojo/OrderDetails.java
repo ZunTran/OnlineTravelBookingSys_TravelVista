@@ -4,6 +4,7 @@
  */
 package com.qd.pojo;
 
+import com.qd.enums.BookingStatus;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -25,6 +26,8 @@ import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
 /**
  *
@@ -58,9 +61,9 @@ public class OrderDetails implements Serializable {
     @NotNull
     @Column(name = "price")
     private BigDecimal price;
-    @Size(max = 9)
+    @Enumerated(EnumType.STRING)
     @Column(name = "booking_status")
-    private String bookingStatus;
+    private BookingStatus bookingStatus = BookingStatus.BOOKED;
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
@@ -124,14 +127,6 @@ public class OrderDetails implements Serializable {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
-    }
-
-    public String getBookingStatus() {
-        return bookingStatus;
-    }
-
-    public void setBookingStatus(String bookingStatus) {
-        this.bookingStatus = bookingStatus;
     }
 
     public Date getCreatedAt() {
@@ -213,6 +208,20 @@ public class OrderDetails implements Serializable {
     @Override
     public String toString() {
         return "com.qd.pojo.OrderDetails[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the bookingStatus
+     */
+    public BookingStatus getBookingStatus() {
+        return bookingStatus;
+    }
+
+    /**
+     * @param bookingStatus the bookingStatus to set
+     */
+    public void setBookingStatus(BookingStatus bookingStatus) {
+        this.bookingStatus = bookingStatus;
     }
     
 }
