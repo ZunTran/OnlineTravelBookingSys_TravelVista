@@ -4,10 +4,13 @@
  */
 package com.qd.pojo;
 
+import com.qd.enums.ItemStatus;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,11 +24,13 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
+
+
+
 
 /**
  *
@@ -57,9 +62,9 @@ public class SellableItems implements Serializable {
     @NotNull
     @Column(name = "available_slots")
     private int availableSlots;
-    @Size(max = 12)
+    @Enumerated(EnumType.STRING)
     @Column(name = "item_status")
-    private String itemStatus;
+    private ItemStatus itemStatus = ItemStatus.AVAILABLE;
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
@@ -117,11 +122,11 @@ public class SellableItems implements Serializable {
         this.availableSlots = availableSlots;
     }
 
-    public String getItemStatus() {
-        return itemStatus;
+    public ItemStatus getItemStatus() {
+        return this.itemStatus;
     }
 
-    public void setItemStatus(String itemStatus) {
+    public void setItemStatus(ItemStatus itemStatus) {
         this.itemStatus = itemStatus;
     }
 

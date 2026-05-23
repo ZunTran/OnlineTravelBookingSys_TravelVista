@@ -4,10 +4,14 @@
  */
 package com.qd.pojo;
 
+import com.qd.enums.ServiceStatus;
+import com.qd.enums.ServiceType;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -66,14 +70,12 @@ public class Services implements Serializable {
     @Size(min = 1, max = 65535)
     @Column(name = "description")
     private String description;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 9)
-    @Column(name = "service_type")
-    private String serviceType;
-    @Size(max = 9)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "service_type",nullable = false)
+    private ServiceType serviceType;    
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private String status;
+    private ServiceStatus status=ServiceStatus.DRAFT;
     @Column(name = "booking_count")
     private Integer bookingCount;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -115,11 +117,17 @@ public class Services implements Serializable {
         this.id = id;
     }
 
-    public Services(Long id, String name, String description, String serviceType) {
+    public Services(Long id, String name, String description, ServiceType serviceType) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.serviceType = serviceType;
+    }
+    
+        public Services(Long id,ServiceType serviceType, ServiceStatus status) {
+        this.id = id;
+        this.serviceType = serviceType;
+        this.status=status;
     }
 
     public Long getId() {
@@ -144,22 +152,6 @@ public class Services implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getServiceType() {
-        return serviceType;
-    }
-
-    public void setServiceType(String serviceType) {
-        this.serviceType = serviceType;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public Integer getBookingCount() {
@@ -297,6 +289,34 @@ public class Services implements Serializable {
     @Override
     public String toString() {
         return "com.qd.pojo.Services[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the serviceType
+     */
+    public ServiceType getServiceType() {
+        return serviceType;
+    }
+
+    /**
+     * @param serviceType the serviceType to set
+     */
+    public void setServiceType(ServiceType serviceType) {
+        this.serviceType = serviceType;
+    }
+
+    /**
+     * @return the status
+     */
+    public ServiceStatus getStatus() {
+        return status;
+    }
+
+    /**
+     * @param status the status to set
+     */
+    public void setStatus(ServiceStatus status) {
+        this.status = status;
     }
     
 }

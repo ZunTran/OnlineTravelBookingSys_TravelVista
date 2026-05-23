@@ -4,9 +4,12 @@
  */
 package com.qd.pojo;
 
+import com.qd.enums.ServiceType;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -47,11 +50,10 @@ public class Categories implements Serializable {
     @Size(min = 1, max = 100)
     @Column(name = "name")
     private String name;
-    @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 9)
-    @Column(name = "service_type")
-    private String serviceType;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "service_type",nullable = false)
+    private ServiceType serviceType;
     @JoinTable(name = "service_categories", joinColumns = {
         @JoinColumn(name = "category_id", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "service_id", referencedColumnName = "id")})
@@ -70,7 +72,7 @@ public class Categories implements Serializable {
         this.id = id;
     }
 
-    public Categories(Long id, String name, String serviceType) {
+    public Categories(Long id, String name, ServiceType serviceType) {
         this.id = id;
         this.name = name;
         this.serviceType = serviceType;
@@ -90,14 +92,6 @@ public class Categories implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getServiceType() {
-        return serviceType;
-    }
-
-    public void setServiceType(String serviceType) {
-        this.serviceType = serviceType;
     }
 
     public Set<Services> getServicesSet() {
@@ -147,6 +141,20 @@ public class Categories implements Serializable {
     @Override
     public String toString() {
         return "com.qd.pojo.Categories[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the serviceType
+     */
+    public ServiceType getServiceType() {
+        return serviceType;
+    }
+
+    /**
+     * @param serviceType the serviceType to set
+     */
+    public void setServiceType(ServiceType serviceType) {
+        this.serviceType = serviceType;
     }
     
 }
