@@ -5,8 +5,6 @@
 package com.qd.controllers;
 
 import org.springframework.ui.Model;
-import com.qd.service.CategoryService;
-import com.qd.service.ProductService;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,19 +20,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @ControllerAdvice
 public class HomeController {
-    @Autowired
-    private CategoryService cateService;
-    @Autowired
-    private ProductService prodService;
-    
-    @ModelAttribute
-    public void commonResponses(Model model){
-        model.addAttribute("categories",this.cateService.getCates());
-    }
+//    @Autowired
+//    private CategoryService cateService;
+//    @Autowired
+//    private ProductService prodService;
+//    
+//    @ModelAttribute
+//    public void commonResponses(Model model){
+//        model.addAttribute("categories",this.cateService.getCates());
+//    }
     
     @RequestMapping("/")
     public String index(Model model,@RequestParam Map<String,String> params){
-        model.addAttribute("products",this.prodService.getProducts(params));
+//        model.addAttribute("products",this.prodService.getProducts(params));
 
         return "index";
     }

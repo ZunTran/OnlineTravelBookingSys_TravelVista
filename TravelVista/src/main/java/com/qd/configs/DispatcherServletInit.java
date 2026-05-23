@@ -18,7 +18,8 @@ public class DispatcherServletInit extends AbstractAnnotationConfigDispatcherSer
     protected Class<?>[] getRootConfigClasses() {
         return new Class[]{
             ThymeleafConfigs.class,
-            HibernateConfigs.class
+            HibernateConfigs.class,
+            WebSecurityConfig.class
            
         };
     }
@@ -40,6 +41,13 @@ public class DispatcherServletInit extends AbstractAnnotationConfigDispatcherSer
         registration.setMultipartConfig(new MultipartConfigElement("D:/temp",5000000 , 15000000, 0));
     }
     
-    
-    
+    @Override
+    protected jakarta.servlet.Filter[] getServletFilters() {
+        org.springframework.web.filter.CharacterEncodingFilter encodingFilter
+                = new org.springframework.web.filter.CharacterEncodingFilter();
+        encodingFilter.setEncoding("UTF-8");
+        encodingFilter.setForceEncoding(true);
+        return new jakarta.servlet.Filter[]{encodingFilter};
+    }
+
 }

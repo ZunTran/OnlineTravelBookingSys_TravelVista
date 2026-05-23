@@ -61,6 +61,14 @@ public class WebAppContextConfigs implements WebMvcConfigurer {
 
     }
     
+    @Bean
+    public io.swagger.v3.oas.models.OpenAPI customOpenAPI() {
+        return new io.swagger.v3.oas.models.OpenAPI()
+                .info(new io.swagger.v3.oas.models.info.Info()
+                        .title("VISTA TRAVEL API DOCUMENTATION")
+                        .version("1.0")
+                        .description("Tài liệu hệ thống API đặt dịch vụ du lịch trực tuyến VistaDBV4"));
+    }
 
     
 }
