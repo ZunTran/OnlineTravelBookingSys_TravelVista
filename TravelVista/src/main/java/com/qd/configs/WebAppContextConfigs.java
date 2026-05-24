@@ -25,9 +25,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @ComponentScan(
         basePackages={
+            "com.qd.configs",
             "com.qd.controllers",
             "com.qd.service",
-            "com.qd.repository"
+            "com.qd.repository",
+            "com.qd.utils"
         }
 )
 @EnableWebMvc

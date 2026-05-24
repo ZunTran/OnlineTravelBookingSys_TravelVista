@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -14,24 +15,47 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
         http
-            //Tắt CSRF để các công cụ test API (Swagger, Postman) gửi request thoải mái
             .csrf(csrf -> csrf.disable())
+.authorizeHttpRequests(auth -> auth
+
+    .requestMatchers(
+        AntPathRequestMatcher.antMatcher("/"),
+        AntPathRequestMatcher.antMatcher("/**"),
+        AntPathRequestMatcher.antMatcher("/api/services/**"),
+        AntPathRequestMatcher.antMatcher("/api/auth/**")
+    ).permitAll()
+
+    .anyRequest().authenticated()
+);
             
-            // Cấu hình phân quyền 
-        .authorizeHttpRequests(auth -> auth
-        .requestMatchers("/api/services/**").permitAll()
-        .requestMatchers("/api/auth/**").permitAll()
-        
-        .requestMatchers("/api/admin/**").hasRole("ADMIN")
-        .requestMatchers("/api/provider/**").hasRole("PROVIDER")
-        .requestMatchers("/api/cart/**", "/api/orders/**").hasRole("CUSTOMER")
-                    
-        .anyRequest().authenticated()
-            );
+//            .authorizeHttpRequests(auth -> auth
+//
+//                .requestMatchers(
+//                    AntPathRequestMatcher.antMatcher("/api/services/**"),
+//                    AntPathRequestMatcher.antMatcher("/api/auth/**")
+//                ).permitAll()
+//
+//                .requestMatchers(
+//                    AntPathRequestMatcher.antMatcher("/api/admin/**")
+//                ).hasRole("ADMIN")
+//
+//                .requestMatchers(
+//                    AntPathRequestMatcher.antMatcher("/api/provider/**")
+//                ).hasRole("PROVIDER")
+//
+//                .requestMatchers(
+//                    AntPathRequestMatcher.antMatcher("/api/cart/**"),
+//                    AntPathRequestMatcher.antMatcher("/api/orders/**")
+//                ).hasRole("CUSTOMER")
+//
+//                .anyRequest().authenticated()
+//            );
 
         return http.build();
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
