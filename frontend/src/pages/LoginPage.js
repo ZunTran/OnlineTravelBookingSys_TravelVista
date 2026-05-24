@@ -4,7 +4,6 @@ const LoginPage = () => {
     return (
         <FormLogin />
     );
-
 }
 
 export default LoginPage;

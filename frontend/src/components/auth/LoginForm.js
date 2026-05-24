@@ -3,17 +3,15 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
-import { toast } from "sonner";
 
 const FormLogin = () => {
-
 
     return (
         <section className="w-full flex flex-col justify-center items-center">
             <Card className="w-full max-w-md space-y-4 p-5" >
                 <CardHeader className="space-y-1">
-                    <CardTitle className="text-4xl font-bold">Welcome back</CardTitle>
-                    <CardDescription>Đăng nhập để đặt chuyến đi</CardDescription>
+                    <CardTitle className="text-4xl font-bold">Đăng nhập</CardTitle>
+                    <CardDescription>Đăng nhập đi ngại chi</CardDescription>
                 </CardHeader>
                 <form>
                     <CardContent >

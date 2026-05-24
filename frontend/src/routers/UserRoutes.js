@@ -1,5 +1,5 @@
 import UserLayout from "@/layouts/UserLayout";
-import HomePage from "@/pages/HomePage";
+import HomePage from "@/pages/User/HomePage";
 import { Route } from "react-router-dom";
 
 const UserRoutes = () => {
