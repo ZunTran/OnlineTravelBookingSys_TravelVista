@@ -1,30 +1,9 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import HomePage from './pages/HomePage'
-import NotFound from './pages/NotFound'
-import LoginPage from '@/pages/LoginPage';
+import AppRoutes from '@/routers/AppRoutes';
 
 
 const App = () => {
   return (
-    <>
-      <BrowserRouter>
-        <Routes>
-
-          <Route
-            path="/"
-            element={<HomePage />}
-          />
-          <Route
-            path="*"
-            element={<NotFound />}
-          />
-          <Route
-            path='/login'
-            element={<LoginPage />}
-          />
-        </Routes>
-      </BrowserRouter>
-    </>
+    <AppRoutes />
   );
 }
-export default App
+export default App;
