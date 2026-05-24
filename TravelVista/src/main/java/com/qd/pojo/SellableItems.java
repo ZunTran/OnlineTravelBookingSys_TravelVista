@@ -68,7 +68,7 @@ public class SellableItems implements Serializable {
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "itemId")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "itemId")
     private Set<CartItems> cartItemsSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "itemId")
     private Set<OrderDetails> orderDetailsSet;

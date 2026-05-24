@@ -18,10 +18,16 @@ public class WebSecurityConfig {
             //Tắt CSRF để các công cụ test API (Swagger, Postman) gửi request thoải mái
             .csrf(csrf -> csrf.disable())
             
-            // Cấu hình luật phân quyền mở
-            .authorizeHttpRequests(auth -> auth
-            // MỞ TOÀN BỘ: Cho phép truy cập bất kỳ URL nào mà không cần đăng nhập hay Token
-                .anyRequest().permitAll()
+            // Cấu hình phân quyền 
+        .authorizeHttpRequests(auth -> auth
+        .requestMatchers("/api/services/**").permitAll()
+        .requestMatchers("/api/auth/**").permitAll()
+        
+        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+        .requestMatchers("/api/provider/**").hasRole("PROVIDER")
+        .requestMatchers("/api/cart/**", "/api/orders/**").hasRole("CUSTOMER")
+                    
+        .anyRequest().authenticated()
             );
 
         return http.build();
