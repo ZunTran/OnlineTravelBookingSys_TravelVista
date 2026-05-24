@@ -10,6 +10,7 @@ import static org.hibernate.cfg.JdbcSettings.DIALECT;
 import static org.hibernate.cfg.JdbcSettings.SHOW_SQL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -23,6 +24,12 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
  */
 @Configuration
 @PropertySource("classpath:databases.properties")
+@ComponentScan(basePackages = {
+    "com.qd.configs",    
+    "com.qd.utils",    
+    "com.qd.repository", 
+    "com.qd.service"     
+})
 public class HibernateConfigs {
     @Autowired
     private Environment env;
