@@ -1,5 +1,5 @@
 import ProviderLayout from "@/layouts/ProviderLayout";
-import ProviderHomePage from "@/pages/Provider/ProviderHomePage";
+import { ProviderHomePage } from "@/routers/LazyPages";
 import { Route } from "react-router-dom";
 
 const ProviderRoutes = () => {

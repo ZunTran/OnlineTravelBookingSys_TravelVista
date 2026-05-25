@@ -3,7 +3,7 @@ import AuthRoutes from "@/routers/AuthRoutes";
 import UserRoutes from "@/routers/UserRoutes";
 import ProviderRoutes from "@/routers/ProviderRoutes"
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import NotFoundPage from '@/pages/NotFoundPage'
+import NotFoundPage from '@/pages/error/NotFoundPage'
 
 const AppRoutes = () => {
     return (
