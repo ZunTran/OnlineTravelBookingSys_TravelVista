@@ -1,5 +1,5 @@
 import UserLayout from "@/layouts/UserLayout";
-import HomePage from "@/pages/User/HomePage";
+import { HomePage, TransportPage } from "@/routers/LazyPages";
 import { Route } from "react-router-dom";
 
 const UserRoutes = () => {
@@ -8,6 +8,10 @@ const UserRoutes = () => {
             <Route
                 path="/"
                 element={<HomePage />}
+            />
+            <Route
+                path="transport"
+                element={<TransportPage />}
             />
         </Route>
     );

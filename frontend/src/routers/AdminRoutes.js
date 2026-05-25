@@ -1,5 +1,5 @@
 import AdminLayout from "@/layouts/AdminLayout";
-import AdminHomePage from "@/pages/Admin/AdminHomePage";
+import { AdminHomePage } from "@/routers/LazyPages";
 import { Route } from "react-router-dom";
 
 const AdminRoutes = () => {

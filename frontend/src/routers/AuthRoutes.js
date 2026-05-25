@@ -1,6 +1,5 @@
 import AuthLayout from "@/layouts/AuthLayout";
-import LoginPage from "@/pages/LoginPage";
-import RegisterPage from "@/pages/RegisterPage";
+import { LoginPage, RegisterPage } from "@/routers/LazyPages";
 import { Route } from "react-router-dom";
 
 const AuthRoutes = () => {
