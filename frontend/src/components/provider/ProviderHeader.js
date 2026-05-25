@@ -72,16 +72,18 @@ const ProviderHeader = () => {
             <Separator />
 
             <div className="p-4 space-y-2">
-                <Button
-                    variant="outline"
-                    className="w-full justify-start text-red-600 hover:text-red-700"
-                >
+                <Link to="/">
+                    <Button
+                        variant="outline"
+                        className="w-full justify-start text-red-600 hover:text-red-700"
+                    >
 
-                    <LogOut className="mr-3 h-5 w-5" />
+                        <LogOut className="mr-3 h-5 w-5" />
 
-                    Đăng xuất
+                        Đăng xuất
 
-                </Button>
+                    </Button>
+                </Link>
 
             </div>
 
