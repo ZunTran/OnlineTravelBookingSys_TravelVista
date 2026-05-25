@@ -35,6 +35,7 @@ public class RegisterRequest {
         this.phone = builder.phone;
         this.avatar = builder.avatar;
         this.roleType = builder.roleType;
+        
         this.companyName = builder.companyName;
         this.taxCode = builder.taxCode;
         this.hotline = builder.hotline;

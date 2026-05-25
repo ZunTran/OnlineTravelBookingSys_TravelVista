@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class JwtProvider {
-    private final String JWT_SECRET ="jihhruihnqZuncute196@@451";
+    private final String JWT_SECRET ="jVistaaTravelZuncuteihhruihnqZuncute196@oiqu93873i$$@61*9@&!(u3JAdjbJBDHABDIHYUWoejwiuiih@451";
     private final long JWT_EXPIRATION = 86400000L;
    
     private SecretKey getSigningKey() {
@@ -32,6 +32,18 @@ public class JwtProvider {
         return Jwts.builder()
                 .subject(username)
                 .claim("role", roleName)
+                .issuedAt(now)
+                .expiration(expiryDate)
+                .signWith(getSigningKey()) 
+                .compact();
+    }
+        
+        public String generateToken(String username) {
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + JWT_EXPIRATION);
+
+        return Jwts.builder()
+                .subject(username)
                 .issuedAt(now)
                 .expiration(expiryDate)
                 .signWith(getSigningKey()) 

@@ -4,10 +4,15 @@
  */
 package com.qd.repository;
 
+import com.qd.pojo.Users;
+
 /**
  *
  * @author ADMIN
  */
 public interface UserRepository {
-    
+    Users findByUsername(String username);
+    boolean isExistByUsername(String username);
+    boolean isExistByEmail(String email);
+    void save(Users user);
 }

@@ -8,6 +8,7 @@ import com.qd.dto.AuthResponse;
 import com.qd.dto.LoginRequest;
 import com.qd.dto.RegisterRequest;
 import com.qd.service.UserService;
+import com.qd.utils.JwtProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -32,6 +33,9 @@ public class AuthApiController {
     @Autowired
     private UserService userService;
     
+    @Autowired
+    private JwtProvider jwtProvider;
+    
     @PostMapping(value="/register",consumes={"multipart/form-data"})
     public ResponseEntity<AuthResponse> register(@ModelAttribute RegisterRequest registerRequest){
         AuthResponse response=userService.register(registerRequest);
@@ -43,12 +47,18 @@ public class AuthApiController {
         
     }
     
-    @PostMapping(value="/login",consumes={"multipart/form-data"})
-    public ResponseEntity<AuthResponse> register(@RequestBody LoginRequest loginRequest){
+    @PostMapping(value="/login")
+    public ResponseEntity<AuthResponse> register(@RequestBody LoginRequest loginRequest)//@RequestBody la json thô
+    {
+        
         AuthResponse response=userService.login(loginRequest.getUsername(), loginRequest.getPassword());
 
-        if(response.isSuccess()) 
+        if(response.isSuccess()) {
+            
+            String token= jwtProvider.generateToken(loginRequest.getUsername());
             return ResponseEntity.ok(response); //Tra ma 200 + Token JWT
+        }
+            
         
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response); //Ma 401
         

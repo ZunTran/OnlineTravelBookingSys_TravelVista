@@ -7,6 +7,7 @@ package com.qd.configs;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.qd.formatters.CategoryFormatter;
+import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -40,6 +41,15 @@ public class WebAppContextConfigs implements WebMvcConfigurer {
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         WebMvcConfigurer.super.configureDefaultServletHandling(configurer); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
         configurer.enable();
+    }
+    
+    @Override
+    public void configureMessageConverters(List<org.springframework.http.converter.HttpMessageConverter<?>> converters) {
+        // Kích hoạt JSON của Jackson
+        org.springframework.http.converter.json.MappingJackson2HttpMessageConverter jsonConverter = 
+                new org.springframework.http.converter.json.MappingJackson2HttpMessageConverter();
+        // ĐkýJackson vào Spring MVC
+        converters.add(jsonConverter);
     }
 
     @Override
