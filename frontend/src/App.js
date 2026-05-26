@@ -1,4 +1,4 @@
-import AppRoutes from '@/routers/AppRoutes';
+import AppRoutes from '@/routers/AppRoute';
 
 
 const App = () => {
