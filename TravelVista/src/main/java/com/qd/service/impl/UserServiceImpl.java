@@ -46,20 +46,91 @@ public class UserServiceImpl implements UserService{
     
     @Override
     @Transactional
+//    public AuthResponse register(RegisterRequest req) {
+//        //Check trùng lặp tài khoản và email trên hệ thống bảng Users
+//        if (userRepository.isExistByUsername(req.getUsername())) {
+//            return AuthResponse.builder().success(false).message("Tên tài khoản này đã tồn tại!").build();
+//        }
+//        if (userRepository.isExistByEmail(req.getEmail())) {
+//            return AuthResponse.builder().success(false).message("Email này đã được đăng ký rồi!").build();
+//        }
+//
+//        if (req.getAvatar() == null || req.getAvatar().isEmpty()) {
+//            return AuthResponse.builder().success(false).message("Ảnh đại diện là bắt buộc!").build();
+//        }
+//       
+//        Users user = new Users();
+//        user.setUsername(req.getUsername());
+//        user.setFullName(req.getFullName());
+//        user.setEmail(req.getEmail());
+//        user.setPhone(req.getPhone());
+//        
+//        user.setPassword(passwordEncoder.encode(req.getPassword()));
+//        user.setIsActive(true);
+//        user.setCreatedAt(new Date());
+//
+//        long targetRoleId = isProvider ? 2L : 3L;
+//        Roles role = userRepository.findRoleById(targetRoleId);
+//        user.setRoleId(role);
+//        
+//        boolean isProvider = "PROVIDER".equalsIgnoreCase(req.getRoleType());
+//        if (isProvider) {
+//            if (req.getCompanyName() == null || req.getCompanyName().isEmpty() ||
+//                req.getTaxCode() == null || req.getTaxCode().isEmpty() ||
+//                req.getHotline() == null || req.getHotline().isEmpty() ||
+//                req.getBusinessAddress() == null || req.getBusinessAddress().isEmpty()) {
+//                return AuthResponse.builder().success(false).message("Đăng ký đối tác bắt buộc phải nhập đủ thông tin Doanh nghiệp!").build();
+//            }
+//
+//            if (providerRepository.isExistsByCompanyName(req.getCompanyName())) {
+//                return AuthResponse.builder().success(false).message("Tên Công ty/Doanh nghiệp này đã được đăng ký!").build();
+//            }
+//            if (providerRepository.isExistsByTaxCode(req.getTaxCode())) {
+//                return AuthResponse.builder().success(false).message("Mã số thuế đã tồn tại trên hệ thống!").build();
+//            }
+//        }
+//        
+//        try {
+//            Map uploadResult = cloudinary.uploader().upload(
+//                    req.getAvatar().getBytes(),
+//                    ObjectUtils.emptyMap()
+//            );
+//            String cloudUrl = (String) uploadResult.get("secure_url");
+//            user.setAvatarUrl(cloudUrl);
+//        } catch (IOException e) {
+//            return AuthResponse.builder().success(false).message("Lỗi khi upload ảnh đại diện lên Cloudinary!").build();
+//        }
+//        
+//        userRepository.save(user);
+//
+//        if (isProvider) {
+//            Providers provider = new Providers();
+//            provider.setUserId(user);
+//            provider.setCompanyName(req.getCompanyName());
+//            provider.setTaxCode(req.getTaxCode());
+//            provider.setHotline(req.getHotline());
+//            provider.setBusinessAddress(req.getBusinessAddress());
+//            provider.setIsApproved(false);
+//            provider.setApprovedAt(null);
+//            providerRepository.save(provider);
+//        }
+//        String msg = isProvider ? "Đăng ký hồ sơ thành công. Vui lòng đợi Admin phê duyệt!"
+//                                : "Đăng ký tài khoản thành công!";
+//        return AuthResponse.builder().success(true).message(msg).build();
+//    }
+
     public AuthResponse register(RegisterRequest req) {
-        //Check trùng lặp tài khoản và email trên hệ thống bảng Users
         if (userRepository.isExistByUsername(req.getUsername())) {
             return AuthResponse.builder().success(false).message("Tên tài khoản này đã tồn tại!").build();
         }
         if (userRepository.isExistByEmail(req.getEmail())) {
             return AuthResponse.builder().success(false).message("Email này đã được đăng ký rồi!").build();
         }
-
         if (req.getAvatar() == null || req.getAvatar().isEmpty()) {
             return AuthResponse.builder().success(false).message("Ảnh đại diện là bắt buộc!").build();
         }
-
         boolean isProvider = "PROVIDER".equalsIgnoreCase(req.getRoleType());
+        
         if (isProvider) {
             if (req.getCompanyName() == null || req.getCompanyName().isEmpty() ||
                 req.getTaxCode() == null || req.getTaxCode().isEmpty() ||
@@ -81,19 +152,15 @@ public class UserServiceImpl implements UserService{
         user.setFullName(req.getFullName());
         user.setEmail(req.getEmail());
         user.setPhone(req.getPhone());
-        
         user.setPassword(passwordEncoder.encode(req.getPassword()));
         user.setIsActive(true);
         user.setCreatedAt(new Date());
 
-        Roles role = new Roles();
-        if (isProvider) {
-            role.setId(2L); // 2L ID PROVIDER 
-        } else {
-            role.setId(3L); // 3L là ID CUSTOMER 
-        }
+        // Bốc Role chính thống từ DB lên gài vào để tránh lỗi Transient Role
+        long targetRoleId = isProvider ? 2L : 3L;
+        Roles role = userRepository.findRoleById(targetRoleId);
         user.setRoleId(role);
-        
+
         try {
             Map uploadResult = cloudinary.uploader().upload(
                     req.getAvatar().getBytes(),
@@ -102,27 +169,28 @@ public class UserServiceImpl implements UserService{
             String cloudUrl = (String) uploadResult.get("secure_url");
             user.setAvatarUrl(cloudUrl);
         } catch (IOException e) {
-            return AuthResponse.builder().success(false).message("Lỗi hỏa hoạn khi upload ảnh đại diện lên Cloudinary!").build();
+            // Spring bắt buộc nếu muốn rollback tự động thì đoạn này phải ném ra RuntimeException
+            throw new RuntimeException("Lỗi khi upload ảnh đại diện lên Cloudinary!");
         }
-        
-        userRepository.save(user);
 
         if (isProvider) {
             Providers provider = new Providers();
-            provider.setUserId(user);
             provider.setCompanyName(req.getCompanyName());
             provider.setTaxCode(req.getTaxCode());
             provider.setHotline(req.getHotline());
             provider.setBusinessAddress(req.getBusinessAddress());
             provider.setIsApproved(false);
             provider.setApprovedAt(null);
-            providerRepository.save(provider);
+            
+            provider.setUserId(user);   
+            user.setProviders(provider); 
         }
+        userRepository.save(user);
         String msg = isProvider ? "Đăng ký hồ sơ thành công. Vui lòng đợi Admin phê duyệt!"
                                 : "Đăng ký tài khoản thành công!";
         return AuthResponse.builder().success(true).message(msg).build();
     }
-
+    
     @Override
     @Transactional(readOnly = true)
     public AuthResponse login(String username, String password) {

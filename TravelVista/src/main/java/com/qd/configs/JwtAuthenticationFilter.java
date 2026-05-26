@@ -31,7 +31,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         
         try{
-            String bearerToken=request.getHeader("Authoiation");
+            String bearerToken=request.getHeader("Authorization");
             if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
                 // Cắt bỏ 7 ký tự đầu "Bearer " để lấychuỗi Token thô
                 String token = bearerToken.substring(7);      

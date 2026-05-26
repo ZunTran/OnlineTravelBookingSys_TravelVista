@@ -4,6 +4,7 @@
  */
 package com.qd.repository;
 
+import com.qd.pojo.Roles;
 import com.qd.pojo.Users;
 
 /**
@@ -12,6 +13,7 @@ import com.qd.pojo.Users;
  */
 public interface UserRepository {
     Users findByUsername(String username);
+    Roles findRoleById(long roleId);
     boolean isExistByUsername(String username);
     boolean isExistByEmail(String email);
     void save(Users user);
