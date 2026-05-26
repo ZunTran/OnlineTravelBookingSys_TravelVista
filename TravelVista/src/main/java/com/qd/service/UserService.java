@@ -7,6 +7,7 @@ package com.qd.service;
 import com.qd.dto.AuthResponse;
 import com.qd.dto.RegisterRequest;
 import com.qd.dto.UserProfile;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -16,5 +17,6 @@ public interface UserService {
     AuthResponse register(RegisterRequest req);
     AuthResponse login(String username,String password);
     UserProfile getUserProfile(String username);
+    String updateUserAvatar(String username, MultipartFile file);
 
 }
