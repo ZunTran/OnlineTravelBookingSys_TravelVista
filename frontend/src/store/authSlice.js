@@ -5,7 +5,7 @@ const checkInitialAuth = () => {
     return cookies.load('token') ? true : false;
 };
 
-const initialStage = {
+const initialState = {
     isAuthenticated: checkInitialAuth(),
     user: null,
     loading: false

@@ -1,64 +1,68 @@
+import RegisterBaseFields from "@/components/common/RegisterBaseFields";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Spinner } from "@/components/ui/spinner";
+import { useRegister } from "@/hooks/auth/useRegister";
+import { useRegisterForm } from "@/hooks/forms/use-register-form";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const UserRegisterForm = () => {
+    const extraFields = {
+        "roleType": "CUSTOMER",
+    }
+
+    const { formData, handleChange, handleChangeFile } = useRegisterForm(extraFields);
+    const registerMutation = useRegister();
+    const navigator = useNavigate();
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        registerMutation.mutate(formData, {
+            onSuccess: (data) => {
+                toast.success(data?.message || "Đăng ký tài khoản thành công")
+                navigator('/login')
+            },
+            onError: (error) => {
+                toast.error(error.message || "Đã có lỗi xảy ra.")
+            },
+        });
+    }
+
+
+
+
     return (
-        <form className="space-y-6">
-            <FieldGroup>
-                <Field>
-                    <FieldLabel htmlFor="fullname">Fullname</FieldLabel>
-                    <Input
-                        id="fullname"
-                        type="text"
-                        required
-                        placeholder="Fullname"
-                    />
-                </Field>
+        <form className="space-y-6" onSubmit={handleSubmit}>
 
-                <Field>
-                    <FieldLabel htmlFor="username" >Username</FieldLabel>
-                    <Input
-                        id="username"
-                        type="text"
-                        required
-                        placeholder="Username"
-                    />
-                </Field>
+            <RegisterBaseFields
+                formData={formData}
+                onChange={handleChange}
+                onChangeFile={handleChangeFile}
+            />
 
-                <Field>
-                    <FieldLabel htmlFor="password">Password</FieldLabel>
-                    <Input
-                        id="password"
-                        type="password"
-                        required
-                        placeholder="Password"
-                    />
-                </Field>
+            <div className="flex items-center gap-2">
+                <Checkbox id="term" required />
+                <Label htmlFor="term" className="text-sm">
+                    Đồng ý với điều khoản
+                </Label>
+            </div>
 
-                <Field>
-                    <FieldLabel htmlFor="confirm" >Confirm password</FieldLabel>
-                    <Input
-                        id="confirm"
-                        type="password"
-                        required
-                        placeholder="Confirm password"
-                    />
-                </Field>
-
-                <div className="flex gap-2">
-                    <Checkbox id="term" required />
-                    <Label htmlFor="term">Đồng ý với điều khoản</Label>
-                </div>
-
-                <Field orientation="horizontal" >
-                    <Button type="submit" className="w-full">Đăng ký</Button>
-                </Field>
-            </FieldGroup>
+            <Button
+                type="submit"
+                className="w-full"
+                disabled={registerMutation.isPending}
+            >
+                {
+                    registerMutation.isPending
+                        ? <Spinner />
+                        : "Đăng ký khách hàng"
+                }
+            </Button>
         </form>
     );
-}
+};
 
 export default UserRegisterForm;
