@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -244,5 +245,29 @@ public class UserServiceImpl implements UserService{
         
         return profile;
     }
+
+    @Override
+    public String updateUserAvatar(String username, MultipartFile file) {
+        Users user = userRepository.findByUsername(username);
+        if (user == null) throw new RuntimeException("Không tìm thấy người dùng với username: " + username);
+        
+        if (user.getIsActive() != null && !user.getIsActive()) 
+            throw new RuntimeException("Tài khoản này hiện đang bị khóa hoạt động, không thể sửa đổi hồ sơ!");
+        
+
+        try {
+            Map uploadResult = cloudinary.uploader().upload(
+                    file.getBytes(),
+                    ObjectUtils.emptyMap()
+            );
+            String cloudUrl = (String) uploadResult.get("secure_url");
+            user.setAvatarUrl(cloudUrl);
+            userRepository.save(user);
+            return cloudUrl;
+        } catch (IOException e) {
+            throw new RuntimeException("Lỗi khi upload ảnh đại diện lên Cloudinary!");
+        }
+    }
+
 
 }
