@@ -9,6 +9,7 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.qd.dto.AuthResponse;
 import com.qd.dto.RegisterRequest;
+import com.qd.dto.UserProfile;
 import com.qd.pojo.Providers;
 import com.qd.pojo.Roles;
 import com.qd.pojo.Users;
@@ -126,6 +127,9 @@ public class UserServiceImpl implements UserService{
         if (userRepository.isExistByEmail(req.getEmail())) {
             return AuthResponse.builder().success(false).message("Email này đã được đăng ký rồi!").build();
         }
+        if (userRepository.isExistByPhone(req.getPhone())) {
+            return AuthResponse.builder().success(false).message("Số điện thoại này đã được đăng ký rồi!").build();
+        }
         if (req.getAvatar() == null || req.getAvatar().isEmpty()) {
             return AuthResponse.builder().success(false).message("Ảnh đại diện là bắt buộc!").build();
         }
@@ -212,6 +216,33 @@ public class UserServiceImpl implements UserService{
                 .token(token)
                 .userDetail(user)
                 .build();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public UserProfile getUserProfile(String username) {
+        Users user = userRepository.findByUsername(username);
+        if (user == null) {
+            throw new RuntimeException("Không tìm thấy người dùng với username: " + username);
+        }
+        UserProfile profile = new UserProfile();
+        profile.setUsername(user.getUsername());
+        profile.setFullName(user.getFullName());
+        profile.setEmail(user.getEmail());
+        profile.setPhone(user.getPhone());
+        profile.setAvatarUrl(user.getAvatarUrl());
+        profile.setRoleName(user.getRoleId().getRoleName());
+        
+        if (user.getProviders() != null) {
+            Providers provider = user.getProviders();
+            profile.setCompanyName(provider.getCompanyName());
+            profile.setTaxCode(provider.getTaxCode());
+            profile.setHotline(provider.getHotline());
+            profile.setBusinessAddress(provider.getBusinessAddress());
+            profile.setIsApproved(provider.getIsApproved());
+        }
+        
+        return profile;
     }
 
 }

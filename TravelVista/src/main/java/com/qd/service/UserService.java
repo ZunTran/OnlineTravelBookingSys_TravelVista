@@ -6,6 +6,7 @@ package com.qd.service;
 
 import com.qd.dto.AuthResponse;
 import com.qd.dto.RegisterRequest;
+import com.qd.dto.UserProfile;
 
 /**
  *
@@ -14,4 +15,6 @@ import com.qd.dto.RegisterRequest;
 public interface UserService {
     AuthResponse register(RegisterRequest req);
     AuthResponse login(String username,String password);
+    UserProfile getUserProfile(String username);
+
 }

@@ -16,5 +16,6 @@ public interface UserRepository {
     Roles findRoleById(long roleId);
     boolean isExistByUsername(String username);
     boolean isExistByEmail(String email);
+    boolean isExistByPhone(String phone);
     void save(Users user);
 }

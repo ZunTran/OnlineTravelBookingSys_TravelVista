@@ -7,6 +7,7 @@ package com.qd.controllers;
 import com.qd.dto.AuthResponse;
 import com.qd.dto.LoginRequest;
 import com.qd.dto.RegisterRequest;
+import com.qd.dto.UserProfile;
 import com.qd.service.UserService;
 import com.qd.utils.JwtProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
 //import org.springframework.web.bind.annotation.*;
 /**
  *
@@ -58,9 +61,12 @@ public class AuthApiController {
             String token= jwtProvider.generateToken(loginRequest.getUsername());
             return ResponseEntity.ok(response); //Tra ma 200 + Token JWT
         }
-            
-        
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response); //Ma 401
-        
+           
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response); //Ma 401       
+    }
+    
+    @GetMapping("/profile")
+    public UserProfile getProfile(Authentication authentication) {
+        return userService.getUserProfile(authentication.getName());
     }
 }

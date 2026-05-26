@@ -76,4 +76,13 @@ public class UserRepositoryImpl implements UserRepository {
         Session session = this.factory.getObject().getCurrentSession();
         return session.get(Roles.class, roleId);
     }
+
+    @Override
+    public boolean isExistByPhone(String phone) {
+        Users user = getSession()
+                .createNamedQuery("Users.findByPhone", Users.class)
+                .setParameter("phone", phone)
+                .uniqueResult();
+        return user != null;
+    }
 }
