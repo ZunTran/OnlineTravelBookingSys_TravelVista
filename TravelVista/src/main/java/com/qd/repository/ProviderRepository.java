@@ -20,5 +20,7 @@ public interface ProviderRepository {
     List<Providers>getProviders(Map<String,String>params);
     List<Providers> getProvidersByStatus(boolean isApproved, Map<String, String> params);
     void save(Providers provider);
-    Long countProvidersByStatus(boolean isApproved);
+    Long countProvidersByStatus(boolean isApproved,Map<String, String> params);
+    Providers getProviderWithUserById(Long id);
+    void updateProvider(Providers provider);
 }

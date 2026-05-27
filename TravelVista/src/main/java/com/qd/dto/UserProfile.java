@@ -24,6 +24,7 @@ public class UserProfile {
     private String hotline;
     private String businessAddress;
     private boolean isApproved;
+    private String statusReason;
 
     public UserProfile() {
     }
@@ -180,5 +181,19 @@ public class UserProfile {
      */
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    /**
+     * @return the statusReason
+     */
+    public String getStatusReason() {
+        return statusReason;
+    }
+
+    /**
+     * @param statusReason the statusReason to set
+     */
+    public void setStatusReason(String statusReason) {
+        this.statusReason = statusReason;
     }
 }
