@@ -1,3 +1,4 @@
+import Loading from "@/components/common/Loading";
 import RegisterBaseFields from "@/components/common/RegisterBaseFields";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -5,10 +6,9 @@ import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
-import { useRegister } from "@/hooks/auth/useRegister";
+import { useRegister } from "@/hooks/auth/use-register";
 import { useRegisterForm } from "@/hooks/forms/use-register-form";
-import { useNavigate } from "react-router-dom";
-import { toast } from "sonner";
+
 
 const ProviderRegisterForm = () => {
 
@@ -21,7 +21,6 @@ const ProviderRegisterForm = () => {
     };
 
     const { formData, handleChange, handleChangeFile } = useRegisterForm(extraFields);
-    const navigator = useNavigate();
     const registerMutation = useRegister();
 
     const isLoading = registerMutation.isPending;
@@ -29,29 +28,13 @@ const ProviderRegisterForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        registerMutation.mutate(formData, {
-            onSuccess: (data) => {
-                toast.success(data?.message || "Đăng ký tài khoản thành công")
-                navigator('/login')
-            },
-            onError: (error) => {
-                toast.error(error.message || "Đã có lỗi xảy ra.")
-            },
-        });
+        registerMutation.mutate(formData);
     }
 
     return (
         <div className="relative">
-            {isLoading && (
-                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40">
-                    <div className="flex flex-col items-center gap-3 rounded-2xl bg-white px-8 py-6 shadow-lg">
-                        <Spinner className="size-10" />
-                        <p className="text-sm font-medium">
-                            Đang đăng ký...
-                        </p>
-                    </div>
-                </div>
-            )}
+            {isLoading && <Loading content="Đang đăng ký..." />}
+
             <form className="space-y-6" onSubmit={handleSubmit}>
                 <RegisterBaseFields
                     formData={formData}

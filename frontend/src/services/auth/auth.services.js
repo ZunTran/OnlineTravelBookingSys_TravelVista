@@ -1,7 +1,17 @@
 import Apis, { endpoints } from "@/configs/Apis";
 
 export const loginApi = async (data) => {
-    return Apis.post(endpoints.register, data);
+
+    const body = JSON.stringify(data);
+
+    const res = await Apis.post(endpoints.login, body, {
+        headers: {
+            "Content-Type": "application/json"
+        },
+    });
+
+    return res.data;
+
 
 };
 

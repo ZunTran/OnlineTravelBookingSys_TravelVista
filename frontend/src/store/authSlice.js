@@ -2,13 +2,13 @@ import { createSlice } from '@reduxjs/toolkit';
 import cookies from 'react-cookies';
 
 const checkInitialAuth = () => {
-    return cookies.load('token') ? true : false;
+    return cookies.load("token") ? true : false;
 };
 
 const initialState = {
     isAuthenticated: checkInitialAuth(),
-    user: null,
-    loading: false
+    user: cookies.load("user") || null,
+    loading: false,
 }
 
 const authSlice = createSlice({
@@ -26,6 +26,7 @@ const authSlice = createSlice({
             state.user = null;
             state.loading = false;
             cookies.remove('token', { path: "/" });
+            cookies.remove("user", { path: "/" })
         },
 
         setLoading: (state, action) => {

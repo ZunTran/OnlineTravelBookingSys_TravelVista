@@ -15,7 +15,7 @@ const Apis = axios.create({
 
 Apis.interceptors.request.use(
     (config) => {
-        const token = cookies.load("accessToken");
+        const token = cookies.load("token");
 
         if (token)
             config.headers.Authorization = `Bearer ${token}`;
@@ -27,17 +27,26 @@ Apis.interceptors.request.use(
         return Promise.reject(error);
     }
 );
-
 Apis.interceptors.response.use(
     (response) => response,
+
     (error) => {
-        if (error.response?.status === 401) {
-            cookies.remove("accessToken");
+
+        const isLoginRequest =
+            error.config?.url?.includes("/api/auth/login");
+
+        if (
+            error.response?.status === 401 &&
+            !isLoginRequest
+        ) {
+
+            cookies.remove("token", { path: "/" });
+
             window.location.href = "/login";
         }
 
         return Promise.reject(error);
     }
-)
+);
 
 export default Apis;
