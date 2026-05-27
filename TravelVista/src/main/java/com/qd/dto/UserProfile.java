@@ -9,12 +9,15 @@ package com.qd.dto;
  * @author ADMIN
  */
 public class UserProfile {
+
+    
     private String username;
     private String fullName;
     private String email;
     private String phone;
     private String avatarUrl;
     private String roleName;
+    private String address;
 
     private String companyName;
     private String taxCode;
@@ -32,7 +35,16 @@ public class UserProfile {
         this.avatarUrl = avatar;
         this.roleName = role;
     }
-
+    
+    public UserProfile(String username, String email, String phone, String avatar, String role,String address) {
+        this.username = username;
+        this.email = email;
+        this.phone = phone;
+        this.avatarUrl = avatar;
+        this.roleName = role;
+        this.address=address;
+    } 
+    
     public String getUsername() {
         return username;
     }
@@ -155,5 +167,18 @@ public class UserProfile {
      */
     public void setIsApproved(boolean isApproved) {
         this.isApproved = isApproved;
+    }
+    /**
+     * @return the address
+     */
+    public String getAddress() {
+        return address;
+    }
+
+    /**
+     * @param address the address to set
+     */
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

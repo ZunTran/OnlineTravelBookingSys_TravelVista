@@ -18,5 +18,6 @@ public interface UserService {
     AuthResponse login(String username,String password);
     UserProfile getUserProfile(String username);
     String updateUserAvatar(String username, MultipartFile file);
+    AuthResponse updateUserProfile(String username, UserProfile req);
 
 }
