@@ -10,6 +10,7 @@ import io.jsonwebtoken.security.Keys;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import javax.crypto.SecretKey;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 /**
  *
@@ -17,8 +18,12 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class JwtProvider {
-    private final String JWT_SECRET ="jVistaaTravelZuncuteihhruihnqZuncute196@oiqu93873i$$@61*9@&!(u3JAdjbJBDHABDIHYUWoejwiuiih@451";
-    private final long JWT_EXPIRATION = 86400000L;
+  
+    @Value("${jwt.secret}")
+    private String JWT_SECRET;
+
+    @Value("${jwt.expiration}")
+    private long JWT_EXPIRATION;
    
     private SecretKey getSigningKey() {
         byte[] keyBytes = this.JWT_SECRET.getBytes(StandardCharsets.UTF_8);
