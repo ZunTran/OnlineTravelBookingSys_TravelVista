@@ -117,8 +117,10 @@ const ProviderRegisterForm = () => {
                             id="businessAddress"
                             name="businessAddress"
                             type="text"
+                            value={formData.businessAddress}
                             required
                             placeholder="Địa chỉ của công ty hoặc doanh nghiệp"
+                            onChange={handleChange}
                         />
                     </Field>
 
