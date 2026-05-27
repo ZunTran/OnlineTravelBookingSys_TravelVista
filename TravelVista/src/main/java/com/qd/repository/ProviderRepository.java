@@ -4,7 +4,9 @@
  */
 package com.qd.repository;
 
+import com.qd.enums.ServiceType;
 import com.qd.pojo.Providers;
+import com.qd.pojo.Services;
 import java.util.List;
 import java.util.Map;
 
@@ -23,4 +25,7 @@ public interface ProviderRepository {
     Long countProvidersByStatus(boolean isApproved,Map<String, String> params);
     Providers getProviderWithUserById(Long id);
     void updateProvider(Providers provider);
+    List<Services> getProviderServicesList(Long providerId, Map<String, String> params);
+    Long countProviderServices(Long providerId,Map<String, String> params);
+    Services getServiceDetailByIdAndType(Long serviceId, ServiceType type);
 }

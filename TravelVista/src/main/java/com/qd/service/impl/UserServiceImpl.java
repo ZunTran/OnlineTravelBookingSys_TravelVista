@@ -11,10 +11,15 @@ import com.qd.dto.AdminActionRequest;
 import com.qd.dto.AdminProviderResponse;
 import com.qd.dto.AuthResponse;
 import com.qd.dto.ChangePasswordRequest;
+import com.qd.dto.ProviderHotelDetailResponse;
+import com.qd.dto.ProviderTourDetailResponse;
+import com.qd.dto.ProviderTransportDetailResponse;
 import com.qd.dto.RegisterRequest;
 import com.qd.dto.UserProfile;
+import com.qd.enums.ServiceType;
 import com.qd.pojo.Providers;
 import com.qd.pojo.Roles;
+import com.qd.pojo.Services;
 import com.qd.pojo.Users;
 import com.qd.repository.ProviderRepository;
 import com.qd.repository.UserRepository;
@@ -423,5 +428,103 @@ public class UserServiceImpl implements UserService {
         return AuthResponse.builder().success(true).message("Đã khóa tài khoản đối tác này thành công!").build();
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Map<String, Object> getMyServicesList(String username, Map<String, String> params) {
+        Users user = userRepository.findByUsername(username);
+        if (user == null || user.getProviders() == null) {
+            throw new RuntimeException("Cảnh báo bảo mật: Bạn không có quyền truy cập phân hệ Đối tác!");
+        }
+        Long providerId = user.getProviders().getId();
+        List<Services> servicesList = providerRepository.getProviderServicesList(providerId, params);
+        Long totalElementsObj = providerRepository.countProviderServices(providerId, params);
+        long totalElements = totalElementsObj != null ? totalElementsObj : 0L;
+
+        int pageSize = this.env.getProperty("services.page_size", Integer.class, 10);
+        int currentPage = (params != null) ? Integer.parseInt(params.getOrDefault("page", "1")) : 1;
+        List<com.qd.dto.ProviderServiceResponse> content = servicesList.stream()
+                .map(com.qd.dto.ProviderServiceResponse::new)
+                .collect(java.util.stream.Collectors.toList());
+
+        Map<String, Object> result = new java.util.HashMap<>();
+        result.put("content", content);
+        result.put("totalElements", totalElements);
+        result.put("page", currentPage);
+        result.put("size", pageSize);
+        
+        return result;
+    }
+
+    // @Override
+    // @Transactional(readOnly = true)
+    // public Object getMyServiceDetail(String username, Long id, String typeStr) {
+    //     Users user = userRepository.findByUsername(username);
+    //     if (user == null || user.getProviders() == null) {
+    //         throw new RuntimeException("Tài khoản không hợp lệ/ không có quyền đối tác!");
+    //     }
+    //     Long myProviderId = user.getProviders().getId(); ////Maybe sai chỗ này!!!!!!!!!!!!!!1
+        
+    //     com.qd.enums.ServiceType type;
+    //     try {
+    //         type = com.qd.enums.ServiceType.valueOf(typeStr.toUpperCase());
+    //     } catch (Exception e) {
+    //         throw new RuntimeException("Loại hình dịch vụ hệ thống không hỗ trợ!");
+    //     }
+
+    //     // Gọi  hàm Repo có lệnh SQL FETCH
+    //     Services service = providerRepository.getServiceDetailByIdAndType(id, type);
+    //     if (service == null) {
+    //         throw new RuntimeException("Không tìm thấy bài viết dịch vụ có mã ID yêu cầu!");
+    //     }
+
+    //     if (service.getProviderId() == null || !service.getProviderId().getId().equals(myProviderId)) {
+    //         throw new RuntimeException("Vi phạm bảo mật: Bạn không có quyền sở hữu để xem chi tiết dịch vụ này!");
+    //     }
+
+    //     //Tùy theo loại hình bỏ vào DTO tương ứng trả về JSON
+    //     if (type == ServiceType.TOUR) {
+    //         return new ProviderTourDetailResponse(service); 
+    //     } else if (type == ServiceType.HOTEL) {
+    //         return new ProviderHotelDetailResponse(service); 
+    //     } else {
+    //         // Đối với hệ Xe (TRANSPORT), tạm thời trả về Object thô hoặc tự đúc DTO sau !!!!!
+    //         return service;
+    //     }
+    // }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Object getMyServiceDetail(String username, Long id, String typeStr) {
+        Users user = userRepository.findByUsername(username);
+        if (user == null || user.getProviders() == null) {
+            throw new RuntimeException("Tài khoản không hợp lệ hoặc không có quyền đối tác!");
+        }
+
+        ServiceType type = ServiceType.valueOf(typeStr.toUpperCase());
+        Services service = providerRepository.getServiceDetailByIdAndType(id, type);
+        
+        if (service == null) {
+            throw new RuntimeException("Không tìm thấy bài viết dịch vụ!");
+        }
+
+        if (service.getProviderId() == null || !service.getProviderId().getId().equals(user.getProviders().getId())) {
+            throw new RuntimeException("Vi phạm bảo mật: Bạn không có quyền sở hữu dịch vụ này!");
+        }
+
+        return convertToAppropriateDto(service, type);
+    }
+
+    private Object convertToAppropriateDto(com.qd.pojo.Services service, ServiceType type) {
+        switch (type) {
+            case TOUR:
+                return new ProviderTourDetailResponse(service);
+            case HOTEL:
+                return new ProviderHotelDetailResponse(service);
+            case TRANSPORT:
+                    return new ProviderTransportDetailResponse(service);
+            default:
+                return service; 
+        }
+    }
 
 }
