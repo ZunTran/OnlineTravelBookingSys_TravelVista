@@ -52,5 +52,16 @@ public class ProviderRepositoryImpl implements ProviderRepository{
         Session session = this.factory.getObject().getCurrentSession();    
         session.merge(provider);
     }
+
+    @Override
+    public boolean isExistsByHotline(String hotline) {
+        Session session = this.factory.getObject().getCurrentSession();    
+        CriteriaBuilder b = session.getCriteriaBuilder();      
+        CriteriaQuery<Long> q = b.createQuery(Long.class);
+        Root<Providers> root = q.from(Providers.class);
+        q.select(b.count(root)).where(b.equal(root.get("hotline"), hotline));
+        Long count = session.createQuery(q).uniqueResult();
+        return count >0;
+    }
     
 }

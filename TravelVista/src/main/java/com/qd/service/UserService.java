@@ -19,5 +19,5 @@ public interface UserService {
     UserProfile getUserProfile(String username);
     String updateUserAvatar(String username, MultipartFile file);
     AuthResponse updateUserProfile(String username, UserProfile req);
-
+    public AuthResponse changePassword(String username, com.qd.dto.ChangePasswordRequest req);
 }

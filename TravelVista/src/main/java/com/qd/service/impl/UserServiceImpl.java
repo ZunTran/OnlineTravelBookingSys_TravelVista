@@ -8,6 +8,7 @@ package com.qd.service.impl;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.qd.dto.AuthResponse;
+import com.qd.dto.ChangePasswordRequest;
 import com.qd.dto.RegisterRequest;
 import com.qd.dto.UserProfile;
 import com.qd.pojo.Providers;
@@ -33,8 +34,8 @@ import org.springframework.web.multipart.MultipartFile;
  * @author User
  */
 @Service
-public class UserServiceImpl implements UserService{
-    
+public class UserServiceImpl implements UserService {
+
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -43,24 +44,22 @@ public class UserServiceImpl implements UserService{
     private PasswordEncoder passwordEncoder;
     @Autowired
     private JwtProvider jwtProvider;
-    
+
     @Autowired
     private Cloudinary cloudinary;
-    
+
     @Override
     @Transactional
     public AuthResponse register(RegisterRequest req) {
 
         if (req.getUsername() == null || req.getUsername().trim().isEmpty() ||
-            req.getPassword() == null || req.getPassword().trim().isEmpty() ||
-            req.getFullName() == null || req.getFullName().trim().isEmpty() ||
-            req.getEmail() == null || req.getEmail().trim().isEmpty() ||
-            req.getPhone() == null || req.getPhone().trim().isEmpty()) {
+                req.getPassword() == null || req.getPassword().trim().isEmpty() ||
+                req.getFullName() == null || req.getFullName().trim().isEmpty() ||
+                req.getEmail() == null || req.getEmail().trim().isEmpty() ||
+                req.getPhone() == null || req.getPhone().trim().isEmpty()) {
             return AuthResponse.builder().success(false).message("Vui lòng điền đầy đủ các thông tin!").build();
         }
 
-
-        
         if (userRepository.isExistByUsername(req.getUsername())) {
             return AuthResponse.builder().success(false).message("Tên tài khoản này đã tồn tại!").build();
         }
@@ -71,43 +70,62 @@ public class UserServiceImpl implements UserService{
             return AuthResponse.builder().success(false).message("Số điện thoại này đã được đăng ký rồi!").build();
         }
         if (!DataValidator.isValidEmail(req.getEmail())) {
-            return AuthResponse.builder().success(false).message("Định dạng Email không hợp lệ! (Ví dụ: abc@gmail.com)").build();
+            return AuthResponse.builder().success(false).message("Định dạng Email không hợp lệ! (Ví dụ: abc@gmail.com)")
+                    .build();
         }
         if (!DataValidator.isValidVietnamesePhone(req.getPhone())) {
-            return AuthResponse.builder().success(false).message("Số điện thoại không hợp lệ! Phải bắt đầu bằng số 0 và có từ 10 đến 11 chữ số viết liền.").build();
+            return AuthResponse.builder().success(false)
+                    .message("Số điện thoại không hợp lệ! Phải bắt đầu bằng số 0 và có từ 10 đến 11 chữ số viết liền.")
+                    .build();
         }
-        if( !DataValidator.isValidUsername(req.getUsername())) {
+        if (!DataValidator.isValidUsername(req.getUsername())) {
             return AuthResponse.builder().success(false).message("Username tối thiểu 3 ký tự!").build();
         }
         if (!DataValidator.isValidPassword(req.getPassword())) {
-            return AuthResponse.builder().success(false).message("Mật khẩu quá yếu! Phải có tối thiểu 8 ký tự, bao gồm ít nhất 1 chữ hoa, 1 chữ thường, 1 chữ số và 1 ký tự đặc biệt.").build();
+            return AuthResponse.builder().success(false).message(
+                    "Mật khẩu quá yếu! Phải có tối thiểu 8 ký tự, bao gồm ít nhất 1 chữ hoa, 1 chữ thường, 1 chữ số và 1 ký tự đặc biệt.")
+                    .build();
         }
         if (req.getAvatar() == null || req.getAvatar().isEmpty()) {
             return AuthResponse.builder().success(false).message("Ảnh đại diện là bắt buộc!").build();
         }
         if (!DataValidator.isValidFileType(req.getAvatar())) {
-            return AuthResponse.builder().success(false).message("File ảnh không hợp lệ! Chỉ chấp nhận các định dạng: JPEG, JPG, PNG, WEBP.").build();
+            return AuthResponse.builder().success(false)
+                    .message("File ảnh không hợp lệ! Chỉ chấp nhận các định dạng: JPEG, JPG, PNG, WEBP.").build();
         }
         if (!DataValidator.isValidFileSize(req.getAvatar())) {
-            return AuthResponse.builder().success(false).message("Kích thước file ảnh quá lớn! Vui lòng chọn ảnh có kích thước tối đa 5MB.").build();
+            return AuthResponse.builder().success(false)
+                    .message("Kích thước file ảnh quá lớn! Vui lòng chọn ảnh có kích thước tối đa 5MB.").build();
         }
 
         boolean isProvider = "PROVIDER".equalsIgnoreCase(req.getRoleType());
-        
+
         if (isProvider) {
             if (req.getCompanyName() == null || req.getCompanyName().isEmpty() ||
-                req.getTaxCode() == null || req.getTaxCode().isEmpty() ||
-                req.getHotline() == null || req.getHotline().isEmpty() ||
-                req.getBusinessAddress() == null || req.getBusinessAddress().isEmpty()) {
-                return AuthResponse.builder().success(false).message("Đăng ký đối tác bắt buộc phải nhập đủ thông tin Doanh nghiệp!").build();
+                    req.getTaxCode() == null || req.getTaxCode().isEmpty() ||
+                    req.getHotline() == null || req.getHotline().isEmpty() ||
+                    req.getBusinessAddress() == null || req.getBusinessAddress().isEmpty()) {
+                return AuthResponse.builder().success(false)
+                        .message("Đăng ký đối tác bắt buộc phải nhập đủ thông tin Doanh nghiệp!").build();
+            }
+            
+            if(!DataValidator.isValidVietnamesePhone(req.getHotline())) {
+                return AuthResponse.builder().success(false)
+                        .message("Số Hotline không hợp lệ! Phải bắt đầu bằng số 0 và có từ 10 đến 11 chữ số viết liền.")
+                        .build();
             }
 
             if (providerRepository.isExistsByCompanyName(req.getCompanyName())) {
-                return AuthResponse.builder().success(false).message("Tên Công ty/Doanh nghiệp này đã được đăng ký!").build();
+                return AuthResponse.builder().success(false).message("Tên Công ty/Doanh nghiệp này đã được đăng ký!")
+                        .build();
             }
             if (providerRepository.isExistsByTaxCode(req.getTaxCode())) {
                 return AuthResponse.builder().success(false).message("Mã số thuế đã tồn tại trên hệ thống!").build();
             }
+            if (providerRepository.isExistsByHotline(req.getHotline())) {
+                return AuthResponse.builder().success(false).message("Số Hotline đã tồn tại trên hệ thống!").build();
+            }
+            
         }
 
         Users user = new Users();
@@ -127,12 +145,12 @@ public class UserServiceImpl implements UserService{
         try {
             Map uploadResult = cloudinary.uploader().upload(
                     req.getAvatar().getBytes(),
-                    ObjectUtils.emptyMap()
-            );
+                    ObjectUtils.emptyMap());
             String cloudUrl = (String) uploadResult.get("secure_url");
             user.setAvatarUrl(cloudUrl);
         } catch (IOException e) {
-            // Spring bắt buộc nếu muốn rollback tự động thì đoạn này phải ném ra RuntimeException
+            // Spring bắt buộc nếu muốn rollback tự động thì đoạn này phải ném ra
+            // RuntimeException
             throw new RuntimeException("Lỗi khi upload ảnh đại diện lên Cloudinary!");
         }
 
@@ -144,21 +162,21 @@ public class UserServiceImpl implements UserService{
             provider.setBusinessAddress(req.getBusinessAddress());
             provider.setIsApproved(false);
             provider.setApprovedAt(null);
-            
-            provider.setUserId(user);   
-            user.setProviders(provider); 
+
+            provider.setUserId(user);
+            user.setProviders(provider);
         }
         userRepository.save(user);
         String msg = isProvider ? "Đăng ký hồ sơ thành công. Vui lòng đợi Admin phê duyệt!"
-                                : "Đăng ký tài khoản thành công!";
+                : "Đăng ký tài khoản thành công!";
         return AuthResponse.builder().success(true).message(msg).build();
     }
-    
+
     @Override
     @Transactional(readOnly = true)
     public AuthResponse login(String username, String password) {
         Users user = userRepository.findByUsername(username);
-        
+
         if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
             return AuthResponse.builder().success(false)
                     .message("Tài khoản hoặc mật khẩu không chính xác!").build();
@@ -167,7 +185,7 @@ public class UserServiceImpl implements UserService{
             return AuthResponse.builder().success(false)
                     .message("Tài khoản này hiện đang bị khoá!").build();
         }
-        String roleName = user.getRoleId().getRoleName(); 
+        String roleName = user.getRoleId().getRoleName();
         String token = jwtProvider.generateToken(user.getUsername(), roleName);
         return AuthResponse.builder()
                 .success(true)
@@ -191,7 +209,7 @@ public class UserServiceImpl implements UserService{
         profile.setPhone(user.getPhone());
         profile.setAvatarUrl(user.getAvatarUrl());
         profile.setRoleName(user.getRoleId().getRoleName());
-        
+
         if (user.getProviders() != null) {
             Providers provider = user.getProviders();
             profile.setCompanyName(provider.getCompanyName());
@@ -200,24 +218,24 @@ public class UserServiceImpl implements UserService{
             profile.setBusinessAddress(provider.getBusinessAddress());
             profile.setIsApproved(provider.getIsApproved());
         }
-        
+
         return profile;
     }
 
     @Override
+    @Transactional
     public String updateUserAvatar(String username, MultipartFile file) {
         Users user = userRepository.findByUsername(username);
-        if (user == null) throw new RuntimeException("Không tìm thấy người dùng với username: " + username);
-        
-        if (user.getIsActive() != null && !user.getIsActive()) 
+        if (user == null)
+            throw new RuntimeException("Không tìm thấy người dùng với username: " + username);
+
+        if (user.getIsActive() != null && !user.getIsActive())
             throw new RuntimeException("Tài khoản này hiện đang bị khóa hoạt động, không thể sửa đổi hồ sơ!");
-        
 
         try {
             Map uploadResult = cloudinary.uploader().upload(
                     file.getBytes(),
-                    ObjectUtils.emptyMap()
-            );
+                    ObjectUtils.emptyMap());
             String cloudUrl = (String) uploadResult.get("secure_url");
             user.setAvatarUrl(cloudUrl);
             userRepository.save(user);
@@ -228,21 +246,26 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    @Transactional
     public AuthResponse updateUserProfile(String username, UserProfile req) {
         Users user = userRepository.findByUsername(username);
         if (user == null) {
-            return AuthResponse.builder().success(false).message("Không tìm thấy người dùng với username: " + username).build();
+            return AuthResponse.builder().success(false).message("Không tìm thấy người dùng với username: " + username)
+                    .build();
         }
         if (user.getIsActive() != null && !user.getIsActive()) {
-            return AuthResponse.builder().success(false).message("Tài khoản này hiện đang bị khóa hoạt động, không thể sửa đổi hồ sơ!").build();
+            return AuthResponse.builder().success(false)
+                    .message("Tài khoản này hiện đang bị khóa hoạt động, không thể sửa đổi hồ sơ!").build();
         }
 
         if (userRepository.isEmailExistForOthers(req.getEmail(), user.getId())) {
-        return AuthResponse.builder().success(false).message("Email này đã được một tài khoản khác sử dụng!").build();
-    }
-    if (userRepository.isPhoneExistForOthers(req.getPhone(), user.getId())) {
-        return AuthResponse.builder().success(false).message("Số điện thoại này đã được một tài khoản khác sử dụng!").build();
-    }
+            return AuthResponse.builder().success(false).message("Email này đã được một tài khoản khác sử dụng!")
+                    .build();
+        }
+        if (userRepository.isPhoneExistForOthers(req.getPhone(), user.getId())) {
+            return AuthResponse.builder().success(false)
+                    .message("Số điện thoại này đã được một tài khoản khác sử dụng!").build();
+        }
 
         user.setFullName(req.getFullName());
         user.setEmail(req.getEmail());
@@ -257,5 +280,43 @@ public class UserServiceImpl implements UserService{
         }
     }
 
+    @Override
+    @Transactional
+    public AuthResponse changePassword(String username, ChangePasswordRequest req) {
+
+        Users currentUser = userRepository.findByUsername(username);
+        if (currentUser == null) {
+            return AuthResponse.builder().success(false).message("Không tìm thấy thông tin tài khoản!").build();
+        }
+
+        if (req.getOldPassword() == null || req.getOldPassword().trim().isEmpty() ||
+                req.getNewPassword() == null || req.getNewPassword().trim().isEmpty()) {
+            return AuthResponse.builder().success(false).message("Vui lòng nhập đầy đủ mật khẩu cũ và mật khẩu mới!")
+                    .build();
+        }
+        if (!DataValidator.isValidPassword(req.getNewPassword())) {
+            return AuthResponse.builder().success(false).message(
+                    "Mật khẩu mới quá yếu. Tối thiểu 8 ký tự gồm ít nhất 1 chữ hoa, 1 chữ thường, 1 chữ số và 1 ký tự đặc biệt.")
+                    .build();
+        }
+
+        if (!passwordEncoder.matches(req.getOldPassword(), currentUser.getPassword())) {
+            return AuthResponse.builder().success(false).message("Mật khẩu cũ không chính xác!").build();
+        }
+        if (passwordEncoder.matches(req.getNewPassword(), currentUser.getPassword())) {
+            return AuthResponse.builder().success(false).message("Mật khẩu mới bị trùng với mật khẩu hiện tại!")
+                    .build();
+        }
+        currentUser.setPassword(passwordEncoder.encode(req.getNewPassword()));
+
+        try {
+            userRepository.save(currentUser);
+            return AuthResponse.builder().success(true)
+                    .message("Đổi mật khẩu thành công! Vui lòng đăng nhập lại bằng mật khẩu mới.").build();
+        } catch (Exception e) {
+            return AuthResponse.builder().success(false).message("Lỗi hệ thống khi đổi mật khẩu: " + e.getMessage())
+                    .build();
+        }
+    }
 
 }
