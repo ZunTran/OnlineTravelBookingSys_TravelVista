@@ -26,6 +26,7 @@ const RegisterBaseFields = ({ formData, onChange, onChangeFile }) => {
                         name="avatar"
                         type="file"
                         accept="image/*"
+                        required
                         onChange={onChangeFile}
                     />
                 </div>
