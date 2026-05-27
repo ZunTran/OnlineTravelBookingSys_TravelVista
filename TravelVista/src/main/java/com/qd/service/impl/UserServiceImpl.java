@@ -7,6 +7,7 @@ package com.qd.service.impl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.qd.dto.AdminProviderResponse;
 import com.qd.dto.AuthResponse;
 import com.qd.dto.ChangePasswordRequest;
 import com.qd.dto.RegisterRequest;
@@ -22,8 +23,10 @@ import com.qd.utils.JwtProvider;
 import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -48,6 +51,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private Cloudinary cloudinary;
 
+    @Autowired
+    private Environment env;
+        
     @Override
     @Transactional
     public AuthResponse register(RegisterRequest req) {
@@ -318,5 +324,32 @@ public class UserServiceImpl implements UserService {
                     .build();
         }
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Map<String, Object> getAdminProvidersList(boolean isApproved, Map<String, String> params) {
+        
+        List<Providers> providers= providerRepository.getProvidersByStatus(isApproved, params);
+        Long totalElementsObj= providerRepository.countProvidersByStatus(isApproved);
+        long totalElements =totalElementsObj != null ? totalElementsObj : 0L;
+        // List<Providers> providers = providerRepository.getProvidersByStatus(isApproved, params);
+        //         long totalElements = providerRepository.countProvidersByStatus(isApproved);
+        
+        int pageSize = this.env.getProperty("providers.page_size", Integer.class, 20);
+        int currentPage = (params != null) ? Integer.parseInt(params.getOrDefault("page", "1")) : 1;
+        
+        List<AdminProviderResponse> content = providers.stream()
+                .map(com.qd.dto.AdminProviderResponse::new)
+                .collect(java.util.stream.Collectors.toList());
+        
+        Map<String, Object> result = new java.util.HashMap<>();
+        result.put("content", content);         
+        result.put("totalElements", totalElements); 
+        result.put("page", currentPage);          // Trang hiện tại
+        result.put("size", pageSize);             // Số dòng/trang
+        
+        return result;
+    }
+
 
 }

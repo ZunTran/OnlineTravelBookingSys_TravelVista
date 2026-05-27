@@ -7,6 +7,7 @@ package com.qd.service;
 import com.qd.dto.AuthResponse;
 import com.qd.dto.RegisterRequest;
 import com.qd.dto.UserProfile;
+import java.util.Map;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -19,5 +20,6 @@ public interface UserService {
     UserProfile getUserProfile(String username);
     String updateUserAvatar(String username, MultipartFile file);
     AuthResponse updateUserProfile(String username, UserProfile req);
-    public AuthResponse changePassword(String username, com.qd.dto.ChangePasswordRequest req);
+    AuthResponse changePassword(String username, com.qd.dto.ChangePasswordRequest req);
+    Map getAdminProvidersList(boolean isApproved, java.util.Map<String, String> params);
 }
