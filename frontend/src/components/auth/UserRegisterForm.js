@@ -16,6 +16,7 @@ const UserRegisterForm = () => {
     const { formData, handleChange, handleChangeFile } = useRegisterForm(extraFields);
     const registerMutation = useRegister();
     const navigator = useNavigate();
+    const isLoading = registerMutation.isPending;
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -35,33 +36,45 @@ const UserRegisterForm = () => {
 
 
     return (
-        <form className="space-y-6" onSubmit={handleSubmit}>
+        <div className="relative">
+            {isLoading && (
+                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40">
+                    <div className="flex flex-col items-center gap-3 rounded-2xl bg-white px-8 py-6 shadow-lg">
+                        <Spinner className="size-10" />
+                        <p className="text-sm font-medium">
+                            Đang đăng ký...
+                        </p>
+                    </div>
+                </div>
+            )}
+            <form className="space-y-6" onSubmit={handleSubmit}>
 
-            <RegisterBaseFields
-                formData={formData}
-                onChange={handleChange}
-                onChangeFile={handleChangeFile}
-            />
+                <RegisterBaseFields
+                    formData={formData}
+                    onChange={handleChange}
+                    onChangeFile={handleChangeFile}
+                />
 
-            <div className="flex items-center gap-2">
-                <Checkbox id="term" required />
-                <Label htmlFor="term" className="text-sm">
-                    Đồng ý với điều khoản
-                </Label>
-            </div>
+                <div className="flex items-center gap-2">
+                    <Checkbox id="term" required />
+                    <Label htmlFor="term" className="text-sm">
+                        Đồng ý với điều khoản
+                    </Label>
+                </div>
 
-            <Button
-                type="submit"
-                className="w-full"
-                disabled={registerMutation.isPending}
-            >
-                {
-                    registerMutation.isPending
-                        ? <Spinner />
-                        : "Đăng ký khách hàng"
-                }
-            </Button>
-        </form>
+                <Button
+                    type="submit"
+                    className="w-full"
+                    disabled={isLoading}
+                >
+                    {
+                        isLoading
+                            ? <Spinner />
+                            : "Đăng ký khách hàng"
+                    }
+                </Button>
+            </form>
+        </div>
     );
 };
 
