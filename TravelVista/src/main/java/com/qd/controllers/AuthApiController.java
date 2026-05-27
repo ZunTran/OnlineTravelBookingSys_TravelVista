@@ -5,6 +5,7 @@
 package com.qd.controllers;
 
 import com.qd.dto.AuthResponse;
+import com.qd.dto.ChangePasswordRequest;
 import com.qd.dto.LoginRequest;
 import com.qd.dto.RegisterRequest;
 import com.qd.dto.UserProfile;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
 //import org.springframework.web.bind.annotation.*;
 /**
  *
@@ -40,48 +42,48 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/api/auth")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class AuthApiController {
-    
+
     @Autowired
     private UserService userService;
-    
+
     @Autowired
     private JwtProvider jwtProvider;
-    
-    @PostMapping(value="/register",consumes={"multipart/form-data"})
-    public ResponseEntity<AuthResponse> register(@ModelAttribute RegisterRequest registerRequest){
-        AuthResponse response=userService.register(registerRequest);
-        
-        if(response.isSuccess()) 
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
-        
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-        
-    }
-    
-    @PostMapping(value="/login")
-    public ResponseEntity<AuthResponse> register(@RequestBody LoginRequest loginRequest)//@RequestBody la json thô
-    {
-        
-        AuthResponse response=userService.login(loginRequest.getUsername(), loginRequest.getPassword());
 
-        if(response.isSuccess()) {
-            
-            String token= jwtProvider.generateToken(loginRequest.getUsername());
-            return ResponseEntity.ok(response); //Tra ma 200 + Token JWT
-        }
-           
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response); //Ma 401       
+    @PostMapping(value = "/register", consumes = { "multipart/form-data" })
+    public ResponseEntity<AuthResponse> register(@ModelAttribute RegisterRequest registerRequest) {
+        AuthResponse response = userService.register(registerRequest);
+
+        if (response.isSuccess())
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+
     }
-    
-    
+
+    @PostMapping(value = "/login")
+    public ResponseEntity<AuthResponse> register(@RequestBody LoginRequest loginRequest)// @RequestBody la json thô
+    {
+
+        AuthResponse response = userService.login(loginRequest.getUsername(), loginRequest.getPassword());
+
+        if (response.isSuccess()) {
+
+            String token = jwtProvider.generateToken(loginRequest.getUsername());
+            return ResponseEntity.ok(response); // Tra ma 200 + Token JWT
+        }
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response); // Ma 401
+    }
+
     @GetMapping("/profile")
     public UserProfile getProfile(Authentication authentication) {
         return userService.getUserProfile(authentication.getName());
     }
+
     private static final long MAX_FILE_SIZE = 5 * 1024 * 1024;
-    private static final List<String> ALLOWED_EXTENSIONS = List.of("image/jpeg", "image/jpg", "image/png", "image/webp");
-    
-    
+    private static final List<String> ALLOWED_EXTENSIONS = List.of("image/jpeg", "image/jpg", "image/png",
+            "image/webp");
+
     @PatchMapping("/profile/avatar")
     public ResponseEntity<?> updateAvatar(@RequestParam("avatar") MultipartFile file) {
         Map<String, Object> response = new HashMap<>();
@@ -120,16 +122,27 @@ public class AuthApiController {
             return ResponseEntity.internalServerError().body(response);
         }
     }
-    
+
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping("/profile/update")
     public ResponseEntity<AuthResponse> updateProfile(@RequestBody UserProfile dto,
-        org.springframework.security.core.Authentication authentication) {
-        String currentUserName=authentication.getName();
+            Authentication authentication) {
+        String currentUserName = authentication.getName();
         AuthResponse response = userService.updateUserProfile(currentUserName, dto);
-        if (!response.isSuccess()) 
+        if (!response.isSuccess())
             return ResponseEntity.badRequest().body(response);
-      
+
         return ResponseEntity.ok(response);
     }
+
+    @PutMapping("/profile/change-password")
+    public ResponseEntity<AuthResponse> changePassword(
+            @RequestBody ChangePasswordRequest dto,
+            Authentication authentication) {
+        String currentUsername = authentication.getName();
+        AuthResponse response = userService.changePassword(currentUsername, dto);
+
+        return ResponseEntity.ok(response);
+    }
+
 }

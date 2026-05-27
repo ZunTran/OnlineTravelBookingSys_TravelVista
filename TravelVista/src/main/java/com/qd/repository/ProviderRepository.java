@@ -13,5 +13,6 @@ import com.qd.pojo.Providers;
 public interface ProviderRepository {
     boolean isExistsByCompanyName(String companyName);
     boolean isExistsByTaxCode(String taxCode);
+    boolean isExistsByHotline(String hotline);
     void save(Providers provider);
 }
