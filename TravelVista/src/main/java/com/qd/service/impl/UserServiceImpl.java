@@ -7,6 +7,7 @@ package com.qd.service.impl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.qd.dto.AdminActionRequest;
 import com.qd.dto.AdminProviderResponse;
 import com.qd.dto.AuthResponse;
 import com.qd.dto.ChangePasswordRequest;
@@ -215,6 +216,7 @@ public class UserServiceImpl implements UserService {
         profile.setPhone(user.getPhone());
         profile.setAvatarUrl(user.getAvatarUrl());
         profile.setRoleName(user.getRoleId().getRoleName());
+        profile.setAddress(user.getAddress());
 
         if (user.getProviders() != null) {
             Providers provider = user.getProviders();
@@ -223,6 +225,7 @@ public class UserServiceImpl implements UserService {
             profile.setHotline(provider.getHotline());
             profile.setBusinessAddress(provider.getBusinessAddress());
             profile.setIsApproved(provider.getIsApproved());
+            profile.setStatusReason(provider.getStatusReason());
         }
 
         return profile;
@@ -330,7 +333,7 @@ public class UserServiceImpl implements UserService {
     public Map<String, Object> getAdminProvidersList(boolean isApproved, Map<String, String> params) {
         
         List<Providers> providers= providerRepository.getProvidersByStatus(isApproved, params);
-        Long totalElementsObj= providerRepository.countProvidersByStatus(isApproved);
+        Long totalElementsObj= providerRepository.countProvidersByStatus(isApproved, params);
         long totalElements =totalElementsObj != null ? totalElementsObj : 0L;
         // List<Providers> providers = providerRepository.getProvidersByStatus(isApproved, params);
         //         long totalElements = providerRepository.countProvidersByStatus(isApproved);
@@ -349,6 +352,75 @@ public class UserServiceImpl implements UserService {
         result.put("size", pageSize);             // Số dòng/trang
         
         return result;
+    }
+
+    @Override
+    @Transactional
+    public AuthResponse approveProvider(Long id) {
+        Providers provider = providerRepository.getProviderWithUserById(id);
+        if (provider == null) {
+            return AuthResponse.builder().success(false).message("Không tìm thấy đối tác với id này!").build();
+        }
+
+        if (provider.getUserId() != null && Boolean.FALSE.equals(provider.getUserId().getIsActive())) {
+            return AuthResponse.builder()
+                    .success(false)
+                    .message("Không thể phê duyệt! Tài khoản đối tác này hiện đang bị KHÓA trên hệ thống.")
+                    .build();
+        }
+
+        if (Boolean.TRUE.equals(provider.getIsApproved())) {
+            return AuthResponse.builder().success(false).message("Hồ sơ đối tác này đã được phê duyệt từ trước!").build();
+        }
+        provider.setIsApproved(true);             
+        provider.setApprovedAt(new Date());
+        if (provider.getUserId() != null) {
+            provider.getUserId().setIsActive(true);
+        }
+        providerRepository.updateProvider(provider);
+        return AuthResponse.builder().success(true).message("Đã phê duyệt đối tác thành công!").build();
+        
+    }
+
+    @Override
+    @Transactional
+    public AuthResponse rejectProvider(Long id, AdminActionRequest req) {
+        if (req.getReason() == null || req.getReason().trim().isEmpty()) {
+            return AuthResponse.builder().success(false).message("Vui lòng nhập lý do từ chối đơn đăng ký!").build();
+        }
+        
+        Providers provider = providerRepository.getProviderWithUserById(id);
+        if (provider == null) 
+            return AuthResponse.builder().success(false).message("Không tìm thấy đối tác với id này!").build();
+
+        provider.setIsApproved(false);
+        provider.setApprovedAt(null);
+        provider.setStatusReason(req.getReason());
+        
+        providerRepository.updateProvider(provider);
+        return AuthResponse.builder().success(true).message("Đã từ chối đối tác thành công!").build();
+    }
+
+    @Override
+    @Transactional
+    public AuthResponse banProvider(Long id, AdminActionRequest req) {
+       if (req.getReason() == null || req.getReason().trim().isEmpty()) {
+            return AuthResponse.builder().success(false).message("Vui lòng nhập lý do khóa tài khoản").build();
+        }
+
+        Providers provider = providerRepository.getProviderWithUserById(id);
+        if (provider == null) {
+            return AuthResponse.builder().success(false).message("Không tìm thấy đối tác id này!").build();
+        }
+        provider.setIsApproved(false); 
+        provider.setStatusReason(req.getReason());
+        
+        if (provider.getUserId() != null) {
+            provider.getUserId().setIsActive(false); 
+        }
+
+        providerRepository.updateProvider(provider);
+        return AuthResponse.builder().success(true).message("Đã khóa tài khoản đối tác này thành công!").build();
     }
 
 

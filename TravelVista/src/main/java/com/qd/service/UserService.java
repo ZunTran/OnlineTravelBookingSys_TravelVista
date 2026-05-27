@@ -4,6 +4,7 @@
  */
 package com.qd.service;
 
+import com.qd.dto.AdminActionRequest;
 import com.qd.dto.AuthResponse;
 import com.qd.dto.RegisterRequest;
 import com.qd.dto.UserProfile;
@@ -22,4 +23,7 @@ public interface UserService {
     AuthResponse updateUserProfile(String username, UserProfile req);
     AuthResponse changePassword(String username, com.qd.dto.ChangePasswordRequest req);
     Map getAdminProvidersList(boolean isApproved, java.util.Map<String, String> params);
+    AuthResponse approveProvider(Long id);
+    AuthResponse rejectProvider(Long id, AdminActionRequest req);
+    AuthResponse banProvider(Long id, AdminActionRequest req);
 }
