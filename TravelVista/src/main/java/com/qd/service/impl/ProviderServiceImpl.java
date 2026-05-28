@@ -20,6 +20,7 @@ import com.qd.pojo.Categories;
 import com.qd.pojo.HotelDetails;
 import com.qd.pojo.HotelRoomItems;
 import com.qd.pojo.SellableItems;
+import com.qd.pojo.ServiceImages;
 import com.qd.pojo.Services;
 import com.qd.pojo.TourDetails;
 import com.qd.pojo.TourItemConcs;
@@ -36,6 +37,7 @@ import java.util.Set;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Service
@@ -105,9 +107,12 @@ public class ProviderServiceImpl implements ProviderService {
         }
     }
 
+    @Autowired
+    private com.cloudinary.Cloudinary cloudinary;
+
     @Override
     @Transactional
-    public Long saveComprehensiveServiceInOneGo(String username, BaseComprehensiveRequest req) {
+    public Long saveComprehensiveServiceInOneGo(String username, BaseComprehensiveRequest req,MultipartFile[] files) {
         Users user = userRepository.findByUsername(username);
         ServiceType type = ServiceType.valueOf(req.getServiceType().toUpperCase());
         
@@ -134,6 +139,37 @@ public class ProviderServiceImpl implements ProviderService {
             }
         }
         providerRepository.saveService(service);
+
+        if (files != null && files.length > 0){
+            boolean isFirstImage = true;
+            for (MultipartFile file : files) {
+                if (file != null && !file.isEmpty()) {
+                    try {
+                        Map uploadResult = cloudinary.uploader().upload(
+                                file.getBytes(),
+                                com.cloudinary.utils.ObjectUtils.emptyMap()
+                        );
+                        String secureUrl = (String) uploadResult.get("secure_url");
+
+                        ServiceImages imgEntity = new ServiceImages();
+                        imgEntity.setServiceId(service); 
+                        imgEntity.setImageUrl(secureUrl); 
+                        
+                        if (isFirstImage) {
+                            imgEntity.setIsThumbnail(true);  
+                            isFirstImage = false;           
+                        } else {
+                            imgEntity.setIsThumbnail(false); 
+                        }
+                        providerRepository.saveServiceImage(imgEntity);
+                        
+                    } catch (java.io.IOException e) {
+                        throw new RuntimeException("Thất bại: Lỗi upload các ảnh lên Cloudinary!");
+                    }
+                }
+            }
+        }
+
 
         if (req instanceof TourComprehensiveRequest) {
             TourComprehensiveRequest tourReq = (TourComprehensiveRequest) req;

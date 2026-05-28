@@ -4,14 +4,20 @@
  */
 package com.qd.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qd.annotation.RequiresApprovedProvider;
 import com.qd.dto.provider.BaseComprehensiveRequest;
+import com.qd.dto.provider.HotelComprehensiveRequest;
+import com.qd.dto.provider.TourComprehensiveRequest;
+import com.qd.dto.provider.TransportComprehensiveRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 
 import com.qd.service.ProviderService;
 import com.qd.service.UserService;
@@ -23,6 +29,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -70,15 +77,34 @@ public class ProviderApiController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    
+    @PostMapping(consumes = { "multipart/form-data" })
     public ResponseEntity<Map<String, Object>> saveComprehensiveService(
-            Principal principal,@RequestBody BaseComprehensiveRequest req) { 
+            Principal principal,@RequestParam("data") String dataJson, 
+            @RequestPart(value = "images", required = false) MultipartFile[] files) { 
         
-        Long serviceId = providerService.saveComprehensiveServiceInOneGo(principal.getName(), req);
+        BaseComprehensiveRequest req;
+        try {
+            Map<String, Object> rawMap = objectMapper.readValue(dataJson, Map.class);
+            String serviceType = String.valueOf(rawMap.get("serviceType")).toUpperCase();
+            
+            if (serviceType.contains("TOUR")) {
+                req = objectMapper.readValue(dataJson, TourComprehensiveRequest.class);
+            } else if (serviceType.contains("HOTEL")) {
+                req = objectMapper.readValue(dataJson, HotelComprehensiveRequest.class);
+            } else {
+                req = objectMapper.readValue(dataJson, TransportComprehensiveRequest.class);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Lỗi định dạng chuỗi văn bản JSON gửi lên: " + e.getMessage());
+        }
+
+        Long serviceId = providerService.saveComprehensiveServiceInOneGo(principal.getName(), req, files);
         
         Map<String, Object> response = new HashMap<>();
         response.put("success", true);
-        response.put("message", "Đã lưu thông tin thành công!");
+        response.put("message", "Lưu dịch vụ và upload ảnh lên Cloudinary thành công!");
         response.put("serviceId", serviceId);
         return ResponseEntity.ok(response);
     }

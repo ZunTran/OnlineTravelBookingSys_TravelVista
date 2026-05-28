@@ -10,6 +10,7 @@ import com.qd.pojo.HotelDetails;
 import com.qd.pojo.HotelRoomItems;
 import com.qd.pojo.Providers;
 import com.qd.pojo.SellableItems;
+import com.qd.pojo.ServiceImages;
 import com.qd.pojo.Services;
 import com.qd.pojo.TourDetails;
 import com.qd.pojo.TourItemConcs;
@@ -49,4 +50,5 @@ public interface ProviderRepository {
     void saveSellableItem(SellableItems sellItem);
     
     Categories getCategoryById(Long id);
+    void saveServiceImage(ServiceImages img);
 }
