@@ -447,239 +447,239 @@ public class UserServiceImpl implements UserService {
         return AuthResponse.builder().success(true).message("Đã khóa tài khoản đối tác này thành công!").build();
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public Map<String, Object> getMyServicesList(String username, Map<String, String> params) {
-        Users user = userRepository.findByUsername(username);
-        if (user == null || user.getProviders() == null) {
-            throw new RuntimeException("Cảnh báo bảo mật: Bạn không có quyền truy cập phân hệ Đối tác!");
-        }
-        Long providerId = user.getProviders().getId();
-        List<Services> servicesList = providerRepository.getProviderServicesList(providerId, params);
-        Long totalElementsObj = providerRepository.countProviderServices(providerId, params);
-        long totalElements = totalElementsObj != null ? totalElementsObj : 0L;
+    // @Override
+    // @Transactional(readOnly = true)
+    // public Map<String, Object> getMyServicesList(String username, Map<String, String> params) {
+    //     Users user = userRepository.findByUsername(username);
+    //     if (user == null || user.getProviders() == null) {
+    //         throw new RuntimeException("Cảnh báo bảo mật: Bạn không có quyền truy cập phân hệ Đối tác!");
+    //     }
+    //     Long providerId = user.getProviders().getId();
+    //     List<Services> servicesList = providerRepository.getProviderServicesList(providerId, params);
+    //     Long totalElementsObj = providerRepository.countProviderServices(providerId, params);
+    //     long totalElements = totalElementsObj != null ? totalElementsObj : 0L;
 
-        int pageSize = this.env.getProperty("services.page_size", Integer.class, 10);
-        int currentPage = (params != null) ? Integer.parseInt(params.getOrDefault("page", "1")) : 1;
-        List<com.qd.dto.provider.ProviderServiceResponse> content = servicesList.stream()
-                .map(com.qd.dto.provider.ProviderServiceResponse::new)
-                .collect(java.util.stream.Collectors.toList());
+    //     int pageSize = this.env.getProperty("services.page_size", Integer.class, 10);
+    //     int currentPage = (params != null) ? Integer.parseInt(params.getOrDefault("page", "1")) : 1;
+    //     List<com.qd.dto.provider.ProviderServiceResponse> content = servicesList.stream()
+    //             .map(com.qd.dto.provider.ProviderServiceResponse::new)
+    //             .collect(java.util.stream.Collectors.toList());
 
-        Map<String, Object> result = new java.util.HashMap<>();
-        result.put("content", content);
-        result.put("totalElements", totalElements);
-        result.put("page", currentPage);
-        result.put("size", pageSize);
+    //     Map<String, Object> result = new java.util.HashMap<>();
+    //     result.put("content", content);
+    //     result.put("totalElements", totalElements);
+    //     result.put("page", currentPage);
+    //     result.put("size", pageSize);
 
-        return result;
-    }
+    //     return result;
+    // }
 
+    // // @Override
+    // // @Transactional(readOnly = true)
+    // // public Object getMyServiceDetail(String username, Long id, String typeStr) {
+    // //     Users user = userRepository.findByUsername(username);
+    // //     if (user == null || user.getProviders() == null) {
+    // //         throw new RuntimeException("Tài khoản không hợp lệ/ không có quyền đối tác!");
+    // //     }
+    // //     Long myProviderId = user.getProviders().getId(); ////Maybe sai chỗ này!!!!!!!!!!!!!!1
+    // //     com.qd.enums.ServiceType type;
+    // //     try {
+    // //         type = com.qd.enums.ServiceType.valueOf(typeStr.toUpperCase());
+    // //     } catch (Exception e) {
+    // //         throw new RuntimeException("Loại hình dịch vụ hệ thống không hỗ trợ!");
+    // //     }
+    // //     // Gọi  hàm Repo có lệnh SQL FETCH
+    // //     Services service = providerRepository.getServiceDetailByIdAndType(id, type);
+    // //     if (service == null) {
+    // //         throw new RuntimeException("Không tìm thấy bài viết dịch vụ có mã ID yêu cầu!");
+    // //     }
+    // //     if (service.getProviderId() == null || !service.getProviderId().getId().equals(myProviderId)) {
+    // //         throw new RuntimeException("Vi phạm bảo mật: Bạn không có quyền sở hữu để xem chi tiết dịch vụ này!");
+    // //     }
+    // //     //Tùy theo loại hình bỏ vào DTO tương ứng trả về JSON
+    // //     if (type == ServiceType.TOUR) {
+    // //         return new ProviderTourDetailResponse(service); 
+    // //     } else if (type == ServiceType.HOTEL) {
+    // //         return new ProviderHotelDetailResponse(service); 
+    // //     } else {
+    // //         // Đối với hệ Xe (TRANSPORT), tạm thời trả về Object thô hoặc tự đúc DTO sau !!!!!
+    // //         return service;
+    // //     }
+    // // }
     // @Override
     // @Transactional(readOnly = true)
     // public Object getMyServiceDetail(String username, Long id, String typeStr) {
     //     Users user = userRepository.findByUsername(username);
     //     if (user == null || user.getProviders() == null) {
-    //         throw new RuntimeException("Tài khoản không hợp lệ/ không có quyền đối tác!");
+    //         throw new RuntimeException("Tài khoản không hợp lệ hoặc không có quyền đối tác!");
     //     }
-    //     Long myProviderId = user.getProviders().getId(); ////Maybe sai chỗ này!!!!!!!!!!!!!!1
-    //     com.qd.enums.ServiceType type;
-    //     try {
-    //         type = com.qd.enums.ServiceType.valueOf(typeStr.toUpperCase());
-    //     } catch (Exception e) {
-    //         throw new RuntimeException("Loại hình dịch vụ hệ thống không hỗ trợ!");
-    //     }
-    //     // Gọi  hàm Repo có lệnh SQL FETCH
+
+    //     ServiceType type = ServiceType.valueOf(typeStr.toUpperCase());
     //     Services service = providerRepository.getServiceDetailByIdAndType(id, type);
+
     //     if (service == null) {
-    //         throw new RuntimeException("Không tìm thấy bài viết dịch vụ có mã ID yêu cầu!");
+    //         throw new RuntimeException("Không tìm thấy bài viết dịch vụ!");
     //     }
-    //     if (service.getProviderId() == null || !service.getProviderId().getId().equals(myProviderId)) {
-    //         throw new RuntimeException("Vi phạm bảo mật: Bạn không có quyền sở hữu để xem chi tiết dịch vụ này!");
+
+    //     if (service.getProviderId() == null || !service.getProviderId().getId().equals(user.getProviders().getId())) {
+    //         throw new RuntimeException("Vi phạm bảo mật: Bạn không có quyền sở hữu dịch vụ này!");
     //     }
-    //     //Tùy theo loại hình bỏ vào DTO tương ứng trả về JSON
-    //     if (type == ServiceType.TOUR) {
-    //         return new ProviderTourDetailResponse(service); 
-    //     } else if (type == ServiceType.HOTEL) {
-    //         return new ProviderHotelDetailResponse(service); 
-    //     } else {
-    //         // Đối với hệ Xe (TRANSPORT), tạm thời trả về Object thô hoặc tự đúc DTO sau !!!!!
-    //         return service;
+
+    //     return convertToAppropriateDto(service, type);
+    // }
+
+    // private Object convertToAppropriateDto(com.qd.pojo.Services service, ServiceType type) {
+    //     switch (type) {
+    //         case TOUR:
+    //             return new ProviderTourDetailResponse(service);
+    //         case HOTEL:
+    //             return new ProviderHotelDetailResponse(service);
+    //         case TRANSPORT:
+    //             return new ProviderTransportDetailResponse(service);
+    //         default:
+    //             return service;
     //     }
     // }
-    @Override
-    @Transactional(readOnly = true)
-    public Object getMyServiceDetail(String username, Long id, String typeStr) {
-        Users user = userRepository.findByUsername(username);
-        if (user == null || user.getProviders() == null) {
-            throw new RuntimeException("Tài khoản không hợp lệ hoặc không có quyền đối tác!");
-        }
 
-        ServiceType type = ServiceType.valueOf(typeStr.toUpperCase());
-        Services service = providerRepository.getServiceDetailByIdAndType(id, type);
+    // @Override
+    // @Transactional
+    // public Long saveComprehensiveServiceInOneGo(String username, BaseComprehensiveRequest req) {
+    //     Users user = userRepository.findByUsername(username);
+    //     if (user == null || user.getProviders() == null) {
+    //         throw new RuntimeException("Bạn không có quyền của Nhà cung cấp!");
+    //     }
+    //     ServiceType type = ServiceType.valueOf(req.getServiceType().toUpperCase());
+    //     ServiceStatus status = ServiceStatus.DRAFT;
+    //     boolean isPublishAction = "PUBLISH".equalsIgnoreCase(req.getAction());
+    //     if (isPublishAction) {
+    //         status = ServiceStatus.ACTIVATE;
+    //     }
+    //     Services service = new Services();
+    //     service.setName(req.getName());
+    //     service.setProviderId(user.getProviders());
+    //     service.setDescription(req.getDescription());
+    //     service.setServiceType(type);
+    //     service.setStatus(status);
+    //     service.setCreatedAt(new Date());
 
-        if (service == null) {
-            throw new RuntimeException("Không tìm thấy bài viết dịch vụ!");
-        }
+    //     if (req.getCategoryId() != null) {
+    //         Categories cat = providerRepository.getCategoryById(req.getCategoryId());
+    //         if (cat != null) {
+    //             Set<Categories> catSet = new HashSet<>();
+    //             catSet.add(cat);
+    //             service.setCategoriesSet(catSet);
+    //         }
+    //     }
+    //     providerRepository.saveService(service);
 
-        if (service.getProviderId() == null || !service.getProviderId().getId().equals(user.getProviders().getId())) {
-            throw new RuntimeException("Vi phạm bảo mật: Bạn không có quyền sở hữu dịch vụ này!");
-        }
+    //     if (req instanceof TourComprehensiveRequest) {
+    //         TourComprehensiveRequest tourReq = (TourComprehensiveRequest) req;
 
-        return convertToAppropriateDto(service, type);
-    }
+    //         TourDetails tour = new TourDetails();
+    //         tour.setServiceId(service.getId());
+    //         tour.setDepartureLocation(tourReq.getDepartureLocation());
+    //         tour.setDestinationLocation(tourReq.getDestinationLocation());
+    //         tour.setDurationDays(tourReq.getDurationDays());
+    //         tour.setDurationNights(tourReq.getDurationNights());
+    //         tour.setTransportMode(tourReq.getTransportMode());
+    //         providerRepository.saveTourDetails(tour);
 
-    private Object convertToAppropriateDto(com.qd.pojo.Services service, ServiceType type) {
-        switch (type) {
-            case TOUR:
-                return new ProviderTourDetailResponse(service);
-            case HOTEL:
-                return new ProviderHotelDetailResponse(service);
-            case TRANSPORT:
-                return new ProviderTransportDetailResponse(service);
-            default:
-                return service;
-        }
-    }
+    //         if (tourReq.getTourSchedules() != null && !tourReq.getTourSchedules().isEmpty()) {
+    //             for (TourComprehensiveRequest.ScheduleInnerDTO sDto : tourReq.getTourSchedules()) {
+    //                 TourItemConcs schedule = new TourItemConcs();
+    //                 schedule.setTourDetailId(tour);
+    //                 schedule.setDepartureTime(sDto.getDepartureTime());
+    //                 schedule.setReturnTime(sDto.getReturnTime());
+    //                 schedule.setMaxParticipants(sDto.getMaxParticipants());
+    //                 providerRepository.saveTourSchedule(schedule);
 
-    @Override
-    @Transactional
-    public Long saveComprehensiveServiceInOneGo(String username, BaseComprehensiveRequest req) {
-        Users user = userRepository.findByUsername(username);
-        if (user == null || user.getProviders() == null) {
-            throw new RuntimeException("Bạn không có quyền của Nhà cung cấp!");
-        }
-        ServiceType type = ServiceType.valueOf(req.getServiceType().toUpperCase());
-        ServiceStatus status = ServiceStatus.DRAFT;
-        boolean isPublishAction = "PUBLISH".equalsIgnoreCase(req.getAction());
-        if (isPublishAction) {
-            status = ServiceStatus.ACTIVATE;
-        }
-        Services service = new Services();
-        service.setName(req.getName());
-        service.setProviderId(user.getProviders());
-        service.setDescription(req.getDescription());
-        service.setServiceType(type);
-        service.setStatus(status);
-        service.setCreatedAt(new Date());
+    //                 if (isPublishAction && sDto.getAvailableSlots() > 0 && sDto.getPrice() != null && sDto.getPrice().compareTo(BigDecimal.ZERO) > 0) {
+    //                     SellableItems sellItem = createUnifiedSellableItem(service, sDto.getPrice(), sDto.getAvailableSlots());
+    //                     sellItem.setTourItemConcId(schedule);
+    //                     providerRepository.saveSellableItem(sellItem);
+    //                 }
 
-        if (req.getCategoryId() != null) {
-            Categories cat = providerRepository.getCategoryById(req.getCategoryId());
-            if (cat != null) {
-                Set<Categories> catSet = new HashSet<>();
-                catSet.add(cat);
-                service.setCategoriesSet(catSet);
-            }
-        }
-        providerRepository.saveService(service);
+    //             }
+    //         }
 
-        if (req instanceof TourComprehensiveRequest) {
-            TourComprehensiveRequest tourReq = (TourComprehensiveRequest) req;
+    //     } else if (req instanceof HotelComprehensiveRequest) {
+    //         HotelComprehensiveRequest hotelReq = (HotelComprehensiveRequest) req;
 
-            TourDetails tour = new TourDetails();
-            tour.setServiceId(service.getId());
-            tour.setDepartureLocation(tourReq.getDepartureLocation());
-            tour.setDestinationLocation(tourReq.getDestinationLocation());
-            tour.setDurationDays(tourReq.getDurationDays());
-            tour.setDurationNights(tourReq.getDurationNights());
-            tour.setTransportMode(tourReq.getTransportMode());
-            providerRepository.saveTourDetails(tour);
+    //         HotelDetails hotel = new HotelDetails();
+    //         hotel.setServiceId(service.getId());
+    //         hotel.setStarRating(hotelReq.getStarRating());
+    //         hotel.setAddress(hotelReq.getAddress());
+    //         hotel.setCity(hotelReq.getCity());
+    //         if (hotelReq.getCheckinTime() != null && !hotelReq.getCheckinTime().isEmpty()) {
+    //             hotel.setCheckinTime(java.sql.Time.valueOf(hotelReq.getCheckinTime()));
+    //         }
+    //         if (hotelReq.getCheckoutTime() != null && !hotelReq.getCheckoutTime().isEmpty()) {
+    //             hotel.setCheckoutTime(java.sql.Time.valueOf(hotelReq.getCheckoutTime()));
+    //         }
+    //         hotel.setAmenities(hotelReq.getAmenities());
+    //         providerRepository.saveHotelDetails(hotel);
 
-            if (tourReq.getTourSchedules() != null && !tourReq.getTourSchedules().isEmpty()) {
-                for (TourComprehensiveRequest.ScheduleInnerDTO sDto : tourReq.getTourSchedules()) {
-                    TourItemConcs schedule = new TourItemConcs();
-                    schedule.setTourDetailId(tour);
-                    schedule.setDepartureTime(sDto.getDepartureTime());
-                    schedule.setReturnTime(sDto.getReturnTime());
-                    schedule.setMaxParticipants(sDto.getMaxParticipants());
-                    providerRepository.saveTourSchedule(schedule);
+    //         if (hotelReq.getHotelRooms() != null && !hotelReq.getHotelRooms().isEmpty()) {
+    //             for (com.qd.dto.provider.HotelComprehensiveRequest.RoomInnerDTO rDto : hotelReq.getHotelRooms()) {
+    //                 HotelRoomItems room = new HotelRoomItems();
+    //                 room.setHotelDetailId(hotel);
+    //                 room.setRoomType(rDto.getRoomType());
+    //                 room.setCapacity(rDto.getCapacity());
+    //                 room.setBedType(rDto.getBedType());
+    //                 room.setRoomSizeM2(rDto.getRoomSizeM2());
+    //                 room.setRoomAmenities(rDto.getRoomAmenities());
+    //                 providerRepository.saveHotelRoomItem(room);
 
-                    if (isPublishAction && sDto.getAvailableSlots() > 0 && sDto.getPrice() != null && sDto.getPrice().compareTo(BigDecimal.ZERO) > 0) {
-                        SellableItems sellItem = createUnifiedSellableItem(service, sDto.getPrice(), sDto.getAvailableSlots());
-                        sellItem.setTourItemConcId(schedule);
-                        providerRepository.saveSellableItem(sellItem);
-                    }
+    //                 if (isPublishAction && rDto.getAvailableSlots() > 0 && rDto.getPrice() != null && rDto.getPrice().compareTo(java.math.BigDecimal.ZERO) > 0) {
+    //                     SellableItems sellItem = createUnifiedSellableItem(service, rDto.getPrice(), rDto.getAvailableSlots());
+    //                     sellItem.setHotelRoomItemId(room);
+    //                     providerRepository.saveSellableItem(sellItem);
+    //                 }
+    //             }
+    //         }
 
-                }
-            }
+    //     } else if (req instanceof TransportComprehensiveRequest) {
+    //         com.qd.dto.provider.TransportComprehensiveRequest transReq = (TransportComprehensiveRequest) req;
 
-        } else if (req instanceof HotelComprehensiveRequest) {
-            HotelComprehensiveRequest hotelReq = (HotelComprehensiveRequest) req;
+    //         TransportDetails trans = new TransportDetails();
+    //         trans.setServiceId(service.getId());
+    //         trans.setBrandName(transReq.getBrandName());
+    //         trans.setVehicleType(transReq.getVehicleType());
+    //         trans.setDepartureStation(transReq.getDepartureStation());
+    //         trans.setArrivalStation(transReq.getArrivalStation());
+    //         providerRepository.saveTransportDetails(trans);
 
-            HotelDetails hotel = new HotelDetails();
-            hotel.setServiceId(service.getId());
-            hotel.setStarRating(hotelReq.getStarRating());
-            hotel.setAddress(hotelReq.getAddress());
-            hotel.setCity(hotelReq.getCity());
-            if (hotelReq.getCheckinTime() != null && !hotelReq.getCheckinTime().isEmpty()) {
-                hotel.setCheckinTime(java.sql.Time.valueOf(hotelReq.getCheckinTime()));
-            }
-            if (hotelReq.getCheckoutTime() != null && !hotelReq.getCheckoutTime().isEmpty()) {
-                hotel.setCheckoutTime(java.sql.Time.valueOf(hotelReq.getCheckoutTime()));
-            }
-            hotel.setAmenities(hotelReq.getAmenities());
-            providerRepository.saveHotelDetails(hotel);
+    //         if (transReq.getTransportTickets() != null && !transReq.getTransportTickets().isEmpty()) {
+    //             for (com.qd.dto.provider.TransportComprehensiveRequest.TicketInnerDTO tDto : transReq.getTransportTickets()) {
+    //                 TransportTicketItems ticket = new TransportTicketItems();
+    //                 ticket.setTransportDetailId(trans);
+    //                 ticket.setDepartureTime(tDto.getDepartureTime());
+    //                 ticket.setArrivalTime(tDto.getArrivalTime());
+    //                 ticket.setDurationMinutes(tDto.getDurationMinutes());
+    //                 ticket.setSeatClass(tDto.getSeatClass());
+    //                 providerRepository.saveTransportTicketItem(ticket);
 
-            if (hotelReq.getHotelRooms() != null && !hotelReq.getHotelRooms().isEmpty()) {
-                for (com.qd.dto.provider.HotelComprehensiveRequest.RoomInnerDTO rDto : hotelReq.getHotelRooms()) {
-                    HotelRoomItems room = new HotelRoomItems();
-                    room.setHotelDetailId(hotel);
-                    room.setRoomType(rDto.getRoomType());
-                    room.setCapacity(rDto.getCapacity());
-                    room.setBedType(rDto.getBedType());
-                    room.setRoomSizeM2(rDto.getRoomSizeM2());
-                    room.setRoomAmenities(rDto.getRoomAmenities());
-                    providerRepository.saveHotelRoomItem(room);
+    //                 if (isPublishAction && tDto.getAvailableSlots() > 0 && tDto.getPrice() != null && tDto.getPrice().compareTo(java.math.BigDecimal.ZERO) > 0) {
+    //                     SellableItems sellItem = createUnifiedSellableItem(service, tDto.getPrice(), tDto.getAvailableSlots());
+    //                     sellItem.setTransportTicketItemId(ticket);
+    //                     providerRepository.saveSellableItem(sellItem);
+    //                 }
 
-                    if (isPublishAction && rDto.getAvailableSlots() > 0 && rDto.getPrice() != null && rDto.getPrice().compareTo(java.math.BigDecimal.ZERO) > 0) {
-                        SellableItems sellItem = createUnifiedSellableItem(service, rDto.getPrice(), rDto.getAvailableSlots());
-                        sellItem.setHotelRoomItemId(room);
-                        providerRepository.saveSellableItem(sellItem);
-                    }
-                }
-            }
+    //             }
+    //         }
+    //     }
 
-        } else if (req instanceof TransportComprehensiveRequest) {
-            com.qd.dto.provider.TransportComprehensiveRequest transReq = (TransportComprehensiveRequest) req;
+    //     return service.getId();
+    // }
 
-            TransportDetails trans = new TransportDetails();
-            trans.setServiceId(service.getId());
-            trans.setBrandName(transReq.getBrandName());
-            trans.setVehicleType(transReq.getVehicleType());
-            trans.setDepartureStation(transReq.getDepartureStation());
-            trans.setArrivalStation(transReq.getArrivalStation());
-            providerRepository.saveTransportDetails(trans);
-
-            if (transReq.getTransportTickets() != null && !transReq.getTransportTickets().isEmpty()) {
-                for (com.qd.dto.provider.TransportComprehensiveRequest.TicketInnerDTO tDto : transReq.getTransportTickets()) {
-                    TransportTicketItems ticket = new TransportTicketItems();
-                    ticket.setTransportDetailId(trans);
-                    ticket.setDepartureTime(tDto.getDepartureTime());
-                    ticket.setArrivalTime(tDto.getArrivalTime());
-                    ticket.setDurationMinutes(tDto.getDurationMinutes());
-                    ticket.setSeatClass(tDto.getSeatClass());
-                    providerRepository.saveTransportTicketItem(ticket);
-
-                    if (isPublishAction && tDto.getAvailableSlots() > 0 && tDto.getPrice() != null && tDto.getPrice().compareTo(java.math.BigDecimal.ZERO) > 0) {
-                        SellableItems sellItem = createUnifiedSellableItem(service, tDto.getPrice(), tDto.getAvailableSlots());
-                        sellItem.setTransportTicketItemId(ticket);
-                        providerRepository.saveSellableItem(sellItem);
-                    }
-
-                }
-            }
-        }
-
-        return service.getId();
-    }
-
-    private SellableItems createUnifiedSellableItem(Services service, java.math.BigDecimal price, int slots) {
-        SellableItems sellItem = new SellableItems();
-        sellItem.setServiceId(service);
-        sellItem.setPrice(price);
-        sellItem.setAvailableSlots(slots);  //Check cho nay coi neu 0 slot phai la Out Of Stock ItemStatus
-        sellItem.setItemStatus(ItemStatus.AVAILABLE);
-        sellItem.setCreatedAt(new java.util.Date());
-        return sellItem;
-    }
+    // private SellableItems createUnifiedSellableItem(Services service, java.math.BigDecimal price, int slots) {
+    //     SellableItems sellItem = new SellableItems();
+    //     sellItem.setServiceId(service);
+    //     sellItem.setPrice(price);
+    //     sellItem.setAvailableSlots(slots);  //Check cho nay coi neu 0 slot phai la Out Of Stock ItemStatus
+    //     sellItem.setItemStatus(ItemStatus.AVAILABLE);
+    //     sellItem.setCreatedAt(new java.util.Date());
+    //     return sellItem;
+    // }
 
 }
