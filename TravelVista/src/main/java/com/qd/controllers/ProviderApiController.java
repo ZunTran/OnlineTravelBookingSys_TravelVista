@@ -4,6 +4,7 @@
  */
 package com.qd.controllers;
 
+import com.qd.dto.provider.BaseComprehensiveRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +17,8 @@ import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -61,6 +64,19 @@ public class ProviderApiController {
         response.put("success", true);
         response.put("data", userService.getMyServiceDetail(principal.getName(), id, cleanType));
         
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping
+    public ResponseEntity<Map<String, Object>> saveComprehensiveService(
+            Principal principal,@RequestBody BaseComprehensiveRequest req) { 
+        
+        Long serviceId = userService.saveComprehensiveServiceInOneGo(principal.getName(), req);
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", true);
+        response.put("message", "Đã lưu thông tin thành công!");
+        response.put("serviceId", serviceId);
         return ResponseEntity.ok(response);
     }
 }
