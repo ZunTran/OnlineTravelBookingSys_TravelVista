@@ -27,8 +27,8 @@ public interface UserService {
     AuthResponse approveProvider(Long id);
     AuthResponse rejectProvider(Long id, AdminActionRequest req);
     AuthResponse banProvider(Long id, AdminActionRequest req);
-    Map<String, Object> getMyServicesList(String username, java.util.Map<String, String> params);
-    Object getMyServiceDetail(String username, Long id, String typeStr);
-    Long saveComprehensiveServiceInOneGo(String username, BaseComprehensiveRequest req);
+    // Map<String, Object> getMyServicesList(String username, java.util.Map<String, String> params);
+    // Object getMyServiceDetail(String username, Long id, String typeStr);
+    // Long saveComprehensiveServiceInOneGo(String username, BaseComprehensiveRequest req);
 
 }

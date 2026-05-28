@@ -3,6 +3,7 @@ package com.qd.configs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -17,7 +18,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity ///Quét @PreAuthorize và Custom Annotation
+@EnableMethodSecurity
+@EnableAspectJAutoProxy ///Quét @PreAuthorize và Custom Annotation
 public class WebSecurityConfig {
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
@@ -112,10 +114,13 @@ public class WebSecurityConfig {
 // import org.springframework.web.cors.CorsConfiguration;
 // import org.springframework.web.cors.CorsConfigurationSource;
 // import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+//import org.springframework.context.annotation.EnableAspectJAutoProxy;
+
 
 // @Configuration
 // @EnableWebSecurity
-// @EnableMethodSecurity ///Quét @PreAuthorize và Custom Annotation
+// @EnableMethodSecurity
+// @EnableAspectJAutoProxy ///Quét @PreAuthorize và Custom Annotation
 // public class WebSecurityConfig {
 //     @Autowired
 //     private JwtAuthenticationFilter jwtAuthenticationFilter;
