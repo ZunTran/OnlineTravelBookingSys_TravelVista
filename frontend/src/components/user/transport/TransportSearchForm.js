@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import BusSearchForm from "@/components/user/BusSearchForm";
-import PlaneSearchForm from "@/components/user/PlaneSearchForm";
-import TrainSearchForm from "@/components/user/TrainSearchForm";
+import BusSearchForm from "@/components/user/transport/BusSearchForm";
+import PlaneSearchForm from "@/components/user/transport/PlaneSearchForm";
+import TrainSearchForm from "@/components/user/transport/TrainSearchForm";
 import { Bus, Plane, Train } from "lucide-react";
 import { useState } from "react";
 

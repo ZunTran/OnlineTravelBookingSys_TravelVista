@@ -1,14 +1,16 @@
 import { useAuth } from "@/hooks/auth/use-auth"
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 
-const ProtectedRoute = ({ children }) => {
+const ProtectedRoute = () => {
     const { isAuthenticated } = useAuth();
 
     const location = useLocation();
 
     if (!isAuthenticated) {
-        return <Navigate to={`/login?redirect=${location.pathname}`} replace />
+        return <Navigate to="/login" replace state={{ from: location.pathname }} />
     }
 
-    return children;
+    return <Outlet />;
 };
+
+export default ProtectedRoute;

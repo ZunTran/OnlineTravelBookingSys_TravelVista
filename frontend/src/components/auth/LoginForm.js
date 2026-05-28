@@ -77,7 +77,7 @@ const FormLogin = () => {
                 </form>
                 <CardFooter >
                     <p>Bạn chưa có tài khoản?
-                        <Link to="/register" className="hover:text-gray-500"> Đăng ký ngay</Link>
+                        <Link to="/register" className="text-green-500 hover:text-gray-500"> Đăng ký ngay</Link>
                     </p>
                 </CardFooter>
             </Card>

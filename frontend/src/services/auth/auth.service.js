@@ -11,12 +11,12 @@ export const loginApi = async (data) => {
     });
 
     return res.data;
-
-
 };
+
 
 export const registerApi = async (formData) => {
     const body = new FormData();
+    console.log("Form", formData);
 
     Object.entries(formData).forEach(([key, value]) => {
         if (value !== null && value !== undefined)

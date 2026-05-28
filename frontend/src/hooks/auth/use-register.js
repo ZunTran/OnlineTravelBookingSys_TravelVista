@@ -1,4 +1,4 @@
-import { registerApi } from "@/services/auth/auth.services"
+import { registerApi } from "@/services/auth/auth.service"
 import { useMutation } from "@tanstack/react-query"
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";

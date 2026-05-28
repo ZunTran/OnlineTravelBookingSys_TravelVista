@@ -5,17 +5,17 @@ import { Link } from "react-router-dom";
 const MyBreadcrumb = ({ path }) => {
 
     return (
-        <Breadcrumb>
+        <Breadcrumb className="pb-5 pl-5">
             <BreadcrumbList>
                 <BreadcrumbItem>
                     <BreadcrumbLink asChild>
-                        <Link href="/"><Home className="w-5 h-5" /></Link>
+                        <Link href="/"><Home className="w-6 h-6" /></Link>
                     </BreadcrumbLink>
                 </BreadcrumbItem>
 
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
-                    <BreadcrumbPage>{path}</BreadcrumbPage>
+                    <BreadcrumbPage className="text-lg">{path}</BreadcrumbPage>
                 </BreadcrumbItem>
             </BreadcrumbList>
         </Breadcrumb>

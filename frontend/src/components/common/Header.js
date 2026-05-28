@@ -15,7 +15,7 @@ const Header = () => {
     const { isAuthenticated, user, logout } = useAuth();
 
     return (
-        <header className="sticky top-0 z-50 w-full border-b bg-white">
+        <header className="sticky top-0 z-[999] w-full border-b bg-white">
             <div className="mx-auto flex h-16 items-center justify-between px-6">
                 <Link to="/" className="text-2xl font-bold">
                     Travel Vista
@@ -32,13 +32,13 @@ const Header = () => {
                                     </AvatarFallback>
                                 </Avatar>
 
-                                <span>{user?.username}</span>
+                                <span>{user?.fullName}</span>
                             </Button>
                         </DropdownMenuTrigger>
 
-                        <DropdownMenuContent align="end" className="mt-3">
+                        <DropdownMenuContent align="end" sideOffset={10} className="mt-3 z-[1000] w-56">
                             <DropdownMenuItem asChild className="cursor-pointer">
-                                <Link to="/profile"> <UserIcon />Tài khoản của tôi</Link>
+                                <Link to="/user/profile"> <UserIcon />Tài khoản của tôi</Link>
                             </DropdownMenuItem>
 
                             <DropdownMenuSeparator />
