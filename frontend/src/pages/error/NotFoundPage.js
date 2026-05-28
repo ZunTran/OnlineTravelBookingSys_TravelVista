@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
-import { Link } from "react-router-dom";
+import { ArrowLeft, Undo2 } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 
 const NotFoundPage = () => {
+    const navigate = useNavigate();
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-background px-6 text-center">
 
@@ -18,6 +19,15 @@ const NotFoundPage = () => {
                 Không có gì ở đây cả.
             </p>
             <div className="mt-8 flex gap-4">
+                <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => navigate(-1)}
+                >
+                    <Undo2 className="mr-2 h-4 w-4" />
+                    Quay lại
+                </Button>
+
                 <Link to="/">
                     <Button>
                         <ArrowLeft />Về trang chủ

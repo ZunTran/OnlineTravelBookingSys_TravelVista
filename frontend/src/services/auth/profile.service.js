@@ -2,7 +2,7 @@ import Apis, { endpoints } from "@/configs/Apis";
 
 
 export const getProfileApi = async () => {
-    const res = await Apis.get(endpoints.profile);
+    const res = await Apis.get(endpoints.profile.get);
 
     return res.data;
 }
@@ -10,7 +10,7 @@ export const getProfileApi = async () => {
 export const profileApi = async (formData) => {
     const body = JSON.stringify(formData);
 
-    const res = await Apis.put(endpoints.updateProfile, body, {
+    const res = await Apis.put(endpoints.profile.update, body, {
         headers: {
             'Content-Type': "application/json",
         }
@@ -25,7 +25,7 @@ export const avatarApi = async (file) => {
 
     body.append("avatar", file);
 
-    const res = await Apis.patch(endpoints.avatarUpdate, body, {
+    const res = await Apis.patch(endpoints.profile.avatar, body, {
         headers: {
             'Content-Type': "multipart/formdata",
         }

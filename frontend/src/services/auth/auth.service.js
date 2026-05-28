@@ -4,7 +4,7 @@ export const loginApi = async (data) => {
 
     const body = JSON.stringify(data);
 
-    const res = await Apis.post(endpoints.login, body, {
+    const res = await Apis.post(endpoints.auth.login, body, {
         headers: {
             "Content-Type": "application/json"
         },
@@ -23,7 +23,7 @@ export const registerApi = async (formData) => {
             body.append(key, value);
     });
 
-    const res = await Apis.post(endpoints.register, body, {
+    const res = await Apis.post(endpoints.auth.register, body, {
         headers: {
             "Content-Type": "multipart/form-data",
         },

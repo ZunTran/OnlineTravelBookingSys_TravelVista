@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 
-import { BarChart3, LogOut } from "lucide-react";
+import { BriefcaseBusiness, LayoutDashboard, LogOut } from "lucide-react";
 
 import { Separator } from "@/components/ui/separator";
 
@@ -14,9 +14,14 @@ const ProviderHeader = () => {
     const location = useLocation();
     const menu = [
         {
-            icon: BarChart3,
+            icon: LayoutDashboard,
             label: "Tổng quan",
             path: "/provider/dashboard",
+        },
+        {
+            icon: BriefcaseBusiness,
+            label: "Quản lý dịch vụ",
+            path: "/provider/services"
         },
     ];
 
@@ -61,7 +66,7 @@ const ProviderHeader = () => {
 
                             <Icon className="h-5 w-5" />
 
-                            <span>
+                            <span className="font-bold">
                                 {item.label}
                             </span>
 
