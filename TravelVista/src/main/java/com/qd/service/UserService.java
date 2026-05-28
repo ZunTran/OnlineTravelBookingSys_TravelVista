@@ -8,6 +8,7 @@ import com.qd.dto.AdminActionRequest;
 import com.qd.dto.AuthResponse;
 import com.qd.dto.RegisterRequest;
 import com.qd.dto.UserProfile;
+import com.qd.dto.provider.BaseComprehensiveRequest;
 import java.util.Map;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,4 +29,6 @@ public interface UserService {
     AuthResponse banProvider(Long id, AdminActionRequest req);
     Map<String, Object> getMyServicesList(String username, java.util.Map<String, String> params);
     Object getMyServiceDetail(String username, Long id, String typeStr);
+    Long saveComprehensiveServiceInOneGo(String username, BaseComprehensiveRequest req);
+
 }

@@ -5,8 +5,17 @@
 package com.qd.repository;
 
 import com.qd.enums.ServiceType;
+import com.qd.pojo.Categories;
+import com.qd.pojo.HotelDetails;
+import com.qd.pojo.HotelRoomItems;
 import com.qd.pojo.Providers;
+import com.qd.pojo.SellableItems;
 import com.qd.pojo.Services;
+import com.qd.pojo.TourDetails;
+import com.qd.pojo.TourItemConcs;
+import com.qd.pojo.TransportDetails;
+import com.qd.pojo.TransportTicketItems;
+
 import java.util.List;
 import java.util.Map;
 
@@ -28,4 +37,16 @@ public interface ProviderRepository {
     List<Services> getProviderServicesList(Long providerId, Map<String, String> params);
     Long countProviderServices(Long providerId,Map<String, String> params);
     Services getServiceDetailByIdAndType(Long serviceId, ServiceType type);
+    
+    void saveService(Services service);
+    void saveTourDetails(TourDetails tourDetails);
+    void saveHotelDetails(HotelDetails hotelDetails);
+    void saveTransportDetails(TransportDetails transportDetails);
+    
+    void saveTourSchedule(TourItemConcs schedule);
+    void saveHotelRoomItem(HotelRoomItems roomItem);
+    void saveTransportTicketItem(TransportTicketItems ticketItem);
+    void saveSellableItem(SellableItems sellItem);
+    
+    Categories getCategoryById(Long id);
 }

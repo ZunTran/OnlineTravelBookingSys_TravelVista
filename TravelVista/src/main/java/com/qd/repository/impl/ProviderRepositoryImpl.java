@@ -8,10 +8,14 @@ import com.qd.enums.ServiceStatus;
 import com.qd.enums.ServiceType;
 import com.qd.pojo.Categories;
 import com.qd.pojo.HotelDetails;
+import com.qd.pojo.HotelRoomItems;
 import com.qd.pojo.Providers;
+import com.qd.pojo.SellableItems;
 import com.qd.pojo.Services;
 import com.qd.pojo.TourDetails;
+import com.qd.pojo.TourItemConcs;
 import com.qd.pojo.TransportDetails;
+import com.qd.pojo.TransportTicketItems;
 import com.qd.pojo.Users;
 import com.qd.repository.ProviderRepository;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -279,6 +283,90 @@ public class ProviderRepositoryImpl implements ProviderRepository {
         ));
 
         try { return session.createQuery(q).getSingleResult(); } catch (Exception e) { return null; }
+    }
+
+    @Override
+    public void saveService(Services service) {
+        Session session = this.factory.getObject().getCurrentSession();
+        if (service.getId() == null) {
+            session.persist(service); 
+            session.merge(service); 
+        }
+    }
+
+    @Override
+    public void saveTourDetails(TourDetails tourDetails) {
+        Session session = this.factory.getObject().getCurrentSession();
+        if (tourDetails.getServiceId() == null) {
+            session.persist(tourDetails);
+        } else {
+            session.merge(tourDetails);
+        }
+    }
+
+    @Override
+    public void saveHotelDetails(HotelDetails hotelDetails) {
+        Session session = this.factory.getObject().getCurrentSession();
+        if (hotelDetails.getServiceId() == null) {
+            session.persist(hotelDetails);
+        } else {
+            session.merge(hotelDetails);
+        }
+    }
+
+    @Override
+    public void saveTransportDetails(TransportDetails transportDetails) {
+        Session session = this.factory.getObject().getCurrentSession();
+        if (transportDetails.getServiceId() == null) {
+            session.persist(transportDetails);
+        } else {
+            session.merge(transportDetails);
+        }
+    }
+
+    @Override
+    public void saveTourSchedule(TourItemConcs schedule) {
+        Session session = this.factory.getObject().getCurrentSession();
+        if (schedule.getId() == null) {
+            session.persist(schedule);
+        } else {
+            session.merge(schedule);
+        }
+    }
+
+    @Override
+    public void saveHotelRoomItem(HotelRoomItems roomItem) {
+        Session session = this.factory.getObject().getCurrentSession();
+        if (roomItem.getId() == null) {
+            session.persist(roomItem);
+        } else {
+            session.merge(roomItem);
+        }
+    }
+
+    @Override
+    public void saveTransportTicketItem(TransportTicketItems ticketItem) {
+        Session session = this.factory.getObject().getCurrentSession();
+        if (ticketItem.getId() == null) {
+            session.persist(ticketItem);
+        } else {
+            session.merge(ticketItem);
+        }
+    }
+
+    @Override
+    public void saveSellableItem(SellableItems sellItem) {
+        Session session = this.factory.getObject().getCurrentSession();
+        if (sellItem.getId() == null) {
+            session.persist(sellItem);
+        } else {
+            session.merge(sellItem);
+        }
+    }
+
+    @Override
+    public Categories getCategoryById(Long id) {
+        return this.factory.getObject().getCurrentSession().get(Categories.class, id);
     }
 
 }
