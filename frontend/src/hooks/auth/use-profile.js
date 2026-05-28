@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import cookies from 'react-cookies';
 import { loginSuccess } from "@/store/authSlice";
+import { AUTH_EVENTS, authStorage } from "@/utils/auth-storage";
 
 
 export const useUpdateProfile = () => {
@@ -19,6 +20,7 @@ export const useUpdateProfile = () => {
             const user = await getProfileApi();
             cookies.save("user", user, { path: "/" });
             dispatch(loginSuccess(user));
+            authStorage.notify(AUTH_EVENTS.UPDATE_PROFILE)
             toast.success(data.message || "Cập nhật thông tin thành công");
         },
         onError: (error) => {
@@ -69,6 +71,7 @@ export const useChangeAvatar = () => {
             const profile = await getProfileApi();
             cookies.save("user", profile, { path: "/" });
             dispatch(loginSuccess(profile));
+            authStorage.notify(AUTH_EVENTS.UPDATE_PROFILE)
             toast.success(data.message || "Đổi avatar thành công");
         },
         onError: (error) => {

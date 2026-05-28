@@ -25,8 +25,6 @@ const authSlice = createSlice({
             state.isAuthenticated = false;
             state.user = null;
             state.loading = false;
-            cookies.remove('token', { path: "/" });
-            cookies.remove("user", { path: "/" })
         },
 
         setLoading: (state, action) => {

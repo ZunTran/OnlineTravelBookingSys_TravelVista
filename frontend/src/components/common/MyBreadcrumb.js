@@ -9,7 +9,7 @@ const MyBreadcrumb = ({ path }) => {
             <BreadcrumbList>
                 <BreadcrumbItem>
                     <BreadcrumbLink asChild>
-                        <Link href="/"><Home className="w-6 h-6" /></Link>
+                        <Link to="/"><Home className="w-6 h-6" /></Link>
                     </BreadcrumbLink>
                 </BreadcrumbItem>
 
