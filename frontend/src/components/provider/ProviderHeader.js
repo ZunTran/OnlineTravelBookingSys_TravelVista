@@ -5,10 +5,12 @@ import { BarChart3, LogOut } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/hooks/auth/use-auth";
 
 
 const ProviderHeader = () => {
 
+    const { logout } = useAuth();
     const location = useLocation();
     const menu = [
         {
@@ -76,6 +78,7 @@ const ProviderHeader = () => {
                     <Button
                         variant="outline"
                         className="w-full justify-start text-red-600 hover:text-red-700"
+                        onClick={logout}
                     >
 
                         <LogOut className="mr-3 h-5 w-5" />

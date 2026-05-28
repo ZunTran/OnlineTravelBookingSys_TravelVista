@@ -1,6 +1,5 @@
 import { AUTH_EVENTS, authStorage } from "@/utils/auth-storage";
 import axios from "axios";
-import cookies from 'react-cookies'
 
 export const endpoints = {
     register: "/api/auth/register",
@@ -45,13 +44,7 @@ Apis.interceptors.response.use(
             !isLoginRequest
         ) {
 
-            cookies.remove("token", {
-                path: "/",
-            });
-
-            cookies.remove("user", {
-                path: "/",
-            });
+            authStorage.clearAuth();
 
             authStorage.notify(
                 AUTH_EVENTS.TOKEN_EXPIRED

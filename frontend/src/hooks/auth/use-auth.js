@@ -16,7 +16,7 @@ export const useAuth = () => {
         authStorage.clearAuth();
         dispatch(logoutSuccess());
         authStorage.notify(AUTH_EVENTS.LOGOUT);
-        navigate("/login", { replace: true });
+        navigate("/", { replace: true });
     };
 
     return {

@@ -24,14 +24,13 @@ export const useLogin = () => {
                 token,
                 roleName,
             } = data;
+
             authStorage.saveAuth(token);
 
             const profile = await getProfileApi();
-
+            // console.log("Provider: ", profile);
             authStorage.saveUser(profile);
-
             dispatch(loginSuccess(profile));
-
             authStorage.notify(AUTH_EVENTS.LOGIN);
 
             toast.success(data?.message || "Đăng nhập thành công");

@@ -1,11 +1,13 @@
 import UserLayout from "@/layouts/UserLayout";
 import UserProfileLayout from "@/layouts/UserProfileLoyout";
 import { HomePage, TransportPage, UserProfilePage, UserSecurityPage } from "@/routers/LazyPages";
-import ProtectedRoute from "@/routers/ProtectedRoute";
+import RoleRoute from "@/routers/RoleRoutes";
 import { Route } from "react-router-dom";
 
 const UserRoutes = () => {
     return (
+
+
         <Route element={<UserLayout />}>
             <Route
                 index
@@ -16,7 +18,7 @@ const UserRoutes = () => {
                 element={<TransportPage />}
             />
 
-            <Route element={<ProtectedRoute />}>
+            <Route element={<RoleRoute allowedRoles={["CUSTOMER"]} />}>
                 <Route element={<UserProfileLayout />}>
                     <Route
                         path="/user/profile"
@@ -28,7 +30,6 @@ const UserRoutes = () => {
                     />
                 </Route>
             </Route>
-
         </Route>
     );
 }
