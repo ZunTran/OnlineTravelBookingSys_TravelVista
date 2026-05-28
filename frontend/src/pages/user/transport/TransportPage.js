@@ -1,4 +1,4 @@
-import TransportSearchForm from "@/components/user/TransportSearchForm";
+import TransportSearchForm from "@/components/user/transport/TransportSearchForm";
 
 const TransportPage = () => {
     return (

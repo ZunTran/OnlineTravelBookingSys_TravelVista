@@ -2,12 +2,24 @@ import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { User } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const RegisterBaseFields = ({ formData, onChange, onChangeFile }) => {
-    const preview =
-        formData.avatar
-            ? URL.createObjectURL(formData.avatar)
-            : "";
+    const [preview, setPreview] = useState("");
+
+    useEffect(() => {
+        if (!formData.avatar) {
+            setPreview("");
+            return;
+        }
+
+        const url = URL.createObjectURL(formData.avatar);
+        setPreview(url);
+
+        return () => {
+            URL.revokeObjectURL(url);
+        };
+    }, [formData.avatar]);
 
     return (
         <div className="space-y-6">

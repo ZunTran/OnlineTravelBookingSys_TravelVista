@@ -4,6 +4,10 @@ import cookies from 'react-cookies'
 export const endpoints = {
     register: "/api/auth/register",
     login: "/api/auth/login",
+    profile: "/api/auth/profile",
+    updateProfile: "/api/auth/profile/update",
+    avatarUpdate: "/api/auth/profile/avatar",
+    passwordUpdate: "api/auth/profile/change-password",
 
 };
 

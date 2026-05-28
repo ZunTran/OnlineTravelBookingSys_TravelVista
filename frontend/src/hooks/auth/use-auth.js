@@ -5,7 +5,7 @@ export const useAuth = () => {
     const dispatch = useDispatch();
 
     const { user, isAuthenticated, loading } = useSelector(
-        (state) => state.auth
+        (state) => state.auth,
     );
 
     const logout = () => {

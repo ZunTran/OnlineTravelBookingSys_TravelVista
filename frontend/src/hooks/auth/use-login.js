@@ -1,55 +1,49 @@
-import { loginApi } from "@/services/auth/auth.services";
+import { loginApi } from "@/services/auth/auth.service";
 import { useMutation } from "@tanstack/react-query"
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import cookies from 'react-cookies'
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "@/store/authSlice";
+import { getProfileApi } from "@/services/auth/profile.service";
 
 export const useLogin = () => {
     const navigator = useNavigate();
     const dispatch = useDispatch();
 
+    const location = useLocation();
+
+    const from = location.state?.from || "/"
+
     return useMutation({
         mutationFn: loginApi,
 
-        onSuccess: (data, variable, context) => {
+        onSuccess: async (data, variable, context) => {
+
             const {
                 token,
-                userId,
-                username,
-                fullName,
-                email,
-                phone,
-                avatarUrl,
                 roleName,
-                createdAt
             } = data;
-
-            const user = {
-                userId,
-                username,
-                fullName,
-                email,
-                phone,
-                avatarUrl,
-                roleName,
-                createdAt,
-            }
-
             cookies.save('token', token, { path: "/" });
-            cookies.save("user", user, { path: "/" })
 
-            dispatch(loginSuccess(user));
+            const profile = await getProfileApi();
+
+            cookies.save("user", profile, { path: "/" })
+
+            dispatch(loginSuccess(profile));
             toast.success(data?.message || "Đăng nhập thành công");
+
+            if (from !== '/') {
+                navigator(from, { replace: true });
+                return;
+            }
 
             if (roleName === "PROVIDER")
                 navigator('/provider/dashboard')
             else
-                navigator("/");
+                navigator(from);
         },
         onError: (error, variable, context) => {
-            console.log(error?.response?.data?.message);
             toast.error(error?.response?.data?.message || "Đã có lỗi xảy ra");
         }
     },);
