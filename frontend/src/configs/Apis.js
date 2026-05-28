@@ -1,3 +1,4 @@
+import { AUTH_EVENTS, authStorage } from "@/utils/auth-storage";
 import axios from "axios";
 import cookies from 'react-cookies'
 
@@ -19,7 +20,7 @@ const Apis = axios.create({
 
 Apis.interceptors.request.use(
     (config) => {
-        const token = cookies.load("token");
+        const token = authStorage.getToken();
 
         if (token)
             config.headers.Authorization = `Bearer ${token}`;
@@ -44,7 +45,17 @@ Apis.interceptors.response.use(
             !isLoginRequest
         ) {
 
-            cookies.remove("token", { path: "/" });
+            cookies.remove("token", {
+                path: "/",
+            });
+
+            cookies.remove("user", {
+                path: "/",
+            });
+
+            authStorage.notify(
+                AUTH_EVENTS.TOKEN_EXPIRED
+            );
 
             window.location.href = "/login";
         }

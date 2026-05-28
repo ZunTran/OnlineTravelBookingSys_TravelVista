@@ -2,10 +2,10 @@ import { loginApi } from "@/services/auth/auth.service";
 import { useMutation } from "@tanstack/react-query"
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import cookies from 'react-cookies'
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "@/store/authSlice";
 import { getProfileApi } from "@/services/auth/profile.service";
+import { AUTH_EVENTS, authStorage } from "@/utils/auth-storage";
 
 export const useLogin = () => {
     const navigator = useNavigate();
@@ -18,19 +18,22 @@ export const useLogin = () => {
     return useMutation({
         mutationFn: loginApi,
 
-        onSuccess: async (data, variable, context) => {
+        onSuccess: async (data) => {
 
             const {
                 token,
                 roleName,
             } = data;
-            cookies.save('token', token, { path: "/" });
+            authStorage.saveAuth(token);
 
             const profile = await getProfileApi();
 
-            cookies.save("user", profile, { path: "/" })
+            authStorage.saveUser(profile);
 
             dispatch(loginSuccess(profile));
+
+            authStorage.notify(AUTH_EVENTS.LOGIN);
+
             toast.success(data?.message || "Đăng nhập thành công");
 
             if (from !== '/') {
@@ -43,7 +46,7 @@ export const useLogin = () => {
             else
                 navigator(from);
         },
-        onError: (error, variable, context) => {
+        onError: (error) => {
             toast.error(error?.response?.data?.message || "Đã có lỗi xảy ra");
         }
     },);
