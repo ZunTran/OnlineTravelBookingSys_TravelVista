@@ -11,6 +11,7 @@ import com.qd.pojo.HotelDetails;
 import com.qd.pojo.HotelRoomItems;
 import com.qd.pojo.Providers;
 import com.qd.pojo.SellableItems;
+import com.qd.pojo.ServiceImages;
 import com.qd.pojo.Services;
 import com.qd.pojo.TourDetails;
 import com.qd.pojo.TourItemConcs;
@@ -368,5 +369,10 @@ public class ProviderRepositoryImpl implements ProviderRepository {
     public Categories getCategoryById(Long id) {
         return this.factory.getObject().getCurrentSession().get(Categories.class, id);
     }
+
+    @Override
+    public void saveServiceImage(ServiceImages img) {
+        this.factory.getObject().getCurrentSession().merge(img);
+}
 
 }
