@@ -1,6 +1,8 @@
 const ProviderServiceCard = () => {
     return (
-        <div>Thẻ service</div>
+        <div>
+            đây là card
+        </div>
     );
 }
 

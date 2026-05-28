@@ -26,7 +26,11 @@ const ProviderLayout = () => {
                 {isBlocked ? (
                     <ProviderStatusPage user={user} />
                 ) : (
-                    <Suspense fallback={<div className="flex h-full items-center justify-center"><Spinner className="size-10" /></div>}>
+                    <Suspense fallback={
+                        <div className="flex h-full items-center justify-center">
+                            <Spinner className="size-10" />
+                        </div>
+                    }>
                         <Outlet />
                     </Suspense>
                 )}

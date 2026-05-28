@@ -6,5 +6,4 @@ export const getProviderServicesApi = async (params) => {
     })
 
     return res.data;
-
 }
