@@ -2,13 +2,25 @@ import { AUTH_EVENTS, authStorage } from "@/utils/auth-storage";
 import axios from "axios";
 
 export const endpoints = {
-    register: "/api/auth/register",
-    login: "/api/auth/login",
-    profile: "/api/auth/profile",
-    updateProfile: "/api/auth/profile/update",
-    avatarUpdate: "/api/auth/profile/avatar",
-    passwordUpdate: "api/auth/profile/change-password",
+    auth: {
+        register: "/api/auth/register",
+        login: "/api/auth/login",
+    },
 
+    profile: {
+        get: "/api/auth/profile",
+        update: "/api/auth/profile/update",
+        avatar: "/api/auth/profile/avatar",
+        password: "/api/auth/profile/change-password",
+    },
+
+    provider: {
+        services: "/api/provider/services",
+    },
+
+    user: {
+
+    },
 };
 
 const BASE_URL = process.env.REACT_APP_API_URL;

@@ -9,6 +9,7 @@ import { Outlet } from "react-router-dom";
 const ProviderLayout = () => {
     const { user } = useAuth();
     useCurrentProfile();
+
     const isBlocked =
         user?.roleName === "PROVIDER" && !user?.isApproved;
 

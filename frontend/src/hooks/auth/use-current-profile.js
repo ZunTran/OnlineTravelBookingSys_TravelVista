@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 export const useCurrentProfile = (shouldPolling = false) => {
 
     const dispatch = useDispatch();
+
     const query = useQuery({
         queryKey: ["current-profile"],
 
