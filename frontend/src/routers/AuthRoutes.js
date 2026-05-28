@@ -5,11 +5,12 @@ import { Route } from "react-router-dom";
 
 const AuthRoutes = () => {
     return (
-        <Route element={<AuthLayout />}>
-            <Route element={<PublicOnlyRoute />}>
+        <Route element={<PublicOnlyRoute />}>
+            <Route element={<AuthLayout />}>
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
             </Route>
+
         </Route>
     );
 }
