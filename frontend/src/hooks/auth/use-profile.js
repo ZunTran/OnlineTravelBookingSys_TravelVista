@@ -1,6 +1,6 @@
 import { useAuth } from "@/hooks/auth/use-auth";
 import { avatarApi, getProfileApi, passwordApi, profileApi } from "@/services/auth/profile.service";
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQuery } from "@tanstack/react-query"
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -8,6 +8,17 @@ import cookies from 'react-cookies';
 import { loginSuccess } from "@/store/authSlice";
 import { AUTH_EVENTS, authStorage } from "@/utils/auth-storage";
 
+
+export const useProfile = (options = {}) => {
+    return useQuery({
+        queryKey: ["current-profile"],
+        queryFn: getProfileApi,
+        enabled: !!cookies.load("token") && (options.enabled ?? true),
+        refetchOnWindowFocus: true,
+        refetchOnReconnect: true,
+        ...options,
+    });
+};
 
 export const useUpdateProfile = () => {
     const dispatch = useDispatch();
