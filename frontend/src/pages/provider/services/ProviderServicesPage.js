@@ -13,6 +13,7 @@ const ProviderServicesPage = () => {
     const [open, setOpen] = useState(false);
     const { formService, handleChange } = useProviderServiceForm();
     const [searchParams, setSearchParams] = useSearchParams();
+
     const page = Number(searchParams.get("page")) || 1;
 
 
@@ -21,7 +22,7 @@ const ProviderServicesPage = () => {
         size: 20,
     });
 
-    const services = data?.data.content || [];
+    const services = data?.content || [];
 
     const handleAdd = (service) => {
         setOpen(true);
@@ -30,13 +31,8 @@ const ProviderServicesPage = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-
-
         setOpen(false);
     };
-
-
-
 
     return (
         <section className="space-y-6">
@@ -55,7 +51,7 @@ const ProviderServicesPage = () => {
 
             {isLoading
                 ? (
-                    <TableSkeleton />
+                    <TableSkeleton columns={5} rows={5} />
 
                 )
                 : (
@@ -68,9 +64,9 @@ const ProviderServicesPage = () => {
             }
 
             <AppPagination
-                page={data?.data.page || page}
-                size={data?.data.size || 20}
-                totalElements={data?.data.totalElements || 0}
+                page={data?.page || page}
+                size={data?.size || 20}
+                totalElements={data?.totalElements || 0}
                 onPageChange={setSearchParams}
             />
 

@@ -9,7 +9,7 @@ const ProviderHomePage = () => {
         size: 20,
     });
 
-    const services = data?.data.content || [];
+    const services = data?.content || [];
 
 
     const active = services.filter(
@@ -18,14 +18,15 @@ const ProviderHomePage = () => {
 
     if (isLoading) {
         return (
-            <StatsSkeleton />
+            <StatsSkeleton length={3} />
         );
     }
 
     return (
         <section className="space-y-6">
+
             <ProviderServiceStats
-                total={data.data?.totalElements || 0}
+                total={data?.totalElements || 0}
                 active={active}
                 inactive={services.length - active}
             />

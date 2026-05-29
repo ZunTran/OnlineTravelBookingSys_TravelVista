@@ -1,12 +1,12 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const StatsSkeleton = () => {
+const StatsSkeleton = ({ length = 3 }) => {
 
     return (
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className={`grid gap-4 md:grid-cols-${length}`}>
 
-            {Array.from({ length: 3 }).map((_, index) => (
+            {Array.from({ length }).map((_, index) => (
 
                 <Card key={index}>
                     <CardContent className="flex items-center gap-4 p-5">

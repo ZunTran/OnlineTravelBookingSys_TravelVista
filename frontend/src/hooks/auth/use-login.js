@@ -28,7 +28,9 @@ export const useLogin = () => {
             authStorage.saveAuth(token);
 
             const profile = await getProfileApi();
+
             // console.log("Provider: ", profile);
+
             authStorage.saveUser(profile);
             dispatch(loginSuccess(profile));
             authStorage.notify(AUTH_EVENTS.LOGIN);

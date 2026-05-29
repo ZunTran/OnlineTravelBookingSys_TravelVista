@@ -20,8 +20,6 @@ const DetailHeader = ({ title }) => {
                 <h1 className="text-3xl font-bold">{title}</h1>
 
             </div>
-
-            <Button>Chỉnh sửa</Button>
         </div>
     );
 };

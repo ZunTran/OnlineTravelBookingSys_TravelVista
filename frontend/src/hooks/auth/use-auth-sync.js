@@ -29,7 +29,6 @@ export const useAuthSync = () => {
 
             const event = JSON.parse(e.newValue);
 
-            // LOGIN
             if (event.type === AUTH_EVENTS.LOGIN) {
 
                 const user = authStorage.getUser();
@@ -39,7 +38,6 @@ export const useAuthSync = () => {
                 }
             }
 
-            // UPDATE PROFILE
             if (event.type === AUTH_EVENTS.UPDATE_PROFILE) {
 
                 const user = authStorage.getUser();
@@ -49,7 +47,6 @@ export const useAuthSync = () => {
                 }
             }
 
-            // LOGOUT / TOKEN EXPIRED
             if (
                 event.type === AUTH_EVENTS.LOGOUT ||
                 event.type === AUTH_EVENTS.TOKEN_EXPIRED
