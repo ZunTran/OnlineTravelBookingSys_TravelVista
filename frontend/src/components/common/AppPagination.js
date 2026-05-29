@@ -3,6 +3,13 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const AppPagination = ({ page = 1, size = 20, totalElements = 0, onPageChange, }) => {
 
+    const handlePageChange = (newPage) => {
+
+        onPageChange({
+            page: newPage,
+        });
+    };
+
     const totalPages = Math.ceil(totalElements / size);
 
     if (totalPages <= 1)
@@ -21,7 +28,7 @@ const AppPagination = ({ page = 1, size = 20, totalElements = 0, onPageChange, }
                             variant="outline"
                             size="sm"
                             disabled={page <= 1}
-                            onClick={() => onPageChange(page - 1)}
+                            onClick={() => handlePageChange(page - 1)}
                         >
                             <ChevronLeft className="h-4 w-4" />
                             Trước
@@ -34,7 +41,7 @@ const AppPagination = ({ page = 1, size = 20, totalElements = 0, onPageChange, }
                         <Button
                             variant="outline"
                             size="sm"
-                            onClick={() => onPageChange(page + 1)}
+                            onClick={() => handlePageChange(page + 1)}
                         >
                             Sau
                             <ChevronRight className="h-4 w-4" />

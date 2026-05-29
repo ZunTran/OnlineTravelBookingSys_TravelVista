@@ -1,12 +1,20 @@
 import AppPagination from "@/components/common/AppPagination";
 import TableSkeleton from "@/components/common/skeleton/TableSkeleton";
+import ProviderServiceForm from "@/components/provider/services/ProviderServiceForm";
 import ProviderServiceTable from "@/components/provider/services/ProviderServiceTable";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { useProviderServiceForm } from "@/hooks/forms/use-provider-service-form";
 import { useProviderServices } from "@/hooks/provider/use-provider-services";
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 const ProviderServicesPage = () => {
-    const [page, setPage] = useState(1);
+    const [open, setOpen] = useState(false);
+    const { formService, handleChange } = useProviderServiceForm();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const page = Number(searchParams.get("page")) || 1;
+
 
     const { data, isLoading } = useProviderServices({
         page: page,
@@ -14,6 +22,20 @@ const ProviderServicesPage = () => {
     });
 
     const services = data?.data.content || [];
+
+    const handleAdd = (service) => {
+        setOpen(true);
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+
+
+        setOpen(false);
+    };
+
+
 
 
     return (
@@ -28,7 +50,7 @@ const ProviderServicesPage = () => {
                     </p>
                 </div>
 
-                <Button >Thêm dịch vụ</Button>
+                <Button onClick={handleAdd}>Thêm dịch vụ</Button>
             </div>
 
             {isLoading
@@ -49,8 +71,25 @@ const ProviderServicesPage = () => {
                 page={data?.data.page || page}
                 size={data?.data.size || 20}
                 totalElements={data?.data.totalElements || 0}
-                onPageChange={setPage}
+                onPageChange={setSearchParams}
             />
+
+            <Dialog open={open} onOpenChange={setOpen}>
+                <DialogContent className="max-w-2xl">
+                    <DialogHeader>
+                        <DialogTitle className="font-bold text-xl">
+                            Thêm dịch vụ
+                        </DialogTitle>
+                    </DialogHeader>
+
+                    <ProviderServiceForm
+                        formData={formService}
+                        onChange={handleChange}
+                        onSubmit={handleSubmit}
+                        isLoading={false}
+                    />
+                </DialogContent>
+            </Dialog>
 
         </section>
     );

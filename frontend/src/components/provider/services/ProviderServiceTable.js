@@ -9,6 +9,7 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { Pencil, Trash2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const SERVICE_STATUS = {
     DRAFT: {
@@ -29,7 +30,38 @@ const SERVICE_STATUS = {
     },
 };
 
-const ProviderServiceTable = ({ services = [], onEdit, onDelete }) => {
+
+const ProviderServiceTable = ({ services = [], onDelete }) => {
+    const navigate = useNavigate();
+
+    const handleDetail = (service) => {
+
+        switch (service.serviceType) {
+
+            case "TOUR":
+                navigate(
+                    `/provider/tours/${service.id}`
+                );
+                break;
+
+            case "HOTEL":
+                navigate(
+                    `/provider/hotels/${service.id}`
+                );
+                break;
+
+            case "TRANSPORT":
+                navigate(
+                    `/provider/transports/${service.id}`
+                );
+                break;
+
+            default:
+                break;
+
+        }
+    };
+
 
     return (
         <div className="rounded-xl border bg-white">
@@ -64,8 +96,12 @@ const ProviderServiceTable = ({ services = [], onEdit, onDelete }) => {
                                 };
 
                             return (
-                                <TableRow key={service.id}>
-                                    <TableCell className="font-medium">
+                                <TableRow key={service.id
+                                }                                >
+                                    <TableCell
+                                        className="font-medium hover:cursor-pointer"
+                                        onClick={() => handleDetail(service)}
+                                    >
                                         {service.name}
                                     </TableCell>
 
@@ -86,7 +122,7 @@ const ProviderServiceTable = ({ services = [], onEdit, onDelete }) => {
                                             <Button
                                                 size="icon"
                                                 variant="ghost"
-                                                onClick={() => onEdit(service)}
+                                            // onClick={() => handleEdit(service)}
                                             >
                                                 <Pencil className="h-5 w-5" />
                                             </Button>
@@ -106,7 +142,7 @@ const ProviderServiceTable = ({ services = [], onEdit, onDelete }) => {
                     )}
                 </TableBody>
             </Table>
-        </div>
+        </div >
     );
 };
 

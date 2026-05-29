@@ -25,7 +25,7 @@ const ProviderHomePage = () => {
     return (
         <section className="space-y-6">
             <ProviderServiceStats
-                total={data?.totalElements || 0}
+                total={data.data?.totalElements || 0}
                 active={active}
                 inactive={services.length - active}
             />
