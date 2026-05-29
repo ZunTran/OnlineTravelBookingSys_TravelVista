@@ -10,8 +10,7 @@ export const endpoints = {
     profile: {
         get: "/api/auth/profile",
         update: "/api/auth/profile/update",
-        avatar: "/api/auth/profile/avatar",
-        password: "/api/auth/profile/change-password",
+        password: "/api/auth/profile/password",
     },
 
     provider: {

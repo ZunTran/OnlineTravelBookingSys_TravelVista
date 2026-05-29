@@ -1,58 +1,64 @@
+import HotelServiceFields from "@/components/provider/services/services-form/HotelServicesFields";
+import ServiceBaseFields from "@/components/provider/services/services-form/ServiceBaseFields";
+import TourServiceFields from "@/components/provider/services/services-form/TourServiceFields";
+import TransportServiceFields from "@/components/provider/services/services-form/TransportServiceFields";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Spinner } from "@/components/ui/spinner";
 
 
-const ProviderServiceForm = ({ formData, onChange, onSubmit, isLoading }) => {
+
+const ProviderServiceForm = (
+    {
+        formService,
+        images,
+
+        handleChange,
+        updateField,
+        handleServiceTypeChange,
+        handleChangeFile,
+
+        onSubmit,
+        isLoading, }
+) => {
 
     return (
-        <Card>
-            <CardHeader>
-                <CardTitle>Thông tin dịch vụ</CardTitle>
-            </CardHeader>
+        <form onSubmit={onSubmit} className="space-y-6">
+            <ServiceBaseFields
+                formService={formService}
+                images={images}
+                handleChange={handleChange}
+                updateField={updateField}
+                handleServiceTypeChange={handleServiceTypeChange}
+                handleChangeFile={handleChangeFile}
+            />
 
-            <form onSubmit={onSubmit}>
-                <CardContent className="grid gap-5 md:grid-cols-2">
-                    <div className="space-y-2">
-                        <Label>Tên dịch vụ</Label>
-                        <Input
-                            name="name"
-                            value={formData.name}
-                            onChange={onChange}
-                            placeholder="Nhập tên dịch vụ"
-                        />
-                    </div>
+            {formService.serviceType === "TRANSPORT" && (
+                <TransportServiceFields
+                    formService={formService}
+                    handleChange={handleChange}
+                />
+            )}
 
-                    <div className="space-y-2">
-                        <Label>Loại dịch vụ</Label>
-                        <Input
-                            name="serviceType"
-                            value={formData.serviceType}
-                            onChange={onChange}
-                            placeholder="TOUR / HOTEL / TRANSPORT"
-                        />
-                    </div>
+            {formService.serviceType === "TOUR" && (
+                <TourServiceFields
+                    formService={formService}
+                    handleChange={handleChange}
+                />
+            )}
 
-                    <div className="space-y-2">
-                        <Label>Trạng thái</Label>
-                        <Input
-                            name="status"
-                            value={formData.status}
-                            onChange={onChange}
-                            placeholder="ACTIVATE"
-                        />
-                    </div>
-
-                    <div className="flex items-end justify-end">
-                        <Button type="submit" disabled={isLoading}>
-                            {isLoading ? "Đang lưu..." : "Lưu dịch vụ"}
-                        </Button>
-                    </div>
-                </CardContent>
-            </form>
-        </Card>
+            {formService.serviceType === "HOTEL" && (
+                <HotelServiceFields
+                    formService={formService}
+                    handleChange={handleChange}
+                />
+            )}
+            <div className="flex justify-end">
+                <Button type="submit" disabled={isLoading}>
+                    {isLoading ? <Spinner /> : "Lưu dịch vụ"}
+                </Button>
+            </div>
+        </form>
     );
-}
+};
 
 export default ProviderServiceForm;

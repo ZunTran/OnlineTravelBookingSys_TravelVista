@@ -1,3 +1,5 @@
+import ServiceImages from "@/components/common/ServicesImage";
+import ServiceImagesSkeleton from "@/components/common/skeleton/ServiceImagesSkeleton";
 import StatsSkeleton from "@/components/common/skeleton/StatsSkeleton";
 import TableSkeleton from "@/components/common/skeleton/TableSkeleton";
 import DetailHeader from "@/components/provider/services-detail/DetailHeader";
@@ -29,12 +31,14 @@ const ProviderHotelDetailPage = () => {
                 ? (
                     <>
                         <StatsSkeleton length={3} />
+                        <ServiceImagesSkeleton />
                         <TableSkeleton columns={6} />
                     </>
                 )
                 : (
                     <>
                         <HotelInfoCards hotel={hotel} />
+                        <ServiceImages images={hotel?.images} />
                         <HotelRoomsTable rooms={hotel?.rooms || []} />
                     </>
                 )}

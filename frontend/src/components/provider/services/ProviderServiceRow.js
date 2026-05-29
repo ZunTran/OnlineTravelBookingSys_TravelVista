@@ -1,0 +1,122 @@
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { TableCell, TableRow } from "@/components/ui/table";
+import { ImageIcon, Pencil, Trash2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+
+const SERVICE_STATUS = {
+    DRAFT: {
+        label: "Bản nháp",
+        variant: "secondary",
+    },
+    ACTIVATE: {
+        label: "Đang hoạt động",
+        variant: "default",
+    },
+    SUSPENDED: {
+        label: "Tạm khóa",
+        variant: "destructive",
+    },
+    DELETED: {
+        label: "Đã xóa",
+        variant: "outline",
+    },
+};
+
+
+
+const ProviderServiceRow = ({ service, onDelete }) => {
+    const navigate = useNavigate();
+
+    const handleDetail = (service) => {
+
+        switch (service.serviceType) {
+
+            case "TOUR":
+                navigate(
+                    `/provider/tours/${service.id}`
+                );
+                break;
+
+            case "HOTEL":
+                navigate(
+                    `/provider/hotels/${service.id}`
+                );
+                break;
+
+            case "TRANSPORT":
+                navigate(
+                    `/provider/transports/${service.id}`
+                );
+                break;
+
+            default:
+                break;
+
+        }
+    };
+
+    const status =
+        SERVICE_STATUS[service.status] || {
+            label: service.status,
+            variant: "outline",
+        };
+    const imageUrl = service.images?.[0];
+
+    return (
+        <TableRow key={service.id} >
+            <TableCell onClick={() => handleDetail} className="hover:cursor-pointer">
+                {imageUrl ? (
+                    <img
+                        src={imageUrl}
+                        alt={service.name}
+                        className="h-14 w-20 rounded-lg object-cover"
+                    />
+                ) : (
+                    <div className="flex h-14 w-20 items-center justify-center rounded-lg bg-muted text-muted-foreground">
+                        <ImageIcon className="h-5 w-5" />
+                    </div>
+                )}
+            </TableCell>
+            <TableCell
+                className="font-medium hover:cursor-pointer"
+                onClick={() => handleDetail(service)}
+            >
+                {service.name}
+            </TableCell>
+
+            <TableCell>{service.serviceType}</TableCell>
+
+            <TableCell>
+                <Badge variant={status.variant}>
+                    {status.label}
+                </Badge>
+            </TableCell>
+
+            <TableCell>
+                {new Date(service.createdAt).toLocaleDateString("vi-VN")}
+            </TableCell>
+
+            <TableCell className="text-right">
+                <div className="flex justify-end gap-4">
+                    <Button
+                        size="icon"
+                        variant="ghost"
+                    >
+                        <Pencil className="h-5 w-5" />
+                    </Button>
+
+                    <Button
+                        size="icon"
+                        variant="ghost"
+                        onDelete={onDelete}
+                    >
+                        <Trash2 className="h-5 w-5 stroke-red-600" />
+                    </Button>
+                </div>
+            </TableCell>
+        </TableRow>
+    );
+}
+
+export default ProviderServiceRow;

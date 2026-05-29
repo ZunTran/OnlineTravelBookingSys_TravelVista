@@ -6,7 +6,7 @@ const DetailHeader = ({ title }) => {
     const navigate = useNavigate();
 
     return (
-        <div className="flex items-center justify-between">
+        <div className="flex items-end justify-between">
             <div>
                 <Button
                     variant="ghost"
@@ -20,6 +20,9 @@ const DetailHeader = ({ title }) => {
                 <h1 className="text-3xl font-bold">{title}</h1>
 
             </div>
+            <Button>Thêm dịch vụ</Button>
+
+
         </div>
     );
 };

@@ -25,7 +25,7 @@ export const avatarApi = async (file) => {
 
     body.append("avatar", file);
 
-    const res = await Apis.patch(endpoints.profile.avatar, body, {
+    const res = await Apis.patch(endpoints.profile.update, body, {
         headers: {
             'Content-Type': "multipart/formdata",
         }
@@ -37,7 +37,7 @@ export const avatarApi = async (file) => {
 export const passwordApi = async (data) => {
     const body = JSON.stringify(data);
 
-    const res = await Apis.put(endpoints.passwordUpdate, body, {
+    const res = await Apis.put(endpoints.profile.password, body, {
         headers: {
             'Content-Type': "application/json",
         }
