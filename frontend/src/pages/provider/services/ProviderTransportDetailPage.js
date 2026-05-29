@@ -4,6 +4,7 @@ import DetailHeader from "@/components/provider/services-detail/DetailHeader";
 import TransportInfoCards from "@/components/provider/services-detail/TransportInoCard";
 import TransportTicketsTable from "@/components/provider/services-detail/TransportTicketsTable";
 import { useProviderTransportDetail } from "@/hooks/provider/use-provider-services";
+import NotFoundPage from "@/pages/error/NotFoundPage";
 import { useParams } from "react-router-dom";
 
 const ProviderTransportDetailPage = () => {
@@ -11,7 +12,14 @@ const ProviderTransportDetailPage = () => {
     const { id } = useParams();
     const transportId = Number(id);
 
-    const { data, isLoading } = useProviderTransportDetail(transportId);
+    const { data, isLoading, error, isError } = useProviderTransportDetail(transportId);
+
+    if (error?.response?.status === 404 || isError || Number.isNaN(transportId))
+        return (
+            <NotFoundPage />
+        );
+
+
     const transport = data || [];
 
 

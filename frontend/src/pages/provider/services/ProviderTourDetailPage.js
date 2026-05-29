@@ -4,6 +4,7 @@ import DetailHeader from "@/components/provider/services-detail/DetailHeader";
 import TourInfoCards from "@/components/provider/services-detail/TourInfoCard";
 import TourSchedulesTable from "@/components/provider/services-detail/TourSchedulesTable";
 import { useProviderTourDetail } from "@/hooks/provider/use-provider-services";
+import NotFoundPage from "@/pages/error/NotFoundPage";
 import { useParams } from "react-router-dom";
 
 const ProviderTourDetailPage = () => {
@@ -11,7 +12,13 @@ const ProviderTourDetailPage = () => {
     const { id } = useParams();
     const tourId = Number(id);
 
-    const { data, isLoading } = useProviderTourDetail(tourId);
+    const { data, isLoading, error, isError } = useProviderTourDetail(tourId);
+
+    if (error?.response?.status === 404 || isError || Number.isNaN(tourId))
+        return (
+            <NotFoundPage />
+        );
+
 
     const tour = data || [];
 

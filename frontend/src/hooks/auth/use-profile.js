@@ -66,6 +66,7 @@ export const useChangePassword = () => {
 
         },
         onError: (error) => {
+            console.log(error);
             toast.error(error?.response?.data?.message || "Đã có lỗi xảy ra");
         }
     });

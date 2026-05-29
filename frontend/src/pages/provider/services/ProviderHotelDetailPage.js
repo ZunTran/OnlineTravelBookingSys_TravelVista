@@ -4,13 +4,20 @@ import DetailHeader from "@/components/provider/services-detail/DetailHeader";
 import HotelInfoCards from "@/components/provider/services-detail/HotelInfoCard";
 import HotelRoomsTable from "@/components/provider/services-detail/HotelRoomsTable";
 import { useProviderHotelDetail } from "@/hooks/provider/use-provider-services";
+import NotFoundPage from "@/pages/error/NotFoundPage";
 import { useParams } from "react-router-dom";
 
 const ProviderHotelDetailPage = () => {
     const { id } = useParams();
     const hotelId = Number(id);
 
-    const { data, isLoading } = useProviderHotelDetail(hotelId);
+    const { data, isLoading, error, isError } = useProviderHotelDetail(hotelId);
+
+
+    if (error?.response?.status === 404 || isError || Number.isNaN(hotelId))
+        return (
+            <NotFoundPage />
+        );
 
     const hotel = data || [];
 
@@ -31,7 +38,6 @@ const ProviderHotelDetailPage = () => {
                         <HotelRoomsTable rooms={hotel?.rooms || []} />
                     </>
                 )}
-
         </section>
     );
 };

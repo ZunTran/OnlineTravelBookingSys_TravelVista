@@ -9,11 +9,11 @@ export const useRegister = () => {
 
     return useMutation({
         mutationFn: registerApi,
-        onSuccess: (data, variable, context) => {
+        onSuccess: (data) => {
             toast.success(data?.message || "Đăng ký tài khoản thành công")
             navigator('/login');
         },
-        onError: (error, variable, context) => {
+        onError: (error) => {
             toast.error(error.response?.data?.message || "Đã có lỗi xảy ra");
         }
     });
