@@ -1,3 +1,5 @@
+import ServiceImages from "@/components/common/ServicesImage";
+import ServiceImagesSkeleton from "@/components/common/skeleton/ServiceImagesSkeleton";
 import StatsSkeleton from "@/components/common/skeleton/StatsSkeleton";
 import TableSkeleton from "@/components/common/skeleton/TableSkeleton";
 import DetailHeader from "@/components/provider/services-detail/DetailHeader";
@@ -19,7 +21,6 @@ const ProviderTourDetailPage = () => {
             <NotFoundPage />
         );
 
-
     const tour = data || [];
 
 
@@ -31,13 +32,14 @@ const ProviderTourDetailPage = () => {
                 ? (
                     <>
                         <StatsSkeleton length={3} />
+                        <ServiceImagesSkeleton />
                         <TableSkeleton columns={4} />
                     </>
                 )
                 : (
                     <>
                         <TourInfoCards tour={tour} />
-
+                        <ServiceImages images={tour?.images} />
                         <TourSchedulesTable schedules={tour?.schedules || []} />
                     </>
                 )

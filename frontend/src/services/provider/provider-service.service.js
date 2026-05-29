@@ -4,9 +4,8 @@ export const getProviderServicesApi = async (params) => {
     const res = await Apis.get(endpoints.provider.services, {
         params,
     });
-
     return res.data.data;
-}
+};
 
 export const getProviderTourDetailApi = async (id) => {
     const res = await Apis.get(endpoints.provider.tourDetail(id));
@@ -25,3 +24,25 @@ export const getProviderHotelDetailApi = async (id) => {
 
     return res.data.data;
 }
+
+export const createProviderServiceApi = async ({ data, images }) => {
+
+    const formData = new FormData();
+
+    formData.append("data", JSON.stringify(data));
+
+    images.forEach((file) => {
+        formData.append("images", file);
+    });
+
+    const res = await Apis.post(
+        endpoints.provider.services,
+        formData, {
+        headers: {
+            "Content-Type": "multipart/form-data"
+        }
+    }
+    );
+
+    return res.data;
+};

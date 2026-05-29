@@ -1,3 +1,5 @@
+import ServiceImages from "@/components/common/ServicesImage";
+import ServiceImagesSkeleton from "@/components/common/skeleton/ServiceImagesSkeleton";
 import StatsSkeleton from "@/components/common/skeleton/StatsSkeleton";
 import TableSkeleton from "@/components/common/skeleton/TableSkeleton";
 import DetailHeader from "@/components/provider/services-detail/DetailHeader";
@@ -19,7 +21,6 @@ const ProviderTransportDetailPage = () => {
             <NotFoundPage />
         );
 
-
     const transport = data || [];
 
 
@@ -31,12 +32,14 @@ const ProviderTransportDetailPage = () => {
                 ? (
                     <>
                         <StatsSkeleton length={4} />
+                        <ServiceImagesSkeleton />
                         <TableSkeleton columns={6} rows={5} />
                     </>
                 )
                 : (
                     <>
                         <TransportInfoCards transport={transport} />
+                        <ServiceImages images={transport?.images} />
                         <TransportTicketsTable
                             tickets={transport?.tickets || []}
                         />
