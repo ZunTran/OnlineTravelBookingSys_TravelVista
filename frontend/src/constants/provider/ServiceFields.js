@@ -16,9 +16,22 @@ export const TOUR = {
     tourSchedules: [],
 };
 
-export const HOTEL = {
+const HOTEL = {
+    starRating: 5,
     address: "",
-    rooms: [],
+    city: "",
+    checkinTime: "14:00",
+    checkoutTime: "12:00",
+    amenities: "",
+    hotelRooms: [{
+        "roomType": "Phòng Deluxe King VIP",
+        "capacity": 2,
+        "bedType": "1 Giường Cỡ Đại King Size",
+        "roomSizeM2": 45,
+        "roomAmenities": "Bồn tắm nằm, Máy pha cà phê tự động, Mini Bar",
+        "price": 1850000.00,
+        "availableSlots": 5
+    }],
 };
 
 export const EXTRA_FIELDS = {

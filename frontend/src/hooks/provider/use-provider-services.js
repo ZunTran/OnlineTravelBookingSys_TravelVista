@@ -52,6 +52,7 @@ export const useCreateProviderService = () => {
         },
 
         onError: (error) => {
+            console.log(error);
             toast.error(
                 error?.response?.data?.message ||
                 "Tạo dịch vụ thất bại"
