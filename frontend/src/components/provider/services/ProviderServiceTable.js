@@ -38,7 +38,7 @@ const ProviderServiceTable = ({ services = [], onDelete }) => {
                         </TableRow>
                     ) : (
                         services.map((service) =>
-                            <ProviderServiceRow key={services.id} service={service} onDelete={onDelete} />
+                            <ProviderServiceRow key={service.id} service={service} onDelete={onDelete} />
                         )
                     )}
                 </TableBody>

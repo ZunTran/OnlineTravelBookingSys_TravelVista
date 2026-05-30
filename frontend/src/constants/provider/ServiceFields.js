@@ -23,16 +23,17 @@ const HOTEL = {
     checkinTime: "14:00",
     checkoutTime: "12:00",
     amenities: "",
-    hotelRooms: [{
-        "roomType": "Phòng Deluxe King VIP",
-        "capacity": 2,
-        "bedType": "1 Giường Cỡ Đại King Size",
-        "roomSizeM2": 45,
-        "roomAmenities": "Bồn tắm nằm, Máy pha cà phê tự động, Mini Bar",
-        "price": 1850000.00,
-        "availableSlots": 5
-    }],
+    hotelRooms: [],
 };
+
+export const BASE_FIELDS = {
+    name: "",
+    description: "",
+    serviceType: "TRANSPORT",
+    categoryIds: [],
+    action: "DRAFT",
+};
+
 
 export const EXTRA_FIELDS = {
     TRANSPORT,

@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const DetailHeader = ({ title }) => {
+const DetailHeader = ({ title, onOpen }) => {
     const navigate = useNavigate();
 
     return (
@@ -20,7 +20,7 @@ const DetailHeader = ({ title }) => {
                 <h1 className="text-3xl font-bold">{title}</h1>
 
             </div>
-            <Button>Thêm dịch vụ</Button>
+            <Button onClick={onOpen}>Thêm dịch vụ</Button>
 
 
         </div>

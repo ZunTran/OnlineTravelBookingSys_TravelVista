@@ -1,3 +1,4 @@
+import MultiSelect from "@/components/common/MultiSelect";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -18,6 +19,24 @@ const ServiceBaseFields = ({
     handleServiceTypeChange,
     handleChangeFile,
 }) => {
+
+    const categories = [
+        {
+            id: 1,
+            name: "Tour"
+        },
+        {
+            id: 2,
+            name: "Hotel"
+        },
+        {
+            id: 3,
+            name: "Transport"
+        },
+    ];
+
+
+
     return (
         <div className="rounded-xl p-3 space-y-5">
             <div className="grid gap-5 md:grid-cols-2">
@@ -73,12 +92,13 @@ const ServiceBaseFields = ({
 
                 <div className="space-y-2">
                     <Label>Danh mục</Label>
-                    <Input
-                        name="categoryId"
-                        type="number"
-                        value={formService.categoryId}
-                        onChange={handleChange}
-                        placeholder="VD: 3"
+                    <MultiSelect
+                        items={categories}
+                        selectedValues={formService.categoryIds || []}
+                        onChange={(values) => updateField("categoryIds", values)}
+                        labelKey="name"
+                        valueKey="id"
+                        placeholder="Chọn danh mục"
                     />
                 </div>
 

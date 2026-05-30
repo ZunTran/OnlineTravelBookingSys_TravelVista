@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
+import { getServiceImage } from "@/utils/format";
 import { ImageIcon, Pencil, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -55,7 +56,6 @@ const ProviderServiceRow = ({ service, onDelete }) => {
 
             default:
                 break;
-
         }
     };
 
@@ -68,12 +68,16 @@ const ProviderServiceRow = ({ service, onDelete }) => {
 
     return (
         <TableRow key={service.id} >
-            <TableCell onClick={() => handleDetail} className="hover:cursor-pointer">
+            <TableCell className="hover:cursor-pointer">
                 {imageUrl ? (
                     <img
-                        src={imageUrl}
+                        src={getServiceImage(service)}
                         alt={service.name}
                         className="h-14 w-20 rounded-lg object-cover"
+                        loading="lazy"
+                        onError={(e) => {
+                            e.currentTarget.src = "/defaultProduct.png"
+                        }}
                     />
                 ) : (
                     <div className="flex h-14 w-20 items-center justify-center rounded-lg bg-muted text-muted-foreground">

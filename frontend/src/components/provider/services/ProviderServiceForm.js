@@ -1,7 +1,7 @@
-import HotelServiceFields from "@/components/provider/services/services-form/HotelServicesFields";
-import ServiceBaseFields from "@/components/provider/services/services-form/ServiceBaseFields";
-import TourServiceFields from "@/components/provider/services/services-form/TourServiceFields";
-import TransportServiceFields from "@/components/provider/services/services-form/TransportServiceFields";
+import HotelServiceFields from "@/components/provider/services/form/HotelServicesFields";
+import ServiceBaseFields from "@/components/provider/services/form/ServiceBaseFields";
+import TourServiceFields from "@/components/provider/services/form/TourServiceFields";
+import TransportServiceFields from "@/components/provider/services/form/TransportServiceFields";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 
@@ -18,7 +18,8 @@ const ProviderServiceForm = (
         handleChangeFile,
 
         onSubmit,
-        isLoading, }
+        isLoading,
+    }
 ) => {
 
     return (
@@ -52,7 +53,7 @@ const ProviderServiceForm = (
                     handleChange={handleChange}
                 />
             )}
-            <div className="flex justify-end">
+            <div className="flex justify-end ">
                 <Button type="submit" disabled={isLoading}>
                     {isLoading ? <Spinner /> : "Lưu dịch vụ"}
                 </Button>

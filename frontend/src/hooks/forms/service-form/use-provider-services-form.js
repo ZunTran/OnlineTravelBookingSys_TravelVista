@@ -1,14 +1,8 @@
-import { EXTRA_FIELDS } from "@/constants/provider/ServiceFields";
+import { BASE_FIELDS, EXTRA_FIELDS } from "@/constants/provider/ServiceFields";
 import { useState } from "react";
 import { toast } from "sonner";
 
-const BASE_FIELDS = {
-    name: "",
-    description: "",
-    serviceType: "TRANSPORT",
-    categoryId: "",
-    action: "DRAFT",
-};
+
 
 const getInitialState = (serviceType = "TRANSPORT", extraFields = {}) => {
 
@@ -49,7 +43,7 @@ const useProviderServiceForm = (extraFields = {}) => {
             getInitialState(serviceType, {
                 name: prev.name,
                 description: prev.description,
-                categoryId: prev.categoryId,
+                categoryIds: prev.categoryIds,
                 action: prev.action,
             })
         );

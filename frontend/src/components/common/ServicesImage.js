@@ -32,12 +32,13 @@ const ServiceImages = ({ images = [], title = "Ảnh dịch vụ" }) => {
 
     return (
         <div className="space-y-4">
-            <img
-                src={thumbnail}
-                alt={title}
-                className="h-72 w-full rounded-xl object-cover md:h-96"
-            />
-
+            <div className="overflow-hidden rounded-xl border bg-muted">
+                <img
+                    src={thumbnail}
+                    alt={title}
+                    className="h-72 w-full object-contain md:h-96"
+                />
+            </div>
             {normalizedImages.length > 1 && (
                 <div className="grid grid-cols-4 gap-3">
                     {normalizedImages.map((image, index) => (

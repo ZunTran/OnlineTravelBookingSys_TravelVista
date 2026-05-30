@@ -8,14 +8,16 @@ import { Button } from "@/components/ui/button";
 import {
     Dialog,
     DialogContent,
+    DialogDescription,
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
 import useProviderServiceForm from "@/hooks/forms/service-form/use-provider-services-form";
 import { useCreateProviderService, useProviderServices } from "@/hooks/provider/use-provider-services";
-import { normalizeHotelTime } from "@/utils/format-time";
+import { normalizeHotelTime } from "@/utils/format";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { toast } from "sonner";
 
 const ProviderServicesPage = () => {
     const [open, setOpen] = useState(false);
@@ -27,7 +29,6 @@ const ProviderServicesPage = () => {
         handleServiceTypeChange,
         handleChangeFile,
         resetForm,
-
     } = useProviderServiceForm();
     const [searchParams, setSearchParams] = useSearchParams();
 
@@ -53,11 +54,8 @@ const ProviderServicesPage = () => {
         }
 
         params.set("page", "1");
-
         setSearchParams(params);
     };
-
-
 
     const handlePageChange = (newPage) => {
         const pageValue =
@@ -78,13 +76,14 @@ const ProviderServicesPage = () => {
     const createServiceMutation = useCreateProviderService();
     const isCreating = createServiceMutation.isPending;
 
-
-    const payload = {
-        ...formProviderService,
-        checkinTime: normalizeHotelTime(formProviderService.checkinTime),
-        checkoutTime: normalizeHotelTime(formProviderService.checkoutTime),
-    };
-
+    const payload =
+        formProviderService.serviceType === "HOTEL"
+            ? {
+                ...formProviderService,
+                checkinTime: normalizeHotelTime(formProviderService.checkinTime),
+                checkoutTime: normalizeHotelTime(formProviderService.checkoutTime),
+            }
+            : formProviderService;
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -101,6 +100,8 @@ const ProviderServicesPage = () => {
             }
         );
     };
+
+
     return (
         <section className="space-y-6">
             {isCreating && <Loading content={"Đang tạo..."} />}
@@ -133,7 +134,7 @@ const ProviderServicesPage = () => {
                     <ProviderServiceTable
                         services={services}
                         onEdit={(service) => console.log(service)}
-                        onDelete={(id) => console.log(id)}
+                        onDelete={() => toast.info("comming soon")}
                     />
                 </>
             )}
@@ -152,6 +153,7 @@ const ProviderServicesPage = () => {
                             Thêm dịch vụ
                         </DialogTitle>
                     </DialogHeader>
+                    <DialogDescription>Thêm mới một dịch vụ</DialogDescription>
 
                     <ProviderServiceForm
                         formService={formProviderService}
