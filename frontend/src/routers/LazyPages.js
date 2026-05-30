@@ -12,7 +12,7 @@ export const UserSecurityPage = lazy(() => import("@/pages/user/UserSecurityPage
 
 
 export const ProviderHomePage = lazy(() => import("@/pages/provider/ProviderHomePage"));
-export const ProviderServicesPage = lazy(() => import("@/pages/provider/services/ProviderServicesPage"))
+export const ProviderServicesPage = lazy(() => import("@/pages/provider/ProviderServicesPage"))
 export const ProviderHotelDetailPage = lazy(() => import("@/pages/provider/services/ProviderHotelDetailPage"));
 export const ProviderTransportDetailPage = lazy(() => import("@/pages/provider/services/ProviderTransportDetailPage"));
 export const ProviderTourDetailPage = lazy(() => import("@/pages/provider/services/ProviderTourDetailPage"));
