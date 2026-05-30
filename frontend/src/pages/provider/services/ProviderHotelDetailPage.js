@@ -14,7 +14,6 @@ import { useProviderHotelDetail } from "@/hooks/provider/use-provider-service";
 import NotFoundPage from "@/pages/error/NotFoundPage";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { toast } from "sonner";
 
 
 const initialHotelRoom = {
@@ -48,6 +47,8 @@ const ProviderHotelDetailPage = () => {
         );
 
     const hotel = data || [];
+
+
 
     const payload = {
         serviceType: "HOTEL",

@@ -7,6 +7,28 @@ export const getProviderServicesApi = async (params) => {
     return res.data.data;
 };
 
+export const updateProviderServicesApi = async ({ id, params = {}, formData = null, }) => {
+    const body = new FormData();
+
+    if (formData) {
+        body.append("data", JSON.stringify(formData));
+    }
+
+    const res = await Apis.patch(endpoints.provider.updateService(id), body,
+        {
+            params
+        }
+    );
+
+    console.log(
+        endpoints.provider.updateService(id),
+        body,
+        { params }
+    );
+
+    return res.data;
+};
+
 export const getProviderTourDetailApi = async (id) => {
     const res = await Apis.get(endpoints.provider.tourDetail(id));
 
