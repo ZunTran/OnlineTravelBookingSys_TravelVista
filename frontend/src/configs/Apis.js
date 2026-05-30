@@ -15,6 +15,7 @@ export const endpoints = {
 
     provider: {
         services: "/api/provider/services",
+        updateService: (id) => `/api/provider/services/${id}`,
         tourDetail: (id) => `/api/provider/services/${id}/tours`,
         hotelDetail: (id) => `/api/provider/services/${id}/hotels`,
         transportDetail: (id) => `/api/provider/services/${id}/transports`,

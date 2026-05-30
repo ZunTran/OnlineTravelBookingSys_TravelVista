@@ -2,34 +2,34 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { getServiceImage } from "@/utils/format";
-import { ImageIcon, Pencil, Trash2 } from "lucide-react";
+import { ImageIcon, Lock, LockOpen, Pencil, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const SERVICE_STATUS = {
     DRAFT: {
-        label: "Bản nháp",
+        label: "DRAFT",
         variant: "secondary",
         className: "bg-yellow-200"
     },
     ACTIVATE: {
-        label: "Đang hoạt động",
+        label: "ACTIVATE",
         variant: "default",
         className: "bg-green-500"
     },
     SUSPENDED: {
-        label: "Tạm khóa",
+        label: "SUSPENDED",
         variant: "destructive",
         className: "bg-red-500 text-white"
     },
     DELETED: {
-        label: "Đã xóa",
+        label: "DELETED",
         variant: "outline",
     },
 };
 
 
 
-const ProviderServiceRow = ({ service, onDelete }) => {
+const ProviderServiceRow = ({ service, onDelete, onUpdateStatus }) => {
     const navigate = useNavigate();
 
     const handleDetail = (service) => {
@@ -64,6 +64,7 @@ const ProviderServiceRow = ({ service, onDelete }) => {
             label: service.status,
             variant: "outline",
         };
+
     const imageUrl = service.images?.[0];
 
     return (
@@ -106,6 +107,17 @@ const ProviderServiceRow = ({ service, onDelete }) => {
 
             <TableCell className="text-right">
                 <div className="flex justify-end gap-4">
+                    <Button
+                        size="icon"
+                        variant="ghost"
+                        onClick={() => onUpdateStatus(Number(service.id), service.status)}
+                    >
+                        {service.status === "ACTIVATE"
+                            ? <LockOpen className="h-5 w-5" />
+                            : <Lock className="h-5 w-5" />
+                        }
+                    </Button>
+
                     <Button
                         size="icon"
                         variant="ghost"

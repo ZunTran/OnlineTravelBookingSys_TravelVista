@@ -11,7 +11,6 @@ const ProviderHomePage = () => {
 
     const services = data?.content || [];
 
-
     const active = services.filter(
         (item) => item.status === "ACTIVATE"
     ).length;

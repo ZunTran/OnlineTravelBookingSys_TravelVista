@@ -13,7 +13,7 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import useProviderServiceForm from "@/hooks/forms/service-form/use-provider-services-form";
-import { useCreateProviderService, useProviderServices } from "@/hooks/provider/use-provider-service";
+import { useCreateProviderService, useProviderServices, useUpdateProviderService } from "@/hooks/provider/use-provider-service";
 import { normalizeHotelTime } from "@/utils/format";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
@@ -40,9 +40,26 @@ const ProviderServicesPage = () => {
         categoryId: searchParams.get("categoryId") || undefined,
     };
 
-    const { data, isLoading } = useProviderServices(filters);
 
+    const { data, isLoading } = useProviderServices(filters);
     const services = data?.content || [];
+
+    const createServiceMutation = useCreateProviderService();
+    const isCreating = createServiceMutation.isPending;
+
+    const updateStatusMutation = useUpdateProviderService();
+    const isUpdating = updateStatusMutation.isPending;
+
+    const payload =
+        formProviderService.serviceType === "HOTEL"
+            ? {
+                ...formProviderService,
+                checkinTime: normalizeHotelTime(formProviderService.checkinTime),
+                checkoutTime: normalizeHotelTime(formProviderService.checkoutTime),
+            }
+            : formProviderService;
+
+
 
     const handleFilterChange = (key, value) => {
         const params = new URLSearchParams(searchParams);
@@ -69,21 +86,6 @@ const ProviderServicesPage = () => {
 
         setSearchParams(params);
     };
-    const handleAdd = () => {
-        setOpen(true);
-    };
-
-    const createServiceMutation = useCreateProviderService();
-    const isCreating = createServiceMutation.isPending;
-
-    const payload =
-        formProviderService.serviceType === "HOTEL"
-            ? {
-                ...formProviderService,
-                checkinTime: normalizeHotelTime(formProviderService.checkinTime),
-                checkoutTime: normalizeHotelTime(formProviderService.checkoutTime),
-            }
-            : formProviderService;
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -101,10 +103,28 @@ const ProviderServicesPage = () => {
         );
     };
 
+    const handleUpdateStatus = (id, currentStatus) => {
+        if (currentStatus === "DRAFT" || currentStatus === "DELETED") {
+            toast.warning(`Không thể thay đổi khi ở trạng thái ${currentStatus}`)
+            return;
+        }
+
+        updateStatusMutation.mutate({
+            id,
+            params: {
+                status:
+                    currentStatus === "ACTIVATE"
+                        ? "SUSPENDED"
+                        : "ACTIVATE",
+            },
+            formData: null,
+        });
+    };
+
 
     return (
         <section className="space-y-6">
-            {isCreating && <Loading content={"Đang tạo..."} />}
+            {(isCreating || isUpdating) && <Loading content={"Đang xử lý..."} />}
 
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div>
@@ -116,7 +136,7 @@ const ProviderServicesPage = () => {
                     </p>
                 </div>
 
-                <Button onClick={handleAdd}>
+                <Button onClick={() => setOpen(true)}>
                     Thêm dịch vụ
                 </Button>
             </div>
@@ -135,6 +155,7 @@ const ProviderServicesPage = () => {
                         services={services}
                         onEdit={(service) => console.log(service)}
                         onDelete={() => toast.info("comming soon")}
+                        onUpdateStatus={handleUpdateStatus}
                     />
                 </>
             )}
@@ -158,10 +179,10 @@ const ProviderServicesPage = () => {
                     <ProviderServiceForm
                         formService={formProviderService}
                         images={images}
-                        handleChange={handleChange}
+                        onChange={handleChange}
                         updateField={updateField}
-                        handleServiceTypeChange={handleServiceTypeChange}
-                        handleChangeFile={handleChangeFile}
+                        onServiceTypeChange={handleServiceTypeChange}
+                        onChangefile={handleChangeFile}
                         onSubmit={handleSubmit}
                         isLoading={isCreating}
                     />

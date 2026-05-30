@@ -1,6 +1,7 @@
-import { createProviderServiceApi, getProviderHotelDetailApi, getProviderServicesApi, getProviderTourDetailApi, getProviderTransportApi } from "@/services/provider/provider-service.service"
+import { createProviderServiceApi, getProviderHotelDetailApi, getProviderServicesApi, getProviderTourDetailApi, getProviderTransportApi, updateProviderServicesApi } from "@/services/provider/provider-service.service"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner";
+
 
 export const useProviderServices = (params) => {
     return useQuery({
@@ -59,3 +60,27 @@ export const useCreateProviderService = () => {
         },
     });
 };
+
+
+export const useUpdateProviderService = (params) => {
+
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: updateProviderServicesApi,
+
+        onSuccess: (data) => {
+            console.log(data);
+            toast.success(data?.response || "Đổi trạng thái thành công");
+
+            queryClient.invalidateQueries({
+                queryKey: ["provider-services", params]
+            });
+        },
+        onError: (error) => {
+            console.log(error);
+            toast.error(error?.response?.data?.message || "Đã có lỗi xảy ra");
+        }
+
+    });
+}
