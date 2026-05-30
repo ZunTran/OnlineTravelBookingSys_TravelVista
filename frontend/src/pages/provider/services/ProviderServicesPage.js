@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import useProviderServiceForm from "@/hooks/forms/service-form/use-provider-services-form";
 import { useCreateProviderService, useProviderServices } from "@/hooks/provider/use-provider-services";
+import { normalizeHotelTime } from "@/utils/format-time";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
@@ -77,12 +78,19 @@ const ProviderServicesPage = () => {
     const createServiceMutation = useCreateProviderService();
     const isCreating = createServiceMutation.isPending;
 
+
+    const payload = {
+        ...formProviderService,
+        checkinTime: normalizeHotelTime(formProviderService.checkinTime),
+        checkoutTime: normalizeHotelTime(formProviderService.checkoutTime),
+    };
+
+
     const handleSubmit = (e) => {
         e.preventDefault();
-
         createServiceMutation.mutate(
             {
-                data: formProviderService,
+                data: payload,
                 images,
             },
             {

@@ -8,14 +8,17 @@ const SERVICE_STATUS = {
     DRAFT: {
         label: "Bản nháp",
         variant: "secondary",
+        className: "bg-yellow-200"
     },
     ACTIVATE: {
         label: "Đang hoạt động",
         variant: "default",
+        className: "bg-green-500"
     },
     SUSPENDED: {
         label: "Tạm khóa",
         variant: "destructive",
+        className: "bg-red-500 text-white"
     },
     DELETED: {
         label: "Đã xóa",
@@ -88,7 +91,7 @@ const ProviderServiceRow = ({ service, onDelete }) => {
             <TableCell>{service.serviceType}</TableCell>
 
             <TableCell>
-                <Badge variant={status.variant}>
+                <Badge variant={status.variant} className={`${status.className}`}>
                     {status.label}
                 </Badge>
             </TableCell>
