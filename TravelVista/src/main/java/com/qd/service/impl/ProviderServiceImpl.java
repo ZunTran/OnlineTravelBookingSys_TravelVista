@@ -148,15 +148,29 @@ public class ProviderServiceImpl implements ProviderService {
         service.setStatus(status);
         service.setCreatedAt(new Date());
 
-        if (req.getCategoryId() != null) {
-            Categories cat = providerRepository.getCategoryById(req.getCategoryId());
-            if (cat != null) {
-                Set<Categories> catSet = new HashSet<>();
-                catSet.add(cat);
-                service.setCategoriesSet(catSet);
+        if (req.getCategoryIds() != null && !req.getCategoryIds().isEmpty()) {
+            Set<Categories> categoriesSet = new HashSet<>();
+            
+            for (Long cateId : req.getCategoryIds()) {
+                Categories cate = providerRepository.getCategoryById(cateId); // Gọi Repo lấy danh mục lên
+                if (cate != null) {
+                    if (!cate.getServiceType().equals(type)) {
+                        throw new RuntimeException("Vi phạm logic dữ liệu: Danh mục " + cate.getName() 
+                                + " có kiểu: " + cate.getServiceType() 
+                                + " Không trùng khớp với dịch vụ bạn đang khởi tạo: " + type + "!");
+                    }
+                    
+                    if (cate.getServicesSet() == null) {
+                        cate.setServicesSet(new HashSet<>());
+                    }
+                    cate.getServicesSet().add(service);
+                    categoriesSet.add(cate);
+                }
             }
+            service.setCategoriesSet(categoriesSet);
+            providerRepository.saveService(service);
+
         }
-        providerRepository.saveService(service);
 
         if (files != null && files.length > 0) {
             boolean isFirstImage = true;
@@ -449,8 +463,7 @@ public class ProviderServiceImpl implements ProviderService {
             if (sellableItemsSet != null && !sellableItemsSet.isEmpty()) {
                 for (SellableItems item : sellableItemsSet) {
                     
-                    // 🔒 CHỐT CHẶN BẢO HIỂM: Chỉ hồi sinh những gói con bị khóa tự động theo cha
-                    // Nếu gói nào trước đó bị Provider chủ động khóa lẻ (hoặc dính dớp hỏng hóc) thì giữ nguyên SUSPENDED!
+                    // Nếu gói nào trước đó bị Provider chủ động khóathì giữ SUSPENDED
                     if (ItemStatus.SUSPENDED.equals(item.getItemStatus()) || item.getItemStatus() == null) {
                         if (item.getAvailableSlots() > 0) {
                             item.setItemStatus(ItemStatus.AVAILABLE); // Còn chỗ trống ──► Bật AVAILABLE mở bán!
@@ -481,6 +494,27 @@ public class ProviderServiceImpl implements ProviderService {
         service.setUpdatedAt(new Date());
         service.setStatus(ServiceStatus.ACTIVATE); 
         providerRepository.updateService(service);
+
+        if (req.getCategoryIds() != null) {
+            Set<Categories> categoriesSet = new java.util.HashSet<>();
+            
+            for (Long cateId : req.getCategoryIds()) {
+                Categories cate = providerRepository.getCategoryById(cateId);
+                if (cate != null) {
+                    if (!cate.getServiceType().equals(type)) {
+                        throw new RuntimeException("Lỗi cấu trúc: Danh mục [ID: " + cateId + " - " + cate.getName() 
+                                + "] thuộc phân hệ " + cate.getServiceType() + " không được phép gán vào dịch vụ kiểu " + type + "!");
+                    }
+                    if (cate.getServicesSet() == null) {
+                        cate.setServicesSet(new java.util.HashSet<>());
+                    }
+                    cate.getServicesSet().add(service);
+                    categoriesSet.add(cate);
+                }
+            }
+            service.setCategoriesSet(categoriesSet);
+        }
+
 
         if (type == ServiceType.TOUR && req instanceof TourComprehensiveRequest) {
             TourComprehensiveRequest tourReq = (TourComprehensiveRequest) req;
