@@ -18,6 +18,10 @@ export const endpoints = {
         tourDetail: (id) => `/api/provider/services/${id}/tours`,
         hotelDetail: (id) => `/api/provider/services/${id}/hotels`,
         transportDetail: (id) => `/api/provider/services/${id}/transports`,
+        createDetailServices: (id, serviceType) => {
+            const type = serviceType.toLowerCase();
+            return `/api/provider/services/${id}/${type}`
+        },
 
     },
 
@@ -38,6 +42,7 @@ Apis.interceptors.request.use(
 
         if (token)
             config.headers.Authorization = `Bearer ${token}`;
+
 
         return config;
 

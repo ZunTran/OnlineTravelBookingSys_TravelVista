@@ -27,22 +27,28 @@ export const getProviderHotelDetailApi = async (id) => {
 
 export const createProviderServiceApi = async ({ data, images }) => {
 
-    const formData = new FormData();
+    const body = new FormData();
 
-    formData.append("data", JSON.stringify(data));
+    body.append("data", JSON.stringify(data));
 
     images.forEach((file) => {
-        formData.append("images", file);
+        body.append("images", file);
     });
 
     const res = await Apis.post(
-        endpoints.provider.services,
-        formData, {
-        headers: {
-            "Content-Type": "multipart/form-data"
-        }
-    }
-    );
+        endpoints.provider.services, body);
 
     return res.data;
 };
+
+export const createProviderDetailServiceApi = async ({ id, serviceType, data }) => {
+
+    const body = new FormData();
+
+    body.append("data", JSON.stringify(data));
+
+    const res = await Apis.post(
+        endpoints.provider.createDetailServices(id, serviceType), body);
+
+    return res.data;
+}

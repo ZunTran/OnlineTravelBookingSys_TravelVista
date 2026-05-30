@@ -1,6 +1,6 @@
 import StatsSkeleton from "@/components/common/skeleton/StatsSkeleton";
 import ProviderServiceStats from "@/components/provider/services/ProviderServiceStats";
-import { useProviderServices } from "@/hooks/provider/use-provider-services";
+import { useProviderServices } from "@/hooks/provider/use-provider-service";
 
 const ProviderHomePage = () => {
 

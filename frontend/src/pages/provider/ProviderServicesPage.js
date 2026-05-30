@@ -13,7 +13,7 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import useProviderServiceForm from "@/hooks/forms/service-form/use-provider-services-form";
-import { useCreateProviderService, useProviderServices } from "@/hooks/provider/use-provider-services";
+import { useCreateProviderService, useProviderServices } from "@/hooks/provider/use-provider-service";
 import { normalizeHotelTime } from "@/utils/format";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";

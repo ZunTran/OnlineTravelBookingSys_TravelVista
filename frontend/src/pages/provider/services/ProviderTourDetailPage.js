@@ -1,35 +1,78 @@
+import Loading from "@/components/common/Loading";
 import ServiceImages from "@/components/common/ServicesImage";
 import ServiceImagesSkeleton from "@/components/common/skeleton/ServiceImagesSkeleton";
 import StatsSkeleton from "@/components/common/skeleton/StatsSkeleton";
 import TableSkeleton from "@/components/common/skeleton/TableSkeleton";
 import DetailHeader from "@/components/provider/services/detail/DetailHeader";
+import TourScheduleForm from "@/components/provider/services/detail/form/TourScheduleForm";
 import TourInfoCards from "@/components/provider/services/detail/TourInfoCard";
 import TourSchedulesTable from "@/components/provider/services/detail/TourSchedulesTable";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useProviderTourDetail } from "@/hooks/provider/use-provider-services";
+import useServiceDetailForm from "@/hooks/forms/service-form/use-service-detail-form";
+import { useCreateProviderDetailService } from "@/hooks/provider/use-provider-detail-service";
+import { useProviderTourDetail } from "@/hooks/provider/use-provider-service";
 import NotFoundPage from "@/pages/error/NotFoundPage";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 
+
+const initialTourSchedule = {
+    departureTime: "",
+    returnTime: "",
+    maxParticipants: 0,
+    price: 0,
+    availableSlots: 0,
+};
+
+
 const ProviderTourDetailPage = () => {
 
+    const { formData, handleChange, resetForm, setFormData } = useServiceDetailForm(initialTourSchedule);
     const [open, setOpen] = useState(false);
     const { id } = useParams();
     const tourId = Number(id);
 
     const { data, isLoading, error, isError } = useProviderTourDetail(tourId);
 
+    const createScheduleMutation = useCreateProviderDetailService();
+    const isCreating = createScheduleMutation.isPending;
+
+
     if (error?.response?.status === 404 || isError || Number.isNaN(tourId))
         return (
             <NotFoundPage />
         );
 
+
     const tour = data || [];
 
+    const payload = {
+        serviceType: "TOUR",
+        tourSchedules: [
+            formData
+        ],
+    }
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        createScheduleMutation.mutate({
+            id: tourId,
+            serviceType: 'TOUR',
+            data: payload
+        }, {
+            onSuccess: () => {
+                setOpen(false);
+                resetForm();
+            }
+        })
+    }
 
     return (
         <section className="space-y-6">
-            <DetailHeader title={tour?.name} onOpen={() => setOpen(true)} />
+
+            {isCreating && <Loading content={"Đang tạo..."} />}
+
+            <DetailHeader title={tour?.name} onOpen={setOpen} />
 
             {isLoading
                 ? (
@@ -56,7 +99,15 @@ const ProviderTourDetailPage = () => {
                         </DialogTitle>
                     </DialogHeader>
 
-                    {/* <HotelRoomForm /> */}
+                    <TourScheduleForm
+                        formData={formData}
+                        setFormData={setFormData}
+                        handleChange={handleChange}
+                        durationDays={tour.durationDays || 2}
+                        durationNights={tour.durationNights || 1}
+                        onSubmit={handleSubmit}
+                        isLoading={isCreating}
+                    />
                 </DialogContent>
             </Dialog>
 

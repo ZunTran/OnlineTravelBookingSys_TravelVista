@@ -12,7 +12,7 @@ export const useProviderServices = (params) => {
 
 export const useProviderHotelDetail = (id) => {
     return useQuery({
-        queryKey: ["provider-hotel-detail", id],
+        queryKey: ["provider-service-detail", "HOTEL", id],
         queryFn: () => getProviderHotelDetailApi(id),
         enabled: Number.isFinite(id),
         retry: false,
@@ -21,7 +21,7 @@ export const useProviderHotelDetail = (id) => {
 
 export const useProviderTransportDetail = (id) => {
     return useQuery({
-        queryKey: ["provider-transport-detail", id],
+        queryKey: ["provider-service-detail", "TRANSPORT", id],
         queryFn: () => getProviderTransportApi(id),
         enabled: Number.isFinite(id),
         retry: false,
@@ -30,7 +30,7 @@ export const useProviderTransportDetail = (id) => {
 
 export const useProviderTourDetail = (id) => {
     return useQuery({
-        queryKey: ["provider-tour-detail", id],
+        queryKey: ["provider-service-detail", "TOUR", id],
         queryFn: () => getProviderTourDetailApi(id),
         enabled: Number.isFinite(id),
         retry: false,
@@ -52,10 +52,9 @@ export const useCreateProviderService = () => {
         },
 
         onError: (error) => {
-            console.log(error);
             toast.error(
                 error?.response?.data?.message ||
-                "Tạo dịch vụ thất bại"
+                "Đã có lỗi xảy ra"
             );
         },
     });
