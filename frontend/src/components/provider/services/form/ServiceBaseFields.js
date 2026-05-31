@@ -14,10 +14,10 @@ const ServiceBaseFields = ({
     formService,
     images,
 
-    handleChange,
+    onChange,
     updateField,
-    handleServiceTypeChange,
-    handleChangeFile,
+    onServiceTypeChange,
+    onChangeFile,
 }) => {
 
     const categories = [
@@ -45,7 +45,7 @@ const ServiceBaseFields = ({
                     <Input
                         name="name"
                         value={formService.name}
-                        onChange={handleChange}
+                        onChange={onChange}
                         placeholder="Nhập tên dịch vụ"
                     />
                 </div>
@@ -54,7 +54,7 @@ const ServiceBaseFields = ({
                     <Label>Loại dịch vụ</Label>
                     <Select
                         value={formService.serviceType}
-                        onValueChange={handleServiceTypeChange}
+                        onValueChange={onServiceTypeChange}
                     >
                         <SelectTrigger className="bg-white">
                             <SelectValue placeholder="Chọn loại dịch vụ" />
@@ -107,7 +107,7 @@ const ServiceBaseFields = ({
                     <textarea
                         name="description"
                         value={formService.description}
-                        onChange={handleChange}
+                        onChange={onChange}
                         rows={4}
                         placeholder="Nhập mô tả dịch vụ"
                         className="w-full resize-none rounded-md border bg-white px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring"
@@ -120,7 +120,7 @@ const ServiceBaseFields = ({
                         type="file"
                         multiple
                         accept="image/*"
-                        onChange={handleChangeFile}
+                        onChange={onChangeFile}
                         required
                     />
 

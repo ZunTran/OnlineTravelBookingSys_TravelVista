@@ -27,30 +27,30 @@ const ProviderServiceForm = (
             <ServiceBaseFields
                 formService={formService}
                 images={images}
-                handleChange={onChange}
+                onChange={onChange}
                 updateField={updateField}
-                handleServiceTypeChange={onServiceTypeChange}
-                handleChangeFile={onChangeFile}
+                onServiceTypeChange={onServiceTypeChange}
+                onChangeFile={onChangeFile}
             />
 
             {formService.serviceType === "TRANSPORT" && (
                 <TransportServiceFields
                     formService={formService}
-                    handleChange={onChange}
+                    onChange={onChange}
                 />
             )}
 
             {formService.serviceType === "TOUR" && (
                 <TourServiceFields
                     formService={formService}
-                    handleChange={onChange}
+                    onChange={onChange}
                 />
             )}
 
             {formService.serviceType === "HOTEL" && (
                 <HotelServiceFields
                     formService={formService}
-                    handleChange={onChange}
+                    onChange={onChange}
                 />
             )}
             <div className="flex justify-end ">

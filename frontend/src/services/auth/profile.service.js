@@ -2,15 +2,14 @@ import Apis, { endpoints } from "@/configs/Apis";
 
 
 export const getProfileApi = async () => {
-    const res = await Apis.get(endpoints.profile.get);
+    const res = await Apis.get(endpoints.auth.profile);
 
     return res.data;
 }
 
 export const profileApi = async (formData) => {
     const body = JSON.stringify(formData);
-
-    const res = await Apis.put(endpoints.profile.update, body, {
+    const res = await Apis.put(endpoints.auth.profile, body, {
         headers: {
             'Content-Type': "application/json",
         }
@@ -25,7 +24,7 @@ export const avatarApi = async (file) => {
 
     body.append("avatar", file);
 
-    const res = await Apis.patch(endpoints.profile.update, body, {
+    const res = await Apis.patch(endpoints.auth.profile, body, {
         headers: {
             'Content-Type': "multipart/formdata",
         }
@@ -37,7 +36,7 @@ export const avatarApi = async (file) => {
 export const passwordApi = async (data) => {
     const body = JSON.stringify(data);
 
-    const res = await Apis.put(endpoints.profile.password, body, {
+    const res = await Apis.put(endpoints.auth.password, body, {
         headers: {
             'Content-Type': "application/json",
         }

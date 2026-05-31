@@ -22,9 +22,7 @@ const ChangePasswordForm = () => {
             toast.error("Mật khẩu mới và xác nhận mật khẩu không khớp");
             return;
         }
-
         passwordMutation.mutate(formPassword);
-
 
     }
 

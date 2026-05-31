@@ -5,31 +5,26 @@ export const endpoints = {
     auth: {
         register: "/api/auth/register",
         login: "/api/auth/login",
-    },
-
-    profile: {
-        get: "/api/auth/profile",
-        update: "/api/auth/profile/update",
+        profile: "/api/auth/profile",
         password: "/api/auth/profile/password",
+
     },
 
     provider: {
-        services: "/api/provider/services",
-        updateService: (id) => `/api/provider/services/${id}`,
-        tourDetail: (id) => `/api/provider/services/${id}/tours`,
-        hotelDetail: (id) => `/api/provider/services/${id}/hotels`,
-        transportDetail: (id) => `/api/provider/services/${id}/transports`,
-        createDetailServices: (id, serviceType) => {
-            const type = serviceType.toLowerCase();
-            return `/api/provider/services/${id}/${type}`
-        },
-
+        services: {
+            base: "/api/provider/services",
+            info: (id) => `/api/provider/services/${id}`,
+            detail: (id, serviceType) => `/api/provider/services/${id}/${serviceType.toLowerCase()}`,
+        }
     },
 
-    user: {
 
-    },
+    services: {
+        list: "/api/services"
+    }
 };
+
+
 
 const BASE_URL = process.env.REACT_APP_API_URL;
 

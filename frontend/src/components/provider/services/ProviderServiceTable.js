@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/table";
 
 
-const ProviderServiceTable = ({ services = [], onDelete, onUpdateStatus }) => {
+const ProviderServiceTable = ({ services = [], onDelete, onUpdateStatus, onEdit }) => {
 
 
     return (
@@ -42,6 +42,7 @@ const ProviderServiceTable = ({ services = [], onDelete, onUpdateStatus }) => {
                                 key={service.id}
                                 service={service}
                                 onDelete={onDelete}
+                                onEdit={onEdit}
                                 onUpdateStatus={onUpdateStatus}
                             />
                         )
