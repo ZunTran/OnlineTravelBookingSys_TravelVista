@@ -17,7 +17,7 @@ export const useProviderHotelDetail = (id) => {
     return useQuery({
         queryKey: ["provider-service-detail", "HOTEL", id],
         queryFn: () => getProviderHotelDetailApi(id),
-        enabled: Number.isFinite(id),
+        enabled: Number.isFinite(id) || id > 1,
         retry: false,
     });
 };
@@ -26,7 +26,7 @@ export const useProviderTransportDetail = (id) => {
     return useQuery({
         queryKey: ["provider-service-detail", "TRANSPORT", id],
         queryFn: () => getProviderTransportApi(id),
-        enabled: Number.isFinite(id),
+        enabled: Number.isFinite(id) || id > 1,
         retry: false,
     });
 };
@@ -35,7 +35,7 @@ export const useProviderTourDetail = (id) => {
     return useQuery({
         queryKey: ["provider-service-detail", "TOUR", id],
         queryFn: () => getProviderTourDetailApi(id),
-        enabled: Number.isFinite(id),
+        enabled: Number.isFinite(id) || id > 1,
         retry: false,
     });
 }

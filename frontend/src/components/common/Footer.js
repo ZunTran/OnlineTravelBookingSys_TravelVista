@@ -87,7 +87,6 @@ const Footer = () => {
                         </ul>
                     </div>
 
-                    {/* Company */}
                     <div className="flex-1 min-w-[180px]">
                         <h4 className="text-sm font-semibold uppercase tracking-wider mb-4">
                             Company
@@ -126,8 +125,8 @@ const Footer = () => {
 
                 <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-6 text-sm text-muted-foreground">
 
-                    <p className="flex">
-                        &copy; 2026 <p className="text-green-500"> &nbsp;Han&nbsp;</p> - Travel Vista. All rights reserved.
+                    <p className="flex items-center">
+                        &copy; 2026 <span className="text-green-500 font-medium">&nbsp;Han&nbsp;</span> - Travel Vista. All rights reserved.
                     </p>
 
                     <div className="flex items-center gap-6">

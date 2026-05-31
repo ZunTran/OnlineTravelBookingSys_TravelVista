@@ -1,4 +1,4 @@
-import { SERVICE_TYPES } from "@/constants/provider/FilterMenu";
+import { SERVICE_TYPES } from "@/constants/FilterMenu";
 
 export const getServiceTypeLabel = (type) => {
     return (

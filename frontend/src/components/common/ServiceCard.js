@@ -3,10 +3,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { getServiceTypeLabel } from "@/utils/helper";
 import { Star, ImageIcon } from "lucide-react";
 import { memo } from "react";
-import { useNavigate } from "react-router-dom";
 
-const ServiceCard = ({ service }) => {
-    const navigate = useNavigate();
+const ServiceCard = ({ service, onClick }) => {
 
     const {
         serviceId,
@@ -19,13 +17,12 @@ const ServiceCard = ({ service }) => {
         reviewCount,
     } = service;
 
-    const handleClick = () => {
-        navigate(`/services/${serviceId}`);
-    };
+    const type = serviceType.toLowerCase();
+
 
     return (
         <Card
-            onClick={handleClick}
+            onClick={() => onClick(type, serviceId)}
             className="group cursor-pointer overflow-hidden rounded-2xl border bg-white transition hover:-translate-y-1 hover:shadow-lg"
         >
             <div className="relative h-48 bg-muted">
@@ -88,7 +85,7 @@ const ServiceCard = ({ service }) => {
                     </span>
                 </div>
             </CardContent>
-        </Card>
+        </Card >
     );
 };
 

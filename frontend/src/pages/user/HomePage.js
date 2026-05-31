@@ -6,13 +6,13 @@ import ServiceFilter from "@/components/user/ServiceFilter";
 import useSearchFilter from "@/hooks/common/use-search-filter";
 import { useServices } from "@/hooks/service/use-service";
 import { useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
 
-    const {
-        getParam,
-        handleFilterChange,
-    } = useSearchFilter();
+    const navigate = useNavigate();
+
+    const { getParam, handleFilterChange, } = useSearchFilter();
 
     const filters = useMemo(() => ({
         page: Number(getParam("page", 1)),
@@ -21,7 +21,6 @@ const HomePage = () => {
         cateId: getParam("cateId", null),
         name: getParam("name", null),
     }), [getParam]);
-
 
     const {
         data,
@@ -32,8 +31,64 @@ const HomePage = () => {
     } = useServices(filters);
 
     const services = data?.pages.flatMap((page) => page.content) || [];
-
     const hasServices = services.length > 0;
+
+
+    const handleDetail = (serviceType, serviceId) => {
+        navigate(`/${serviceType}/${serviceId}`);
+    };
+
+
+    const renderContent = () => {
+        if (isLoading) {
+            return (
+                <div className="grid gap-6 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-4">
+                    <ServiceCardSkeleton length={8} />
+                </div>
+            );
+        }
+
+        if (!hasServices) {
+            return (
+                <div className="flex min-h-[40vh] flex-col items-center justify-center rounded-2xl border border-dashed border-gray-200 bg-gray-50/50 p-8">
+                    <EmptyState
+                        title="Không tìm thấy dịch vụ phù hợp."
+                        description="Thử thay đổi từ khóa hoặc bộ lọc để tìm kiếm lại xem sao nhé."
+                    />
+                </div>
+            );
+        }
+
+        return (
+            <div className="space-y-8">
+                <div className="grid gap-6 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-4">
+                    {services.map((service) => (
+                        <ServiceCard
+                            key={service.serviceId}
+                            service={service}
+                            onClick={handleDetail}
+                        />
+                    ))}
+                </div>
+
+                {hasNextPage
+                    ? (
+                        <div className="flex justify-center pt-4">
+                            <Button
+                                onClick={() => fetchNextPage()}
+                                disabled={isFetchingNextPage}
+                            >
+                                {isFetchingNextPage ? "Đang tải..." : "Xem thêm"}
+                            </Button>
+                        </div>
+                    )
+                    : <p className="text-center ">Hết rồi.</p>
+
+                }
+            </div>
+        );
+    };
+
 
     return (
         <div className="mx-auto max-w-7xl space-y-10 px-4 py-8 sm:px-6 lg:px-8">
@@ -55,46 +110,7 @@ const HomePage = () => {
                 showServiceType={true}
             />
 
-            {isLoading ? (
-                <div className="grid gap-6 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-4">
-                    <ServiceCardSkeleton length={8} />
-                </div>
-            ) : !hasServices ? (
-                <div className="flex min-h-[40vh] flex-col items-center justify-center5rounded-2xl border border-dashed border-gray-200 bg-gray-50/50 p-8">
-                    <EmptyState
-                        title="Không tìm thấy dịch vụ phù hợp."
-                        description="Thử thay đổi từ khóa hoặc bộ lọc để tìm kiếm lại xem sao nhé."
-                    />
-                </div>
-            ) : (<>
-                <div className="grid gap-6 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-4">
-                    {services.map((service) => (
-                        <ServiceCard
-                            key={service.serviceId}
-                            service={service}
-                        />
-                    ))}
-                </div>
-                (
-                (hasNextPage) ? (
-                <div className="flex justify-center">
-                    <Button
-                        onClick={() => fetchNextPage()}
-                        disabled={isFetchingNextPage}
-                    >
-                        {
-                            isFetchingNextPage
-                                ? "Đang tải..."
-                                : "Xem thêm"
-                        }
-                    </Button>
-                </div>
-                )
-                : <p className="text-center">Hết</p>
-                )
-
-            </>
-            )}
+            {renderContent()}
         </div>
     );
 }

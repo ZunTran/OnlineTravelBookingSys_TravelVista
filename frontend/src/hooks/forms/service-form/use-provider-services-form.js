@@ -1,4 +1,4 @@
-import { BASE_FIELDS, EXTRA_FIELDS } from "@/constants/provider/ServiceFields";
+import { BASE_FIELDS, EXTRA_FIELDS } from "@/constants/ServiceFields";
 import { useState } from "react";
 import { toast } from "sonner";
 
