@@ -50,7 +50,7 @@ public class CustomerApiController {
     public ResponseEntity<Map<String, Object>> getServiceSubItemsAndReviews(@PathVariable("id") Long id) {
         Map<String, Object> response = new HashMap<>();
         response.put("success", true);
-        response.put("data", customerService.getServiceSubItemsAndReviews(id));
+        response.put("data", customerService.getServiceSubItems(id));
         return ResponseEntity.ok(response);
     }
 
