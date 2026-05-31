@@ -56,10 +56,8 @@ const HomePage = () => {
             />
 
             {isLoading ? (
-                <div className="grid gap-6 sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-5">
-                    {Array.from({ length: 8 }).map((_, index) => (
-                        <ServiceCardSkeleton key={index} />
-                    ))}
+                <div className="grid gap-6 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-4">
+                    <ServiceCardSkeleton length={8} />
                 </div>
             ) : !hasServices ? (
                 <div className="flex min-h-[40vh] flex-col items-center justify-center5rounded-2xl border border-dashed border-gray-200 bg-gray-50/50 p-8">
@@ -68,8 +66,8 @@ const HomePage = () => {
                         description="Thử thay đổi từ khóa hoặc bộ lọc để tìm kiếm lại xem sao nhé."
                     />
                 </div>
-            ) : (
-                <div className="grid gap-6 sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-4">
+            ) : (<>
+                <div className="grid gap-6 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-4">
                     {services.map((service) => (
                         <ServiceCard
                             key={service.serviceId}
@@ -77,25 +75,26 @@ const HomePage = () => {
                         />
                     ))}
                 </div>
-            )}
-
-            {
-                hasNextPage ? (
-                    <div className="flex justify-center">
-                        <Button
-                            onClick={() => fetchNextPage()}
-                            disabled={isFetchingNextPage}
-                        >
-                            {
-                                isFetchingNextPage
-                                    ? "Đang tải..."
-                                    : "Xem thêm"
-                            }
-                        </Button>
-                    </div>
+                (
+                (hasNextPage) ? (
+                <div className="flex justify-center">
+                    <Button
+                        onClick={() => fetchNextPage()}
+                        disabled={isFetchingNextPage}
+                    >
+                        {
+                            isFetchingNextPage
+                                ? "Đang tải..."
+                                : "Xem thêm"
+                        }
+                    </Button>
+                </div>
                 )
-                    : <p className="text-center">Hết</p>
-            }
+                : <p className="text-center">Hết</p>
+                )
+
+            </>
+            )}
         </div>
     );
 }
