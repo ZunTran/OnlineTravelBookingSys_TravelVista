@@ -95,11 +95,12 @@ public class Users implements Serializable {
     private Date createdAt;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "users")
     private Set<Favorites> favoritesSet;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "receiverId")
-    private Set<ChatMessages> chatMessagesSet;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "senderId")
-    private Set<ChatMessages> chatMessagesSet1;
-    @JoinColumn(name = "role_id", referencedColumnName = "id")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<ChatRooms> chatRoomsCreatedSet;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "providerId", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<ChatRooms> chatRoomsReceivedSet;
     @ManyToOne(optional = false,fetch = FetchType.EAGER)
     private Roles roleId;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "userId", fetch = FetchType.LAZY)
@@ -217,21 +218,6 @@ public class Users implements Serializable {
         this.favoritesSet = favoritesSet;
     }
 
-    public Set<ChatMessages> getChatMessagesSet() {
-        return chatMessagesSet;
-    }
-
-    public void setChatMessagesSet(Set<ChatMessages> chatMessagesSet) {
-        this.chatMessagesSet = chatMessagesSet;
-    }
-
-    public Set<ChatMessages> getChatMessagesSet1() {
-        return chatMessagesSet1;
-    }
-
-    public void setChatMessagesSet1(Set<ChatMessages> chatMessagesSet1) {
-        this.chatMessagesSet1 = chatMessagesSet1;
-    }
 
     public Roles getRoleId() {
         return roleId;
@@ -271,6 +257,22 @@ public class Users implements Serializable {
 
     public void setProviders(Providers providers) {
         this.providers = providers;
+    }
+
+    public Set<ChatRooms> getChatRoomsCreatedSet() {
+        return chatRoomsCreatedSet;
+    }
+
+    public void setChatRoomsCreatedSet(Set<ChatRooms> chatRoomsCreatedSet) {
+        this.chatRoomsCreatedSet = chatRoomsCreatedSet;
+    }
+
+    public Set<ChatRooms> getChatRoomsReceivedSet() {
+        return chatRoomsReceivedSet;
+    }
+
+    public void setChatRoomsReceivedSet(Set<ChatRooms> chatRoomsReceivedSet) {
+        this.chatRoomsReceivedSet = chatRoomsReceivedSet;
     }
 
     @Override
