@@ -29,7 +29,7 @@ const SERVICE_STATUS = {
 
 
 
-const ProviderServiceRow = ({ service, onDelete, onUpdateStatus }) => {
+const ProviderServiceRow = ({ service, onDelete, onUpdateStatus, onEdit }) => {
     const navigate = useNavigate();
 
     const handleDetail = (service) => {
@@ -121,6 +121,7 @@ const ProviderServiceRow = ({ service, onDelete, onUpdateStatus }) => {
                     <Button
                         size="icon"
                         variant="ghost"
+                        onClick={() => onEdit(service)}
                     >
                         <Pencil className="h-5 w-5" />
                     </Button>

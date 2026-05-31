@@ -35,6 +35,7 @@ export const useUpdateProfile = () => {
             toast.success(data.message || "Cập nhật thông tin thành công");
         },
         onError: (error) => {
+            console.log("Profile", error);
             toast.error(error?.response?.data?.message || "Đã có lỗi khi cập nhật thông tin");
         }
 
@@ -81,12 +82,15 @@ export const useChangeAvatar = () => {
         onSuccess: async (data) => {
 
             const profile = await getProfileApi();
+
             cookies.save("user", profile, { path: "/" });
             dispatch(loginSuccess(profile));
             authStorage.notify(AUTH_EVENTS.UPDATE_PROFILE)
             toast.success(data.message || "Đổi avatar thành công");
         },
         onError: (error) => {
+            console.log("AVtar", error);
+
             toast.error(error?.response?.data?.message || "Lỗi update avatar");
         }
     });

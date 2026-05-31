@@ -81,7 +81,6 @@ const ProviderServicesPage = () => {
                 : newPage;
 
         const params = new URLSearchParams(searchParams);
-
         params.set("page", String(pageValue));
 
         setSearchParams(params);
@@ -182,7 +181,7 @@ const ProviderServicesPage = () => {
                         onChange={handleChange}
                         updateField={updateField}
                         onServiceTypeChange={handleServiceTypeChange}
-                        onChangefile={handleChangeFile}
+                        onChangeFile={handleChangeFile}
                         onSubmit={handleSubmit}
                         isLoading={isCreating}
                     />

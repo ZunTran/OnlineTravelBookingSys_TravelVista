@@ -14,16 +14,13 @@ const FormLogin = () => {
     const loginMutation = useLogin();
     const isLoading = loginMutation.isPending;
 
-
     const handleSubmit = (e) => {
         e.preventDefault();
 
         loginMutation.mutate(formLogin);
     }
 
-
     return (
-
         <section className="w-full flex flex-col justify-center items-center">
 
             {isLoading && <Loading content="Đang đăng nhập" />}
