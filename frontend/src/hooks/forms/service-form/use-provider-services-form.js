@@ -54,6 +54,7 @@ const useProviderServiceForm = (extraFields = {}) => {
 
         if (files.length > 5) {
             toast.warning("Chỉ được tải lên tối đa 5 ảnh");
+            setImages(null);
             return;
         }
         setImages(files);

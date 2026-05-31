@@ -1,4 +1,4 @@
-import InfoCard from "./InfoCard";
+import InfoCard from "../InfoCard";
 import { CalendarDays, MapPin } from "lucide-react";
 
 const TourInfoCards = ({ tour }) => {

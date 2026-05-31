@@ -14,7 +14,8 @@ export const updateProviderServicesApi = async ({ id, params = {}, formData = nu
         body.append("data", JSON.stringify(formData));
     }
 
-    const res = await Apis.patch(endpoints.provider.services.info(id), body,
+    const res = await Apis.patch(endpoints.provider.services.info(id),
+        body,
         {
             params
         }

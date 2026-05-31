@@ -87,3 +87,16 @@ export const getTomorrowStartDateTimeLocal = () => {
 
     return localDate.toISOString().slice(0, 16);
 };
+
+export const formatPrice = (price) =>
+    Number(price).toLocaleString("vi-VN") + " đ";
+
+export const formatDateTime = (timestamp) =>
+    new Date(timestamp).toLocaleString("vi-VN");
+
+export const formatDuration = (minutes) => {
+    const h = Math.floor(minutes / 60);
+    const m = minutes % 60;
+
+    return `${h} giờ ${m} phút`;
+};

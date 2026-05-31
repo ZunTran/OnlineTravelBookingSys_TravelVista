@@ -14,7 +14,7 @@ const UserRoutes = () => {
                 element={<HomePage />}
             />
             <Route
-                path="transport"
+                path="/transport"
                 element={<TransportPage />}
             />
 

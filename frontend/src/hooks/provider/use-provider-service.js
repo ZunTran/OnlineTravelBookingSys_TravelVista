@@ -1,4 +1,5 @@
-import { createProviderServiceApi, getProviderHotelDetailApi, getProviderServicesApi, getProviderTourDetailApi, getProviderTransportApi, updateProviderServicesApi } from "@/services/provider/provider-service.service"
+import { createProviderServiceApi, getProviderHotelDetailApi, getProviderServicesApi, getProviderTourDetailApi, getProviderTransportApi, updateProviderServicesApi } from "@/services/provider-service.service"
+import { updateItemInListCache } from "@/utils/helper";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner";
 
@@ -7,7 +8,8 @@ export const useProviderServices = (params) => {
     return useQuery({
         queryKey: ["provider-services", params],
         queryFn: () => getProviderServicesApi(params),
-        keepPreviousData: true,
+        staleTime: 1000 * 60 * 3,
+        gcTime: 1000 * 60 * 10,
     });
 };
 
@@ -44,12 +46,19 @@ export const useCreateProviderService = () => {
     return useMutation({
         mutationFn: createProviderServiceApi,
 
-        onSuccess: (data) => {
+        onSuccess: (data, variables) => {
             toast.success(data?.message || "Tạo dịch vụ thành công");
 
-            queryClient.invalidateQueries({
-                queryKey: ["provider-services"],
-            });
+            updateItemInListCache(
+                queryClient,
+                ["provider-services"],
+                variables.id,
+                (service) => ({
+                    ...service,
+                    status: variables.params.status,
+                }),
+                "serviceId"
+            );
         },
 
         onError: (error) => {
@@ -62,7 +71,7 @@ export const useCreateProviderService = () => {
 };
 
 
-export const useUpdateProviderService = (params) => {
+export const useUpdateProviderService = () => {
 
     const queryClient = useQueryClient();
 
@@ -74,11 +83,10 @@ export const useUpdateProviderService = (params) => {
             toast.success(data?.response || "Đổi trạng thái thành công");
 
             queryClient.invalidateQueries({
-                queryKey: ["provider-services", params]
+                queryKey: ["provider-services"]
             });
         },
         onError: (error) => {
-            console.log(error);
             toast.error(error?.response?.data?.message || "Đã có lỗi xảy ra");
         }
 

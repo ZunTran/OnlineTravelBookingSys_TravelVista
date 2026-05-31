@@ -1,4 +1,4 @@
-import InfoCard from "./InfoCard";
+import InfoCard from "../InfoCard";
 import { Building2, MapPin, DoorOpen } from "lucide-react";
 
 const HotelInfoCards = ({ hotel }) => {

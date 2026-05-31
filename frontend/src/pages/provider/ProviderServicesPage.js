@@ -12,11 +12,11 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
+import useSearchFilter from "@/hooks/common/use-search-filter";
 import useProviderServiceForm from "@/hooks/forms/service-form/use-provider-services-form";
 import { useCreateProviderService, useProviderServices, useUpdateProviderService } from "@/hooks/provider/use-provider-service";
 import { normalizeHotelTime } from "@/utils/format";
 import { useState } from "react";
-import { useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 
 const ProviderServicesPage = () => {
@@ -30,14 +30,19 @@ const ProviderServicesPage = () => {
         handleChangeFile,
         resetForm,
     } = useProviderServiceForm();
-    const [searchParams, setSearchParams] = useSearchParams();
+
+    const {
+        getParam,
+        handleFilterChange,
+        handlePageChange,
+    } = useSearchFilter();
 
     const filters = {
-        page: Number(searchParams.get("page")) || 1,
+        page: Number(getParam("page", 1)),
         size: 20,
-        serviceType: searchParams.get("serviceType") || undefined,
-        status: searchParams.get("status") || undefined,
-        categoryId: searchParams.get("categoryId") || undefined,
+        serviceType: getParam("serviceType", null),
+        status: getParam("status", null),
+        categoryId: getParam("categoryId", null),
     };
 
 
@@ -60,31 +65,6 @@ const ProviderServicesPage = () => {
             : formProviderService;
 
 
-
-    const handleFilterChange = (key, value) => {
-        const params = new URLSearchParams(searchParams);
-
-        if (!value) {
-            params.delete(key);
-        } else {
-            params.set(key, String(value));
-        }
-
-        params.set("page", "1");
-        setSearchParams(params);
-    };
-
-    const handlePageChange = (newPage) => {
-        const pageValue =
-            typeof newPage === "object"
-                ? newPage.page
-                : newPage;
-
-        const params = new URLSearchParams(searchParams);
-        params.set("page", String(pageValue));
-
-        setSearchParams(params);
-    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -118,13 +98,12 @@ const ProviderServicesPage = () => {
             },
             formData: null,
         });
+
     };
 
-
     return (
-        <section className="space-y-6">
+        <div className="space-y-6">
             {(isCreating || isUpdating) && <Loading content={"Đang xử lý..."} />}
-
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div>
                     <h1 className="text-3xl font-bold">
@@ -145,7 +124,7 @@ const ProviderServicesPage = () => {
                 onChange={handleFilterChange}
             />
 
-            {isLoading ? (
+            {(isLoading) ? (
                 <TableSkeleton columns={6} />
             ) : (
                 <>
@@ -187,7 +166,7 @@ const ProviderServicesPage = () => {
                     />
                 </DialogContent>
             </Dialog>
-        </section>
+        </div>
     );
 };
 
