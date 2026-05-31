@@ -7,8 +7,9 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { SERVICE_TYPES } from "@/constants/provider/FilterMenu";
 import { useAuth } from "@/hooks/auth/use-auth";
-import { LogOut, UserIcon } from "lucide-react";
+import { Heart, LogOut, ShoppingCart, UserIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Header = () => {
@@ -21,37 +22,70 @@ const Header = () => {
                     Travel Vista
                 </Link>
 
+                <nav className="hidden items-center gap-10 md:flex">
+                    <Link
+                        to="/"
+                        className="text-sm font-medium transition-colors hover:text-primary"
+                    >
+                        Home
+                    </Link>
+                    {SERVICE_TYPES.map((type) => (
+                        <Link
+                            key={type.value}
+                            to={`/${type.path}`}
+                            className="text-sm font-medium transition-colors hover:text-primary"
+                        >
+                            {type.label}
+                        </Link>
+                    ))}
+                </nav>
+
                 {isAuthenticated ? (
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="gap-2">
-                                <Avatar className="h-10 w-10">
-                                    <AvatarImage src={user?.avatarUrl || "/defaultAvt.png"} />
-                                    <AvatarFallback>
-                                        <UserIcon className="h-5 w-5" />
-                                    </AvatarFallback>
-                                </Avatar>
+                    <div className="flex items-center gap-3">
+                        <Button variant="ghost" size="icon" className="mr-4">
+                            <Link to="/user/favourites">
+                                <Heart className="h-5 w-5" />
+                            </Link>
+                        </Button>
 
-                                <span>{user?.fullName}</span>
-                            </Button>
-                        </DropdownMenuTrigger>
+                        <Button variant="ghost" size="icon">
+                            <Link to="/user/favourites">
+                                <Link to="/user/cart">
+                                    <ShoppingCart className="h-5 w-5" />
+                                </Link>                            </Link>
+                        </Button>
 
-                        <DropdownMenuContent align="end" sideOffset={10} className="mt-3 z-[1000] w-56">
-                            <DropdownMenuItem asChild className="cursor-pointer">
-                                <Link to="/user/profile"> <UserIcon />Tài khoản của tôi</Link>
-                            </DropdownMenuItem>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" className="gap-2">
+                                    <Avatar className="h-10 w-10">
+                                        <AvatarImage src={user?.avatarUrl || "/defaultAvt.png"} />
+                                        <AvatarFallback>
+                                            <UserIcon className="h-5 w-5" />
+                                        </AvatarFallback>
+                                    </Avatar>
 
-                            <DropdownMenuSeparator />
+                                    <span>{user?.fullName}</span>
+                                </Button>
+                            </DropdownMenuTrigger>
 
-                            <DropdownMenuItem
-                                onClick={logout}
-                                className="text-red-600 cursor-pointer"
-                            >
-                                <LogOut className="mr-2 h-4 w-4 " />
-                                Đăng xuất
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                            <DropdownMenuContent align="end" sideOffset={10} className="mt-3 z-[1000] w-56">
+                                <DropdownMenuItem asChild className="cursor-pointer">
+                                    <Link to="/user/profile"> <UserIcon />Tài khoản của tôi</Link>
+                                </DropdownMenuItem>
+
+                                <DropdownMenuSeparator />
+
+                                <DropdownMenuItem
+                                    onClick={logout}
+                                    className="text-red-600 cursor-pointer"
+                                >
+                                    <LogOut className="mr-2 h-4 w-4 " />
+                                    Đăng xuất
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
                 ) : (
                     <div className="flex items-center gap-3">
                         <Link to="/register">

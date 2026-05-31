@@ -1,4 +1,4 @@
-import InfoCard from "./InfoCard";
+import InfoCard from "../InfoCard";
 import { Bus, MapPin, Users } from "lucide-react";
 
 const TransportInfoCards = ({ transport }) => {

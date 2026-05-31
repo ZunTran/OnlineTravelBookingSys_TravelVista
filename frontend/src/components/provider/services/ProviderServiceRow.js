@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { getServiceImage } from "@/utils/format";
 import { ImageIcon, Lock, LockOpen, Pencil, Trash2 } from "lucide-react";
+import { memo } from "react";
 import { useNavigate } from "react-router-dom";
 
 const SERVICE_STATUS = {
@@ -76,6 +77,7 @@ const ProviderServiceRow = ({ service, onDelete, onUpdateStatus, onEdit }) => {
                         alt={service.name}
                         className="h-14 w-20 rounded-lg object-cover"
                         loading="lazy"
+                        decoding="async"
                         onError={(e) => {
                             e.currentTarget.src = "/defaultProduct.png"
                         }}
@@ -139,4 +141,4 @@ const ProviderServiceRow = ({ service, onDelete, onUpdateStatus, onEdit }) => {
     );
 }
 
-export default ProviderServiceRow;
+export default memo(ProviderServiceRow);

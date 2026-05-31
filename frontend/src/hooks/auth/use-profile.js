@@ -1,5 +1,5 @@
 import { useAuth } from "@/hooks/auth/use-auth";
-import { avatarApi, getProfileApi, passwordApi, profileApi } from "@/services/auth/profile.service";
+import { avatarApi, getProfileApi, passwordApi, profileApi } from "@/services/profile.service";
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";

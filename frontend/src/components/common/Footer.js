@@ -126,8 +126,8 @@ const Footer = () => {
 
                 <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-6 text-sm text-muted-foreground">
 
-                    <p>
-                        &copy; 2026 Han - Travel Vista. All rights reserved.
+                    <p className="flex">
+                        &copy; 2026 <p className="text-green-500"> &nbsp;Han&nbsp;</p> - Travel Vista. All rights reserved.
                     </p>
 
                     <div className="flex items-center gap-6">
