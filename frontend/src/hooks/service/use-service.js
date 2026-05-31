@@ -1,5 +1,5 @@
-import { getPublicServicesApi } from "@/services/service.service";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { getPublicServiceDetailApi, getPublicServicesApi } from "@/services/service.service";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
 export const useServices = (params) => {
     return useInfiniteQuery({
@@ -25,3 +25,12 @@ export const useServices = (params) => {
         },
     });
 };
+
+export const useServiceDetail = (id) => {
+    return useQuery({
+        queryKey: ["service-detail", id],
+        queryFn: () => getPublicServiceDetailApi(id),
+        enabled: Number.isFinite(id) || id > 1,
+        retry: false,
+    });
+}

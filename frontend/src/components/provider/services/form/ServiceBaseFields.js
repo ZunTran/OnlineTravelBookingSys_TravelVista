@@ -8,7 +8,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { SERVICE_STATUS, SERVICE_TYPES } from "@/constants/provider/FilterMenu";
+import { SERVICE_STATUS, SERVICE_TYPES } from "@/constants/FilterMenu";
 
 const ServiceBaseFields = ({
     formService,

@@ -10,6 +10,10 @@ export const TransportPage = lazy(() => import("@/pages/user/transport/Transport
 export const UserProfilePage = lazy(() => import("@/pages/user/profile/UserProfilePage"));
 export const UserSecurityPage = lazy(() => import("@/pages/user/profile/UserSecurityPage"));
 
+export const HotelDetailPage = lazy(() => import('@/pages/user/detail/HotelDetailPage'))
+export const TourDetailPage = lazy(() => import("@/pages/user/detail/TourDetailPage"));
+export const TransportDetailPage = lazy(() => import('@/pages/user/detail/TransportDetailPage'));
+
 
 export const ProviderHomePage = lazy(() => import("@/pages/provider/ProviderHomePage"));
 export const ProviderServicesPage = lazy(() => import("@/pages/provider/ProviderServicesPage"))

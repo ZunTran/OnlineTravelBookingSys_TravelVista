@@ -7,7 +7,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { SERVICE_TYPES } from "@/constants/provider/FilterMenu";
+import { SERVICE_TYPES } from "@/constants/FilterMenu";
 import { useAuth } from "@/hooks/auth/use-auth";
 import { Heart, LogOut, ShoppingCart, UserIcon } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -43,16 +43,15 @@ const Header = () => {
                 {isAuthenticated ? (
                     <div className="flex items-center gap-3">
                         <Button variant="ghost" size="icon" className="mr-4">
-                            <Link to="/user/favourites">
+                            <Link to="/favourites">
                                 <Heart className="h-5 w-5" />
                             </Link>
                         </Button>
 
                         <Button variant="ghost" size="icon">
-                            <Link to="/user/favourites">
-                                <Link to="/user/cart">
-                                    <ShoppingCart className="h-5 w-5" />
-                                </Link>                            </Link>
+                            <Link to="/cart">
+                                <ShoppingCart className="h-5 w-5" />
+                            </Link>
                         </Button>
 
                         <DropdownMenu>

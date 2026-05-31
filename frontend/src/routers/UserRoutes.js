@@ -1,6 +1,6 @@
 import UserLayout from "@/layouts/UserLayout";
 import UserProfileLayout from "@/layouts/UserProfileLoyout";
-import { HomePage, TransportPage, UserProfilePage, UserSecurityPage } from "@/routers/LazyPages";
+import { HomePage, HotelDetailPage, TourDetailPage, TransportDetailPage, TransportPage, UserProfilePage, UserSecurityPage } from "@/routers/LazyPages";
 import RoleRoute from "@/routers/RoleRoutes";
 import { Route } from "react-router-dom";
 
@@ -17,8 +17,20 @@ const UserRoutes = () => {
                 path="/transport"
                 element={<TransportPage />}
             />
+            <Route
+                path="/transport/:id"
+                element={<TransportDetailPage />}
+            />
+            <Route
+                path="/hotel/:id"
+                element={<HotelDetailPage />}
+            />
+            <Route
+                path="/tour/:id"
+                element={<TourDetailPage />}
+            />
 
-            <Route element={<RoleRoute allowedRoles={["CUSTOMER"]} />}>
+            <Route Route element={< RoleRoute allowedRoles={["CUSTOMER"]} />}>
                 <Route element={<UserProfileLayout />}>
                     <Route
                         path="/user/profile"
@@ -29,8 +41,8 @@ const UserRoutes = () => {
                         element={<UserSecurityPage />}
                     />
                 </Route>
-            </Route>
-        </Route>
+            </Route >
+        </Route >
     );
 }
 

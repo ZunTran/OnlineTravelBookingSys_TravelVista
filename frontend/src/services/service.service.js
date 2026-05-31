@@ -8,4 +8,10 @@ export const getPublicServicesApi = async (params) => {
     return res.data.data;
 };
 
+export const getPublicServiceDetailApi = async (id) => {
+
+    const res = await Apis.get(endpoints.services.detail(id),)
+
+    return res.data;
+}
 
