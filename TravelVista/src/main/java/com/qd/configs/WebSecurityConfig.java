@@ -55,6 +55,7 @@ public class WebSecurityConfig {
                 .requestMatchers(new AntPathRequestMatcher("/images/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/webjars/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/services/cart/**")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/api/services/callback", "POST")).permitAll()
                 
                 // .requestMatchers(new AntPathRequestMatcher("/api/customer/services/*/reviews", "GET")).permitAll()
 
@@ -69,6 +70,7 @@ public class WebSecurityConfig {
                 .requestMatchers(new AntPathRequestMatcher("/api/orders/customer/**")).hasRole("CUSTOMER")
                 .requestMatchers(new AntPathRequestMatcher("/api/reviews", "POST")).hasRole("CUSTOMER")
                 .requestMatchers(new AntPathRequestMatcher("/api/customer/**")).hasRole("CUSTOMER")
+                .requestMatchers(new AntPathRequestMatcher("/api/services/orders", "POST")).hasRole("CUSTOMER")
 
 
                 .requestMatchers(new AntPathRequestMatcher("/api/auth/profile/**")).authenticated()
