@@ -55,7 +55,7 @@ public class WebSecurityConfig {
                 .requestMatchers(new AntPathRequestMatcher("/images/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/webjars/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/services/cart/**")).permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/api/customer/**", "GET")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/api/customer/**")).permitAll()
 
                 // 2. Nhóm Admin Site
                 .requestMatchers(new AntPathRequestMatcher("/api/admin/**")).hasRole("ADMIN")
