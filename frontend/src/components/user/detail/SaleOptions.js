@@ -3,11 +3,13 @@ import SubItemCardSkeleton from "@/components/common/skeleton/SubItemCardSkeleto
 import SubItemCard from "@/components/user/detail/SubItemCard";
 
 const SaleOptions = ({
-    items = [],
+    items,
     type = "ROOM",
     isLoading = false,
     onSelect,
 }) => {
+    console.log(items);
+
     if (isLoading) {
         return (
             <section className="space-y-4">
@@ -26,7 +28,7 @@ const SaleOptions = ({
         return (
             <EmptyState
                 title="Không có lựa chọn khả dụng"
-                description="Hiện chưa có dữ liệu để đặt dịch vụ này."
+                description="Không bán"
             />
         );
     }

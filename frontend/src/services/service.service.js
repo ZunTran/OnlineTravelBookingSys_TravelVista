@@ -21,3 +21,8 @@ export const getPublicSubItemServiceApi = async (id) => {
     return res.data;
 }
 
+export const getReviewApi = async (id) => {
+    const res = await Apis.get(endpoints.services.reviews(id),);
+
+    return res.data;
+}
