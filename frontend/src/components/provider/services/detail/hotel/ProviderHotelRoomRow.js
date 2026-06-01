@@ -4,7 +4,7 @@ import { formatPrice } from "@/utils/format";
 import { BedDouble, Ruler, Users } from "lucide-react";
 import { memo } from "react";
 
-const HotelRoomRow = ({ room }) => {
+const ProviderHotelRoomRow = ({ room }) => {
     return (
         <TableRow key={room.roomId}>
             <TableCell className="font-medium">
@@ -51,4 +51,4 @@ const HotelRoomRow = ({ room }) => {
     );
 }
 
-export default memo(HotelRoomRow);
+export default memo(ProviderHotelRoomRow);

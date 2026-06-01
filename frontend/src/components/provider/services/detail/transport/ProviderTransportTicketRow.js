@@ -4,7 +4,7 @@ import { formatDateTime, formatDuration, formatPrice } from "@/utils/format";
 import { Clock } from "lucide-react";
 import { memo } from "react";
 
-const TransportTicketRow = ({ ticket }) => {
+const ProviderTransportTicketRow = ({ ticket }) => {
     return (
         <TableRow key={ticket.ticketId}>
             <TableCell className="font-medium">
@@ -45,4 +45,4 @@ const TransportTicketRow = ({ ticket }) => {
     );
 }
 
-export default memo(TransportTicketRow);
+export default memo(ProviderTransportTicketRow);

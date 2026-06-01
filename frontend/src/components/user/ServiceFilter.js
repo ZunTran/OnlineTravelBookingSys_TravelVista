@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { SERVICE_TYPES } from "@/constants/FilterMenu";
@@ -8,6 +9,7 @@ const ServiceFilter = ({
     categories = [],
     onChange,
     showServiceType = true,
+    onReset
 }) => {
 
     const [kw, setKw] = useState("");
@@ -23,7 +25,7 @@ const ServiceFilter = ({
 
     return (
         <div className="rounded-2xl border bg-white p-4 shadow-sm">
-            <div className="grid gap-4 md:grid-cols-3">
+            <div className="grid gap-5 md:grid-cols-4">
                 <Input
                     placeholder="Tìm kiếm dịch vụ..."
                     value={kw}
@@ -84,6 +86,7 @@ const ServiceFilter = ({
                         ))}
                     </SelectContent>
                 </Select>
+                <Button onClick={() => onReset()}>Xóa bộ lọc</Button>
             </div>
         </div>
     );

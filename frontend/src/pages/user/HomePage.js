@@ -12,7 +12,7 @@ const HomePage = () => {
 
     const navigate = useNavigate();
 
-    const { getParam, handleFilterChange, } = useSearchFilter();
+    const { getParam, handleFilterChange, clearAllParams } = useSearchFilter();
 
     const filters = useMemo(() => ({
         page: Number(getParam("page", 1)),
@@ -60,7 +60,7 @@ const HomePage = () => {
         }
 
         return (
-            <div className="space-y-8">
+            <section className="space-y-6">
                 <div className="grid gap-6 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-4">
                     {services.map((service) => (
                         <ServiceCard
@@ -85,7 +85,7 @@ const HomePage = () => {
                     : <p className="text-center ">Hết rồi.</p>
 
                 }
-            </div>
+            </section>
         );
     };
 
@@ -108,6 +108,7 @@ const HomePage = () => {
                 categories={[]}
                 onChange={handleFilterChange}
                 showServiceType={true}
+                onReset={clearAllParams}
             />
 
             {renderContent()}

@@ -8,7 +8,7 @@ const UserLayout = () => {
     return (
         <div className="min-h-screen flex flex-col">
             <Header />
-            <main className="flex-1">
+            <main className="flex-1 p-6" >
                 <Suspense
                     fallback={
                         <div className="flex items-center justify-center ">

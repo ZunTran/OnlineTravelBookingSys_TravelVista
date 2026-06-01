@@ -1,4 +1,4 @@
-import HotelRoomRow from "@/components/provider/services/detail/hotel/HotelRoomRow";
+import HotelRoomRow from "@/components/provider/services/detail/hotel/ProviderHotelRoomRow";
 import {
     Card,
     CardContent,
@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/table";
 
 
-const HotelRoomsTable = ({ rooms = [] }) => {
+const ProviderHotelRoomsTable = ({ rooms = [] }) => {
 
     return (
         <Card>
@@ -56,4 +56,4 @@ const HotelRoomsTable = ({ rooms = [] }) => {
     );
 };
 
-export default HotelRoomsTable;
+export default ProviderHotelRoomsTable;

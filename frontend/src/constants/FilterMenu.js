@@ -38,3 +38,28 @@ export const SERVICE_STATUS = [
         variant: "outline",
     },
 ];
+
+
+export const SUB_LABEL = {
+    ROOM: {
+        available: "Còn phòng",
+        unavailable: "Hết phòng",
+        slot: "phòng",
+        button: "Chọn phòng",
+        price: "Giá từ",
+    },
+    TICKET: {
+        available: "Còn vé",
+        unavailable: "Hết vé",
+        slot: "vé",
+        button: "Chọn vé",
+        price: "Giá vé",
+    },
+    SCHEDULE: {
+        available: "Còn chỗ",
+        unavailable: "Hết chỗ",
+        slot: "chỗ",
+        button: "Chọn lịch",
+        price: "Giá tour",
+    },
+};

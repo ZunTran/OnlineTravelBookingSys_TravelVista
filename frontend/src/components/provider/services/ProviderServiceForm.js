@@ -1,7 +1,7 @@
-import HotelServiceFields from "@/components/provider/services/form/HotelServicesFields";
-import ServiceBaseFields from "@/components/provider/services/form/ServiceBaseFields";
-import TourServiceFields from "@/components/provider/services/form/TourServiceFields";
-import TransportServiceFields from "@/components/provider/services/form/TransportServiceFields";
+import HotelServiceFields from "@/components/provider/services/form/ProviderHotelServicesFields";
+import ServiceBaseFields from "@/components/provider/services/form/ProviderServiceBaseFields";
+import TourServiceFields from "@/components/provider/services/form/ProviderTourServiceFields";
+import TransportServiceFields from "@/components/provider/services/form/ProviderTransportServiceFields";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 

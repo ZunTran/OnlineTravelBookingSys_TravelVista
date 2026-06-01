@@ -1,4 +1,4 @@
-import TransportTicketRow from "@/components/provider/services/detail/transport/TransportTicketRow";
+import TransportTicketRow from "@/components/provider/services/detail/transport/ProviderTransportTicketRow";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
     Table,
@@ -8,7 +8,7 @@ import {
     TableRow,
 } from "@/components/ui/table";
 
-const TransportTicketsTable = ({ tickets = [] }) => {
+const ProviderTransportTicketsTable = ({ tickets = [] }) => {
     return (
         <Card>
             <CardHeader>
@@ -39,4 +39,4 @@ const TransportTicketsTable = ({ tickets = [] }) => {
     );
 };
 
-export default TransportTicketsTable;
+export default ProviderTransportTicketsTable;
