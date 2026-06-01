@@ -49,7 +49,7 @@ const Header = () => {
                         </Button>
 
                         <Button variant="ghost" size="icon">
-                            <Link to="/cart">
+                            <Link to="user/cart">
                                 <ShoppingCart className="h-5 w-5" />
                             </Link>
                         </Button>
