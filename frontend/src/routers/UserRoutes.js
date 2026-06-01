@@ -1,6 +1,6 @@
 import UserLayout from "@/layouts/UserLayout";
 import UserProfileLayout from "@/layouts/UserProfileLoyout";
-import { HomePage, HotelDetailPage, TourDetailPage, TransportDetailPage, TransportPage, UserProfilePage, UserSecurityPage } from "@/routers/LazyPages";
+import { CartPage, HomePage, HotelDetailPage, TourDetailPage, TransportDetailPage, TransportPage, UserProfilePage, UserSecurityPage } from "@/routers/LazyPages";
 import RoleRoute from "@/routers/RoleRoutes";
 import { Route } from "react-router-dom";
 
@@ -31,6 +31,12 @@ const UserRoutes = () => {
             />
 
             <Route Route element={< RoleRoute allowedRoles={["CUSTOMER"]} />}>
+
+                <Route
+                    path="/user/cart"
+                    element={<CartPage />}
+                />
+
                 <Route element={<UserProfileLayout />}>
                     <Route
                         path="/user/profile"

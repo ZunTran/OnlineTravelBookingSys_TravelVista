@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const HotelRoomsCardSkeleton = ({ length = 4 }) => {
     return (
-        <>
+        <div className="grid gap-4 md:grid-cols-2">
             {Array.from({ length }).map((_, index) => (
                 <Card key={index} className="overflow-hidden rounded-2xl transition hover:shadow-md">
                     <CardContent className="space-y-4 p-5">
@@ -34,7 +34,7 @@ const HotelRoomsCardSkeleton = ({ length = 4 }) => {
                 </Card>
             ))
             }
-        </>
+        </div>
     );
 };
 

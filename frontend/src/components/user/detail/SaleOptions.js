@@ -1,5 +1,6 @@
 import EmptyState from "@/components/common/Empty";
 import SubItemCardSkeleton from "@/components/common/skeleton/SubItemCardSkeleton";
+import SectionHeader from "@/components/user/detail/SectionHeader";
 import SubItemCard from "@/components/user/detail/SubItemCard";
 
 const SaleOptions = ({
@@ -8,21 +9,6 @@ const SaleOptions = ({
     isLoading = false,
     onSelect,
 }) => {
-    console.log(items);
-
-    if (isLoading) {
-        return (
-            <section className="space-y-4">
-                <SectionHeader />
-
-                <div className="grid gap-4 md:grid-cols-2">
-                    {Array.from({ length: 4 }).map((_, index) => (
-                        <SubItemCardSkeleton key={index} />
-                    ))}
-                </div>
-            </section>
-        );
-    }
 
     if (items.length === 0) {
         return (
@@ -34,34 +20,31 @@ const SaleOptions = ({
     }
 
     return (
-        <section className="space-y-4">
-
-            <div className="grid gap-4 md:grid-cols-2">
-                {items.map((item) => (
-                    <SubItemCard
-                        key={item.sellableItemId}
-                        subItem={item}
-                        type={type}
-                        onSelect={onSelect}
-                    />
-                ))}
-            </div>
+        <section className="space-y-5">
+            <SectionHeader
+                title={"Lựa chọn"}
+                content={" Chọn lựa chọn phù hợp với nhu cầu của bạn."}
+            />
+            {isLoading
+                ? (
+                    <SubItemCardSkeleton />
+                )
+                : (
+                    <div className="grid gap-4 md:grid-cols-2">
+                        {items.map((item) => (
+                            <SubItemCard
+                                key={item.sellableItemId}
+                                subItem={item}
+                                type={type}
+                                onSelect={onSelect}
+                            />
+                        ))}
+                    </div>
+                )
+            }
         </section>
     );
 };
 
-const SectionHeader = () => {
-    return (
-        <div>
-            <h2 className="text-2xl font-bold">
-                Lựa chọn
-            </h2>
-
-            <p className="text-muted-foreground">
-                Chọn lựa chọn phù hợp với nhu cầu của bạn.
-            </p>
-        </div>
-    );
-};
 
 export default SaleOptions;

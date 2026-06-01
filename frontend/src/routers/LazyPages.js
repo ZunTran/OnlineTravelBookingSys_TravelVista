@@ -14,6 +14,8 @@ export const HotelDetailPage = lazy(() => import('@/pages/user/detail/HotelDetai
 export const TourDetailPage = lazy(() => import("@/pages/user/detail/TourDetailPage"));
 export const TransportDetailPage = lazy(() => import('@/pages/user/detail/TransportDetailPage'));
 
+export const CartPage = lazy(() => import("@/pages/user/profile/CartPage"));
+
 
 export const ProviderHomePage = lazy(() => import("@/pages/provider/ProviderHomePage"));
 export const ProviderServicesPage = lazy(() => import("@/pages/provider/ProviderServicesPage"))
