@@ -102,6 +102,7 @@ public class Users implements Serializable {
     @JsonIgnore
     private Set<ChatRooms> chatRoomsReceivedSet;
     @ManyToOne(optional = false,fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id")
     private Roles roleId;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "userId", fetch = FetchType.LAZY)
     private Carts carts;
