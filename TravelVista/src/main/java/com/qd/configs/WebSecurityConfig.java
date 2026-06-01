@@ -44,7 +44,7 @@ public class WebSecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             
             .authorizeHttpRequests(auth -> auth
-                // 1. Nhóm Public (Công khai)
+        
 
                 .requestMatchers(new AntPathRequestMatcher("/api/auth/register")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/auth/login")).permitAll()
@@ -55,25 +55,25 @@ public class WebSecurityConfig {
                 .requestMatchers(new AntPathRequestMatcher("/images/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/webjars/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/services/cart/**")).permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/api/customer/**")).permitAll()
+                
+                // .requestMatchers(new AntPathRequestMatcher("/api/customer/services/*/reviews", "GET")).permitAll()
 
-                // 2. Nhóm Admin Site
+
                 .requestMatchers(new AntPathRequestMatcher("/api/admin/**")).hasRole("ADMIN")
                 .requestMatchers(new AntPathRequestMatcher("/api/analytics/admin/**")).hasRole("ADMIN")
 
-                // 3. Nhóm Đối tác (Provider)
+
                 .requestMatchers(new AntPathRequestMatcher("/api/provider/**")).hasRole("PROVIDER")
 
-                // 4. Nhóm Khách hàng (Customer)
                 .requestMatchers(new AntPathRequestMatcher("/api/cart/**")).hasRole("CUSTOMER")
                 .requestMatchers(new AntPathRequestMatcher("/api/orders/customer/**")).hasRole("CUSTOMER")
                 .requestMatchers(new AntPathRequestMatcher("/api/reviews", "POST")).hasRole("CUSTOMER")
+                .requestMatchers(new AntPathRequestMatcher("/api/customer/**")).hasRole("CUSTOMER")
 
-                // 5. Nhóm Yêu cầu đăng nhập nói chung
+
                 .requestMatchers(new AntPathRequestMatcher("/api/auth/profile/**")).authenticated()
                 .requestMatchers(new AntPathRequestMatcher("/api/chat/**")).authenticated()
 
-                // Tất cả các request phát sinh khác đều phải đăng nhập
                 .anyRequest().authenticated()
             );
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
