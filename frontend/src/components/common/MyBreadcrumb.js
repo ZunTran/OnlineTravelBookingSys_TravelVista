@@ -1,5 +1,5 @@
 import { BreadcrumbList, Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
-import { Home } from "lucide-react";
+import { LucideHome } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const MyBreadcrumb = ({ path }) => {
@@ -9,13 +9,13 @@ const MyBreadcrumb = ({ path }) => {
             <BreadcrumbList>
                 <BreadcrumbItem>
                     <BreadcrumbLink asChild>
-                        <Link to="/"><Home className="w-6 h-6" /></Link>
+                        <Link to="/"><LucideHome className="w-5 h-5" /></Link>
                     </BreadcrumbLink>
                 </BreadcrumbItem>
 
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
-                    <BreadcrumbPage className="text-lg">{path}</BreadcrumbPage>
+                    <BreadcrumbPage className="text-sm text-gray-500">{path}</BreadcrumbPage>
                 </BreadcrumbItem>
             </BreadcrumbList>
         </Breadcrumb>

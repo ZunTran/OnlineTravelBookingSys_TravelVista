@@ -1,4 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { memo } from "react";
 
 const InfoCard = ({ icon: Icon, label, value }) => {
     return (
@@ -20,4 +21,4 @@ const InfoCard = ({ icon: Icon, label, value }) => {
     );
 };
 
-export default InfoCard;
+export default memo(InfoCard);

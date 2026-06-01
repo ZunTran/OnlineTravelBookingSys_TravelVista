@@ -1,4 +1,4 @@
-import { getPublicServiceDetailApi, getPublicServicesApi } from "@/services/service.service";
+import { getPublicServiceDetailApi, getPublicServicesApi, getPublicSubItemServiceApi } from "@/services/service.service";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
 export const useServices = (params) => {
@@ -30,6 +30,15 @@ export const useServiceDetail = (id) => {
     return useQuery({
         queryKey: ["service-detail", id],
         queryFn: () => getPublicServiceDetailApi(id),
+        enabled: Number.isFinite(id) || id > 1,
+        retry: false,
+    });
+};
+
+export const useSubItemService = (id) => {
+    return useQuery({
+        queryKey: ["service-subitem", id],
+        queryFn: () => getPublicSubItemServiceApi(id),
         enabled: Number.isFinite(id) || id > 1,
         retry: false,
     });

@@ -1,4 +1,4 @@
-import TourScheduleRow from "@/components/provider/services/detail/tour/TourScheduleRow";
+import TourScheduleRow from "@/components/provider/services/detail/tour/ProviderTourScheduleRow";
 import {
     Card,
     CardContent,
@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/table";
 
 
-const TourSchedulesTable = ({ schedules = [] }) => {
+const ProviderTourSchedulesTable = ({ schedules = [] }) => {
     return (
         <Card>
             <CardHeader>
@@ -43,4 +43,4 @@ const TourSchedulesTable = ({ schedules = [] }) => {
     );
 };
 
-export default TourSchedulesTable;
+export default ProviderTourSchedulesTable;

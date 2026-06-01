@@ -3,10 +3,10 @@ import ServiceImages from "@/components/common/ServicesImage";
 import ServiceImagesSkeleton from "@/components/common/skeleton/ServiceImagesSkeleton";
 import StatsSkeleton from "@/components/common/skeleton/StatsSkeleton";
 import TableSkeleton from "@/components/common/skeleton/TableSkeleton";
-import DetailHeader from "@/components/provider/services/detail/DetailHeader";
 import TransportTicketForm from "@/components/provider/services/detail/form/TransportTicketForm";
-import TransportInfoCards from "@/components/provider/services/detail/transport/TransportInoCard";
-import TransportTicketsTable from "@/components/provider/services/detail/transport/TransportTicketsTable";
+import ProviderDetailHeader from "@/components/provider/services/detail/ProviderDetailHeader";
+import ProviderTransportInfoCards from "@/components/provider/services/detail/transport/ProviderTransportInoCard";
+import TransportTicketsTable from "@/components/provider/services/detail/transport/ProviderTransportTicketsTable";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import useServiceDetailForm from "@/hooks/forms/service-form/use-service-detail-form";
 import { useCreateProviderDetailService } from "@/hooks/provider/use-provider-detail-service";
@@ -71,7 +71,7 @@ const ProviderTransportDetailPage = () => {
 
             {isCreating && <Loading content={"Đang tạo..."} />}
 
-            <DetailHeader title={transport?.name} onOpen={setOpen} />
+            <ProviderDetailHeader title={transport?.name} onOpen={setOpen} />
 
             {isLoading
                 ? (
@@ -83,7 +83,7 @@ const ProviderTransportDetailPage = () => {
                 )
                 : (
                     <>
-                        <TransportInfoCards transport={transport} />
+                        <ProviderTransportInfoCards transport={transport} />
                         <ServiceImages images={transport?.images} />
                         <TransportTicketsTable
                             tickets={transport?.tickets || []}

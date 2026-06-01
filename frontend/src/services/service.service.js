@@ -10,7 +10,13 @@ export const getPublicServicesApi = async (params) => {
 
 export const getPublicServiceDetailApi = async (id) => {
 
-    const res = await Apis.get(endpoints.services.detail(id),)
+    const res = await Apis.get(endpoints.services.detail(id),);
+
+    return res.data;
+}
+
+export const getPublicSubItemServiceApi = async (id) => {
+    const res = await Apis.get(endpoints.services.subItems(id),);
 
     return res.data;
 }

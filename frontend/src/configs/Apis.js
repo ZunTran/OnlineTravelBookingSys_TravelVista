@@ -22,6 +22,7 @@ export const endpoints = {
     services: {
         list: "/api/services",
         detail: (id) => `/api/services/${id}`,
+        subItems: (id) => `/api/services/${id}/sub-items`
     }
 };
 

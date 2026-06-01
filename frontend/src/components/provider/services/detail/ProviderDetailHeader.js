@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const DetailHeader = ({ title, onOpen }) => {
+const ProviderDetailHeader = ({ title, onOpen }) => {
     const navigate = useNavigate();
 
     return (
@@ -20,6 +20,7 @@ const DetailHeader = ({ title, onOpen }) => {
                 <h1 className="text-3xl font-bold">{title}</h1>
 
             </div>
+
             <Button onClick={onOpen}>Thêm dịch vụ</Button>
 
 
@@ -27,4 +28,4 @@ const DetailHeader = ({ title, onOpen }) => {
     );
 };
 
-export default DetailHeader;
+export default ProviderDetailHeader;

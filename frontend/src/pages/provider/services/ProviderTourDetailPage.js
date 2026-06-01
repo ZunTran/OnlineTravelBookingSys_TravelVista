@@ -3,10 +3,10 @@ import ServiceImages from "@/components/common/ServicesImage";
 import ServiceImagesSkeleton from "@/components/common/skeleton/ServiceImagesSkeleton";
 import StatsSkeleton from "@/components/common/skeleton/StatsSkeleton";
 import TableSkeleton from "@/components/common/skeleton/TableSkeleton";
-import DetailHeader from "@/components/provider/services/detail/DetailHeader";
+import ProviderDetailHeader from "@/components/provider/services/detail/ProviderDetailHeader";
 import TourScheduleForm from "@/components/provider/services/detail/form/TourScheduleForm";
-import TourInfoCards from "@/components/provider/services/detail/tour/TourInfoCard";
-import TourSchedulesTable from "@/components/provider/services/detail/tour/TourSchedulesTable";
+import TourInfoCards from "@/components/provider/services/detail/tour/ProviderTourInfoCard";
+import TourSchedulesTable from "@/components/provider/services/detail/tour/ProviderTourSchedulesTable";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import useServiceDetailForm from "@/hooks/forms/service-form/use-service-detail-form";
 import { useCreateProviderDetailService } from "@/hooks/provider/use-provider-detail-service";
@@ -72,7 +72,7 @@ const ProviderTourDetailPage = () => {
 
             {isCreating && <Loading content={"Đang tạo..."} />}
 
-            <DetailHeader title={tour?.name} onOpen={setOpen} />
+            <ProviderDetailHeader title={tour?.name} onOpen={setOpen} />
 
             {isLoading
                 ? (

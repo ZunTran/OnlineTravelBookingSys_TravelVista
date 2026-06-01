@@ -1,4 +1,5 @@
 import { useSearchParams } from "react-router-dom";
+import { toast } from "sonner";
 
 const useSearchFilter = () => {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -6,7 +7,6 @@ const useSearchFilter = () => {
     const getParam = (key, defaultValue = "") => {
         return searchParams.get(key) || defaultValue;
     };
-
 
     const handleFilterChange = (key, value) => {
         const params = new URLSearchParams(searchParams);
@@ -33,12 +33,17 @@ const useSearchFilter = () => {
         setSearchParams(params);
     };
 
+    const clearAllParams = () => {
+        setSearchParams({});
+    };
+
     return {
         searchParams,
         getParam,
         setSearchParams,
         handleFilterChange,
         handlePageChange,
+        clearAllParams,
     };
 };
 

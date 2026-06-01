@@ -19,7 +19,6 @@ const ServiceCard = ({ service, onClick }) => {
 
     const type = serviceType.toLowerCase();
 
-
     return (
         <Card
             onClick={() => onClick(type, serviceId)}
@@ -83,6 +82,15 @@ const ServiceCard = ({ service, onClick }) => {
                     <span className="text-muted-foreground">
                         {reviewCount || 0} đánh giá
                     </span>
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                    <Badge
+                        variant="secondary"
+                        className="text-xs"
+                    >
+
+                    </Badge>
                 </div>
             </CardContent>
         </Card >

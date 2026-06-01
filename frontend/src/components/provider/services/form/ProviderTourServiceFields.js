@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-const TourFields = ({ formService, handleChange }) => {
+const ProviderTourServiceFields = ({ formService, handleChange }) => {
     return (
         <div className="rounded-xl border bg-white p-5 space-y-5">
             <h3 className="text-lg font-semibold">
@@ -67,4 +67,4 @@ const TourFields = ({ formService, handleChange }) => {
     );
 };
 
-export default TourFields;
+export default ProviderTourServiceFields;

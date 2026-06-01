@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/select";
 import { SERVICE_STATUS, SERVICE_TYPES } from "@/constants/FilterMenu";
 
-const ServiceBaseFields = ({
+const ProviderServiceBaseFields = ({
     formService,
     images,
 
@@ -142,4 +142,4 @@ const ServiceBaseFields = ({
     );
 };
 
-export default ServiceBaseFields;
+export default ProviderServiceBaseFields;

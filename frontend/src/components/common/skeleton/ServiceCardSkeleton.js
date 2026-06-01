@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const ServiceCardSkeleton = ({ length = 4 }) => {
+const SubItemCardSkeleton = ({ length = 4 }) => {
 
 
     return (
@@ -34,4 +34,4 @@ const ServiceCardSkeleton = ({ length = 4 }) => {
     );
 };
 
-export default ServiceCardSkeleton;
+export default SubItemCardSkeleton;

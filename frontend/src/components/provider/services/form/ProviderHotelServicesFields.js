@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-const HotelServiceFields = ({ formService, handleChange, }) => {
+const ProviderHotelServiceFields = ({ formService, handleChange, }) => {
 
     return (
         <div className="space-y-5 rounded-xl border bg-white p-5">
@@ -74,4 +74,4 @@ const HotelServiceFields = ({ formService, handleChange, }) => {
     );
 };
 
-export default HotelServiceFields;
+export default ProviderHotelServiceFields;

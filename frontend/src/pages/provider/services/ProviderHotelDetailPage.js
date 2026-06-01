@@ -3,10 +3,8 @@ import ServiceImages from "@/components/common/ServicesImage";
 import ServiceImagesSkeleton from "@/components/common/skeleton/ServiceImagesSkeleton";
 import StatsSkeleton from "@/components/common/skeleton/StatsSkeleton";
 import TableSkeleton from "@/components/common/skeleton/TableSkeleton";
-import DetailHeader from "@/components/provider/services/detail/DetailHeader";
 import HotelRoomForm from "@/components/provider/services/detail/form/HotelRoomForm";
-import HotelInfoCards from "@/components/provider/services/detail/hotel/HotelInfoCard";
-import HotelRoomsTable from "@/components/provider/services/detail/hotel/HotelRoomsTable";
+import ProviderDetailHeader from "@/components/provider/services/detail/ProviderDetailHeader";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import useServiceDetailForm from "@/hooks/forms/service-form/use-service-detail-form";
 import { useCreateProviderDetailService } from "@/hooks/provider/use-provider-detail-service";
@@ -14,6 +12,8 @@ import { useProviderHotelDetail } from "@/hooks/provider/use-provider-service";
 import NotFoundPage from "@/pages/error/NotFoundPage";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import ProviderHotelInfoCards from "@/components/provider/services/detail/hotel/ProviderHotelInfoCard";
+import ProviderHotelRoomsTable from "@/components/provider/services/detail/hotel/ProviderHotelRoomsTable";
 
 
 const initialHotelRoom = {
@@ -48,8 +48,6 @@ const ProviderHotelDetailPage = () => {
 
     const hotel = data || [];
 
-
-
     const payload = {
         serviceType: "HOTEL",
         hotelRooms: [formData],
@@ -78,7 +76,7 @@ const ProviderHotelDetailPage = () => {
 
             {isCreating && <Loading content={"Đang tạo..."} />}
 
-            <DetailHeader title={hotel?.name} onOpen={setOpen} />
+            <ProviderDetailHeader title={hotel?.name} onOpen={setOpen} />
 
             {isLoading
                 ? (
@@ -90,9 +88,9 @@ const ProviderHotelDetailPage = () => {
                 )
                 : (
                     <>
-                        <HotelInfoCards hotel={hotel} />
+                        <ProviderHotelInfoCards hotel={hotel} />
                         <ServiceImages images={hotel?.images} />
-                        <HotelRoomsTable rooms={hotel?.rooms || []} />
+                        <ProviderHotelRoomsTable rooms={hotel?.rooms || []} />
                     </>
                 )
             }
