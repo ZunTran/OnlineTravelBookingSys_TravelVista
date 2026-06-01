@@ -1,5 +1,4 @@
 import { useSearchParams } from "react-router-dom";
-import { toast } from "sonner";
 
 const useSearchFilter = () => {
     const [searchParams, setSearchParams] = useSearchParams();

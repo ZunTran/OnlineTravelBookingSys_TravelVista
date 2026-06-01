@@ -1,4 +1,4 @@
-import { getPublicServiceDetailApi, getPublicServicesApi, getPublicSubItemServiceApi } from "@/services/service.service";
+import { getPublicServiceDetailApi, getPublicServicesApi, getPublicSubItemServiceApi, getReviewApi } from "@/services/service.service";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
 export const useServices = (params) => {
@@ -41,5 +41,14 @@ export const useSubItemService = (id) => {
         queryFn: () => getPublicSubItemServiceApi(id),
         enabled: Number.isFinite(id) || id > 1,
         retry: false,
+    });
+}
+
+export const useReviews = (id) => {
+    return useQuery({
+        queryKey: ["review", id],
+        queryFn: () => getReviewApi(id),
+        enabled: Number.isFinite(id) || id > 1,
+        retry: false
     });
 }

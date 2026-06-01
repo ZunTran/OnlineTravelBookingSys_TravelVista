@@ -2,7 +2,7 @@ import ServiceOverviewSkeleton from "@/components/common/skeleton/ServiceOvervie
 import DetailHeader from "@/components/user/detail/DetailHeader";
 import SaleOptions from "@/components/user/detail/SaleOptions";
 import ServiceOverview from "@/components/user/detail/ServiceOverview";
-import { useServiceDetail, useSubItemService } from "@/hooks/service/use-service";
+import { useReviews, useServiceDetail, useSubItemService } from "@/hooks/service/use-service";
 import NotFoundPage from "@/pages/error/NotFoundPage";
 import { useParams } from "react-router-dom";
 
@@ -21,6 +21,10 @@ const TransportDetailPage = () => {
         isLoading: loadingSubitem
     } = useSubItemService(transportId);
 
+    const {
+        data: reviewsData,
+        // isLoading: loadingReviews
+    } = useReviews(transportId);
 
     if (error || Number.isNaN(transportId))
         return (<NotFoundPage />);
@@ -28,6 +32,8 @@ const TransportDetailPage = () => {
 
     const transport = transportData?.data || [];
     const subItems = subitemData?.data?.sellableGiaoDienList || [];
+
+    console.log(reviewsData?.data);
 
 
     return (
