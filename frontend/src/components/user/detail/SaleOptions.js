@@ -1,6 +1,6 @@
 import EmptyState from "@/components/common/Empty";
 import SubItemCardSkeleton from "@/components/common/skeleton/SubItemCardSkeleton";
-import SectionHeader from "@/components/user/detail/SectionHeader";
+import SectionHeader from "@/components/user/SectionHeader";
 import SubItemCard from "@/components/user/detail/SubItemCard";
 
 const SaleOptions = ({

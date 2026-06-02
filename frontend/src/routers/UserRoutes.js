@@ -1,5 +1,6 @@
 import UserLayout from "@/layouts/UserLayout";
 import UserProfileLayout from "@/layouts/UserProfileLoyout";
+import FavouritePage from "@/pages/user/profile/FavouritePage";
 import { CartPage, HomePage, HotelDetailPage, TourDetailPage, TransportDetailPage, TransportPage, UserProfilePage, UserSecurityPage } from "@/routers/LazyPages";
 import RoleRoute from "@/routers/RoleRoutes";
 import { Route } from "react-router-dom";
@@ -35,6 +36,11 @@ const UserRoutes = () => {
                 <Route
                     path="/user/cart"
                     element={<CartPage />}
+                />
+
+                <Route
+                    path="/user/favourite"
+                    element={<FavouritePage />}
                 />
 
                 <Route element={<UserProfileLayout />}>

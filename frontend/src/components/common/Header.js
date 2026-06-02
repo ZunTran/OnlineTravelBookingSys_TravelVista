@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 const Header = () => {
     const { isAuthenticated, user, logout } = useAuth();
 
+
     return (
         <header className="sticky top-0 z-[999] w-full border-b bg-white">
             <div className="mx-auto flex h-16 items-center justify-between px-6">
@@ -42,17 +43,21 @@ const Header = () => {
 
                 {isAuthenticated ? (
                     <div className="flex items-center gap-3">
-                        <Button variant="ghost" size="icon" className="mr-4">
-                            <Link to="/favourites">
-                                <Heart className="h-5 w-5" />
-                            </Link>
-                        </Button>
 
-                        <Button variant="ghost" size="icon">
-                            <Link to="user/cart">
-                                <ShoppingCart className="h-5 w-5" />
-                            </Link>
-                        </Button>
+                        {user?.roleName === "CUSTOMER" &&
+                            <>
+                                <Button variant="ghost" size="icon" className="mr-4">
+                                    <Link to="/user/favourite">
+                                        <Heart className="h-5 w-5" />
+                                    </Link>
+                                </Button>
+
+                                <Button variant="ghost" size="icon">
+                                    <Link to="/user/cart">
+                                        <ShoppingCart className="h-5 w-5" />
+                                    </Link>
+                                </Button>
+                            </>}
 
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
@@ -68,7 +73,7 @@ const Header = () => {
                                 </Button>
                             </DropdownMenuTrigger>
 
-                            <DropdownMenuContent align="end" sideOffset={10} className="mt-3 z-[1000] w-56">
+                            <DropdownMenuContent align="end" sideOffset={10} className="mt-3 z-[1000] w-56 bg-white">
                                 <DropdownMenuItem asChild className="cursor-pointer">
                                     <Link to="/user/profile"> <UserIcon />Tài khoản của tôi</Link>
                                 </DropdownMenuItem>

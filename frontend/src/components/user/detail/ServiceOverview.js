@@ -4,6 +4,8 @@ import { getServiceTypeLabel } from "@/utils/helper";
 import { Building2, Star, Ticket } from "lucide-react";
 
 const ServiceOverview = ({ service }) => {
+
+
     return (
         <div className="grid gap-8 lg:grid-cols-[1.4fr_0.8fr]">
             <ServiceImages

@@ -20,7 +20,7 @@ const ServiceImages = ({ images = [], title = "Ảnh dịch vụ" }) => {
         normalizedImages.find((img) => img.isThumbnail)?.imageUrl ||
         normalizedImages[0]?.imageUrl;
 
-    const [mainImage, setMainImage] = useState(thumbnail);
+    const [mainImage, setMainImage] = useState(thumbnail || images[0]);
 
     if (!thumbnail) {
         return (

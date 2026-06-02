@@ -5,7 +5,6 @@ import { Star, ImageIcon } from "lucide-react";
 import { memo } from "react";
 
 const ServiceCard = ({ service, onClick }) => {
-
     const {
         serviceId,
         name,
@@ -82,15 +81,6 @@ const ServiceCard = ({ service, onClick }) => {
                     <span className="text-muted-foreground">
                         {reviewCount || 0} đánh giá
                     </span>
-                </div>
-
-                <div className="flex flex-wrap gap-2">
-                    <Badge
-                        variant="secondary"
-                        className="text-xs"
-                    >
-
-                    </Badge>
                 </div>
             </CardContent>
         </Card >
