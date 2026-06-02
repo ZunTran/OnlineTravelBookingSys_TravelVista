@@ -1,7 +1,12 @@
 import UserLayout from "@/layouts/UserLayout";
 import UserProfileLayout from "@/layouts/UserProfileLoyout";
-import FavouritePage from "@/pages/user/profile/FavouritePage";
-import { CartPage, HomePage, HotelDetailPage, TourDetailPage, TransportDetailPage, TransportPage, UserProfilePage, UserSecurityPage } from "@/routers/LazyPages";
+import {
+    CartPage, CheckoutPage,
+    FavouritePage, HomePage,
+    HotelDetailPage, TourDetailPage,
+    TransportDetailPage, TransportPage,
+    UserProfilePage, UserSecurityPage
+} from "@/pages/LazyPages";
 import RoleRoute from "@/routers/RoleRoutes";
 import { Route } from "react-router-dom";
 
@@ -41,6 +46,11 @@ const UserRoutes = () => {
                 <Route
                     path="/user/favourite"
                     element={<FavouritePage />}
+                />
+
+                <Route
+                    path="/checkout"
+                    element={<CheckoutPage />}
                 />
 
                 <Route element={<UserProfileLayout />}>

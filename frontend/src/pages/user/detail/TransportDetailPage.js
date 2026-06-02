@@ -1,7 +1,6 @@
 import ServiceOverviewSkeleton from "@/components/common/skeleton/ServiceOverviewSkeleton";
+import { ReviewSection, SaleOptions } from "@/components/LazyComponent";
 import DetailHeader from "@/components/user/detail/review/DetailHeader";
-import ReviewSection from "@/components/user/detail/review/ReviewSection";
-import SaleOptions from "@/components/user/detail/SaleOptions";
 import ServiceOverview from "@/components/user/detail/ServiceOverview";
 import { useReviews, useServiceDetail, useSubItemService } from "@/hooks/service/use-service";
 import NotFoundPage from "@/pages/error/NotFoundPage";

@@ -1,5 +1,5 @@
 import AuthLayout from "@/layouts/AuthLayout";
-import { LoginPage, RegisterPage } from "@/routers/LazyPages";
+import { LoginPage, RegisterPage } from "@/pages/LazyPages";
 import PublicOnlyRoute from "@/routers/PublicOnlyRoute";
 import { Route } from "react-router-dom";
 

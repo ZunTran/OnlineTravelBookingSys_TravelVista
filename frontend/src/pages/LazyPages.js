@@ -13,12 +13,11 @@ export const UserSecurityPage = lazy(() => import("@/pages/user/profile/UserSecu
 export const HotelDetailPage = lazy(() => import('@/pages/user/detail/HotelDetailPage'))
 export const TourDetailPage = lazy(() => import("@/pages/user/detail/TourDetailPage"));
 export const TransportDetailPage = lazy(() => import('@/pages/user/detail/TransportDetailPage'));
-
-export const ReviewSection = lazy(() => import("@/components/user/detail/review/ReviewSection"))
-export const SaleOptions = lazy(() => import("@/components/user/detail/SaleOptions"))
+export const CheckoutPage = lazy(() => import("@/pages/user/CheckoutPage"))
 
 export const CartPage = lazy(() => import("@/pages/user/profile/CartPage"));
 export const FavouritePage = lazy(() => import("@/pages/user/profile/FavouritePage"))
+
 
 export const ProviderHomePage = lazy(() => import("@/pages/provider/ProviderHomePage"));
 export const ProviderServicesPage = lazy(() => import("@/pages/provider/ProviderServicesPage"))
@@ -28,3 +27,5 @@ export const ProviderTourDetailPage = lazy(() => import("@/pages/provider/servic
 
 
 export const AdminHomePage = lazy(() => import("@/pages/admin/AdminHomePage"));
+
+

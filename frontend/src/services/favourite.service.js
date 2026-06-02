@@ -8,7 +8,6 @@ export const getFavouriteApi = async () => {
 
 
 export const updateFavouriteApi = async (id) => {
-    console.log(id);
     const res = await Apis.post(endpoints.favourite.update(id));
 
     return res.data;

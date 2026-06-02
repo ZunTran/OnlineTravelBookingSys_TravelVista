@@ -1,8 +1,7 @@
 import ServiceOverviewSkeleton from "@/components/common/skeleton/ServiceOverviewSkeleton";
 import StatsSkeleton from "@/components/common/skeleton/StatsSkeleton";
+import { ReviewSection, SaleOptions } from "@/components/LazyComponent";
 import DetailHeader from "@/components/user/detail/review/DetailHeader";
-import ReviewSection from "@/components/user/detail/review/ReviewSection";
-import SaleOptions from "@/components/user/detail/SaleOptions";
 import ServiceOverview from "@/components/user/detail/ServiceOverview";
 import TourInfoCards from "@/components/user/detail/tour/TourInfoCards";
 import { useReviews, useServiceDetail, useSubItemService } from "@/hooks/service/use-service";

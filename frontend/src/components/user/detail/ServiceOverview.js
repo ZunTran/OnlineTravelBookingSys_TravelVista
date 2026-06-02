@@ -1,10 +1,10 @@
 import ServiceImages from "@/components/common/ServicesImage";
 import { Badge } from "@/components/ui/badge";
+import FavouriteButton from "@/components/user/favorite/FavouriteButton";
 import { getServiceTypeLabel } from "@/utils/helper";
 import { Building2, Star, Ticket } from "lucide-react";
 
 const ServiceOverview = ({ service }) => {
-
 
     return (
         <div className="grid gap-8 lg:grid-cols-[1.4fr_0.8fr]">
@@ -41,6 +41,11 @@ const ServiceOverview = ({ service }) => {
                         <InfoLine icon={Ticket}>
                             {service?.bookingCount || 0} lượt đặt
                         </InfoLine>
+                        <FavouriteButton
+                            isLike={service.isFavorited}
+                            id={service.serviceId}
+                            size={8}
+                        />
                     </div>
                 </div>
             </div>

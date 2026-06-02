@@ -9,10 +9,13 @@ import { useAddToCart } from "@/hooks/user/use-cart";
 import { formatPrice } from "@/utils/format";
 import { DoorOpen, Minus, Plus } from "lucide-react";
 import { memo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const SubItemCard = ({ subItem, type, isAuthenticated }) => {
+const SubItemCard = ({ subItem, type, isDisable }) => {
 
     const redirectToLogin = useLoginRedirect();
+    const navigate = useNavigate();
+
 
     const [quantity, setQuantity] = useState(1);
 
@@ -66,6 +69,25 @@ const SubItemCard = ({ subItem, type, isAuthenticated }) => {
             quantity,
         });
     };
+
+    const handleBuyNow = () => {
+        if (!isAvailable)
+            return;
+
+        navigate("/checkout", {
+            state: {
+                mode: "BUY_NOW",
+                item: {
+                    sellableItemId: subItem.sellableItemId,
+                    subItemName: subItem.subItemName,
+                    details: subItem.details,
+                    price: subItem.price,
+                    quantity,
+                    serviceType: type
+                }
+            }
+        })
+    }
 
 
     return (
@@ -147,7 +169,7 @@ const SubItemCard = ({ subItem, type, isAuthenticated }) => {
                 <div className="flex items-center justify-between border-t pt-4">
                     <div>
                         <p className="text-sm text-muted-foreground">
-                            {text.price}
+                            {text.price === 0 ? "Miễn phí" : text.price}
                         </p>
 
                         <p className="text-xl font-bold text-primary">
@@ -155,21 +177,26 @@ const SubItemCard = ({ subItem, type, isAuthenticated }) => {
                         </p>
                     </div>
 
-                    {isAuthenticated
+                    {isDisable
                         ? (
-                            <Button
-                                disabled={!isAvailable || isUpdating}
-                                onClick={addToCart}
-                                variant={isAvailable ? "default" : "ghost"}
-                            >
-                                {(isUpdating)
-                                    ? "Đang thêm..."
-                                    : isAvailable
-                                        ? text.button
-                                        : "Không khả dụng"
-                                }
-                            </Button>
-                        )
+                            <div className="flex gap-6">
+                                <Button
+                                    disabled={!isAvailable || isUpdating}
+                                    onClick={addToCart}
+                                    variant={isAvailable ? "default" : "ghost"}
+                                >
+                                    {isUpdating
+                                        ? "Đang thêm..."
+                                        : isAvailable
+                                            ? "Thêm vào giỏ"
+                                            : "Không khả dụng"
+                                    }
+                                </Button>
+                                <Button variant="outline" onClick={handleBuyNow}>
+                                    {text.button}
+                                </Button>
+                            </div>)
+
                         : <Button onClick={() => redirectToLogin()}>
                             Đăng nhập để tiếp tục
                         </Button>
