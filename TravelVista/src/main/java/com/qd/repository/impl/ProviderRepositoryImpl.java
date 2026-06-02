@@ -11,6 +11,7 @@ import com.qd.enums.ServiceType;
 import com.qd.pojo.Categories;
 import com.qd.pojo.HotelDetails;
 import com.qd.pojo.HotelRoomItems;
+import com.qd.pojo.OrderDetails;
 import com.qd.pojo.Orders;
 import com.qd.pojo.Providers;
 import com.qd.pojo.SellableItems;
@@ -130,10 +131,9 @@ public class ProviderRepositoryImpl implements ProviderRepository {
             int pageSize = this.env.getProperty("providers.page_size", Integer.class, 20);
             int page = Integer.parseInt(params.getOrDefault("page", "1"));
 
-            // Công thức Offset, page 1 lấy từ dòng 0, page 2 từ 20
             int start = (page - 1) * pageSize;
-            query.setMaxResults(pageSize); // GánLIMIT cho MySQL
-            query.setFirstResult(start); // Gán OFFSET
+            query.setMaxResults(pageSize); 
+            query.setFirstResult(start); 
         }
 
         return query.getResultList();
@@ -187,7 +187,7 @@ public class ProviderRepositoryImpl implements ProviderRepository {
         try {
             return query.getSingleResult();
         } catch (Exception e) {
-            return null; // Không tìm thấy đối tác với ID này
+            return null; 
         }
     }
 
@@ -209,12 +209,6 @@ public class ProviderRepositoryImpl implements ProviderRepository {
 
         List<Predicate> predicates = new ArrayList<>();
         predicates.add(b.equal(root.get("providerId").get("id"), providerId));
-
-        // try {
-        //     predicates.add(b.notEqual(root.get("status"), ServiceStatus.valueOf("DELETED")));
-        // } catch (IllegalArgumentException e) {
-        //         // Nếu không có trạng thái DELETED trong enum, bỏ qua điều kiện này
-        // }
 
         if (params != null && params.get("serviceType") != null) {
             String typeStr = params.get("serviceType").toUpperCase();
@@ -531,7 +525,8 @@ public class ProviderRepositoryImpl implements ProviderRepository {
         Root<Orders> root = q.from(Orders.class);
         root.fetch("userId", JoinType.INNER);
         root.fetch("paymentMethodId", JoinType.INNER);
-        root.fetch("orderDetailsSet", JoinType.LEFT);
+        Fetch<Orders, OrderDetails> fetchDetails = root.fetch("orderDetailsSet", JoinType.LEFT);
+        fetchDetails.fetch("reviews", JoinType.LEFT);
 
         q.select(root).where(
             b.equal(root.get("id"), orderId),
@@ -562,7 +557,7 @@ public class ProviderRepositoryImpl implements ProviderRepository {
             var query = session.createQuery(q);
             return query.uniqueResult();
         } catch (Exception e) {
-            System.err.println("Lỗi khi tìm Provider theo username: " + e.getMessage());
+            System.err.println("Không tìm thấy Provider theo username: " + e.getMessage());
             return null;
         }
     }
