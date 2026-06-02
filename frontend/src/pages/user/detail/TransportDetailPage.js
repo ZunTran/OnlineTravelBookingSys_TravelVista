@@ -36,9 +36,6 @@ const TransportDetailPage = () => {
     const subItems = subitemData?.data?.sellableGiaoDienList || [];
     const reviews = reviewsData?.data?.customerReviewsFeedback || [];
 
-
-    console.log(reviewsData?.data);
-
     return (
         <section className="space-y-6">
             <DetailHeader title={transport?.name} />
