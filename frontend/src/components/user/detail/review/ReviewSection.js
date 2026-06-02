@@ -3,11 +3,19 @@ import ReviewCardSkeleton from "@/components/common/skeleton/ReviewCardSkeleton"
 import { Card } from "@/components/ui/card";
 import ReviewHeader from "@/components/user/detail/review/ReviewHeader";
 import ReviewCard from "@/components/user/ReviewCard";
+import { useReviews } from "@/hooks/service/use-service";
 
 const ReviewSection = ({
-    reviews = [],
-    isLoading = false,
+    serviceId
 }) => {
+
+    const {
+        data: reviewData,
+        isLoading,
+    } = useReviews(serviceId);
+
+    const reviews = reviewData?.data?.customerReviewsFeedback || [];
+
 
     if (reviews.length === 0) {
         return (

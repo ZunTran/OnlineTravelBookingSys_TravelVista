@@ -4,12 +4,16 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { SUB_LABEL } from "@/constants/FilterMenu";
+import useLoginRedirect from "@/hooks/auth/use-login-redirect";
 import { useAddToCart } from "@/hooks/user/use-cart";
 import { formatPrice } from "@/utils/format";
 import { DoorOpen, Minus, Plus } from "lucide-react";
 import { memo, useState } from "react";
 
-const SubItemCard = ({ subItem, type }) => {
+const SubItemCard = ({ subItem, type, isAuthenticated }) => {
+
+    const redirectToLogin = useLoginRedirect();
+
     const [quantity, setQuantity] = useState(1);
 
     const addtoCartMutation = useAddToCart()
@@ -62,6 +66,7 @@ const SubItemCard = ({ subItem, type }) => {
             quantity,
         });
     };
+
 
     return (
         <Card className="overflow-hidden rounded-2xl transition hover:shadow-md">
@@ -150,17 +155,25 @@ const SubItemCard = ({ subItem, type }) => {
                         </p>
                     </div>
 
-                    <Button
-                        disabled={!isAvailable || isUpdating}
-                        onClick={addToCart}
-                        variant={isAvailable ? "default" : "ghost"}
-                    >
-                        {isUpdating
-                            ? "Đang thêm..."
-                            : isAvailable
-                                ? text.button
-                                : "Không khả dụng"}
-                    </Button>
+                    {isAuthenticated
+                        ? (
+                            <Button
+                                disabled={!isAvailable || isUpdating}
+                                onClick={addToCart}
+                                variant={isAvailable ? "default" : "ghost"}
+                            >
+                                {(isUpdating)
+                                    ? "Đang thêm..."
+                                    : isAvailable
+                                        ? text.button
+                                        : "Không khả dụng"
+                                }
+                            </Button>
+                        )
+                        : <Button onClick={() => redirectToLogin()}>
+                            Đăng nhập để tiếp tục
+                        </Button>
+                    }
                 </div>
             </CardContent>
         </Card>
