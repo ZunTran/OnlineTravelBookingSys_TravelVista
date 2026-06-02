@@ -282,4 +282,16 @@ public class ProviderApiController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/stats")
+    public ResponseEntity<Map<String, Object>> getProviderStats(
+            Principal principal, 
+            @RequestParam(value = "period", defaultValue = "month") String period) {
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", true);
+        response.put("data", providerService.getProviderDashboardStats(principal.getName(), period));
+        
+        return ResponseEntity.ok(response);
+    }
+
 }

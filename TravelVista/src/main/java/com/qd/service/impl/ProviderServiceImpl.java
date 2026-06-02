@@ -551,5 +551,60 @@ public class ProviderServiceImpl implements ProviderService {
     }
 
 
+    @Override
+    @Transactional(readOnly = true)
+    public Map<String, Object> getProviderDashboardStats(String username, String periodType) {
+        Users user = userRepository.findByUsername(username);
+        if (user == null || user.getProviders() == null) {
+            throw new RuntimeException("Lỗi: Đối tác không tồn tại trên hệ thống!");
+        }
+        Long providerId = user.getProviders().getId();
+        List<Object[]> serviceData = providerRepository.getRevenueByService(providerId);
+        List<Map<String, Object>> serviceStats = new ArrayList<>();
+        BigDecimal totalRevenue = BigDecimal.ZERO;
+        long totalBookings = 0;
+
+        for (Object[] row : serviceData) {
+            Map<String, Object> item = new HashMap<>();
+            item.put("serviceId", row[0]); 
+            item.put("serviceName", row[1]);
+            item.put("revenue", row[2]);
+            item.put("bookingCount", row[3]);
+            serviceStats.add(item);
+            
+            totalRevenue = totalRevenue.add((BigDecimal) row[2]);
+            totalBookings += (Long) row[3];
+        }
+
+        List<Object[]> periodData = providerRepository.getRevenueByPeriod(providerId, periodType);
+        List<Map<String, Object>> periodStats = new ArrayList<>();
+
+        for (Object[] row : periodData) {
+            Map<String, Object> item = new HashMap<>();
+            if ("month".equalsIgnoreCase(periodType)) {
+                item.put("periodLabel", "Tháng " + row[1] + "/" + row[0]);
+                item.put("revenue", row[2]);
+                item.put("orderCount", row[3]);
+            } else if ("quarter".equalsIgnoreCase(periodType)) {
+                item.put("periodLabel", "Quý " + row[1] + "/" + row[0]);
+                item.put("revenue", row[2]);
+                item.put("orderCount", row[3]);
+            } else {
+                item.put("periodLabel", "Năm " + row[0]);
+                item.put("revenue", row[1]);
+                item.put("orderCount", row[2]);
+            }
+            periodStats.add(item);
+        }
+
+        Map<String, Object> statsResult = new HashMap<>();
+        statsResult.put("providerCompany", user.getProviders().getCompanyName());
+        statsResult.put("summaryTotalRevenue", totalRevenue);
+        statsResult.put("summaryTotalBookings", totalBookings); 
+        statsResult.put("byServiceStats", serviceStats);
+        statsResult.put("byPeriodStats", periodStats);
+
+        return statsResult;
+    }
 
 }
