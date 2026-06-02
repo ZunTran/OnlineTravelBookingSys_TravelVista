@@ -476,4 +476,10 @@ public class UserServiceImpl implements UserService {
         return AuthResponse.builder().success(true).message("Đã khóa tài khoản đối tác này thành công!").build();
     }
 
+    @Override
+    @Transactional
+    public Users findUserByProviderCompanyName(String companyName) {
+        return userRepository.findUserByProviderCompanyName(companyName);
+    }
+
 }

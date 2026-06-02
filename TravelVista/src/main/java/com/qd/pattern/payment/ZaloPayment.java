@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.qd.pattern;
+package com.qd.pattern.payment;
 
 import com.qd.pojo.Orders;
 import java.util.Map;
@@ -11,13 +11,14 @@ import java.util.Map;
  *
  * @author ADMIN
  */
-public class CashPayment implements PaymentStrategy{
+public class ZaloPayment implements PaymentStrategy{
     @Override
     public Map<String, Object> processPayment(Orders order) {
+        String mockZaloUrl = "https://payment.zalopay.vn/gateway/mock_order_" + order.getId();
         return Map.of(
-            "paymentRequired", false,
-            "redirectUrl", "",
-            "message", "Khởi tạo đơn hàng thanh toán bằng Tiền mặt thành công! Vui lòng thanh toán khi nhận dịch vụ."
+            "paymentRequired", true,
+            "redirectUrl", mockZaloUrl,
+            "message", "Khởi tạo URL ứng dụng ZaloPay thành công!"
         );
     }
 }

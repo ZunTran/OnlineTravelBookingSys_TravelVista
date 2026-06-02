@@ -10,4 +10,5 @@ public interface CustomerService {
     Map<String, Object> getServiceSubItems(Long id);
     List<Map<String, Object>> getPaymentMethodsForCheckout();
     Map<String, Object> getMyOrdersHistory(String username, Map<String, String> params);
+    List<Map<String, Object>> compareServices(List<Long> ids);
 }

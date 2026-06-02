@@ -23,5 +23,6 @@ public interface UserRepository {
     void saveRegister(Users user);
     public Users findById(Long id);
     void updateUser(Users user);
+    Users findUserByProviderCompanyName(String companyName);
     
 }

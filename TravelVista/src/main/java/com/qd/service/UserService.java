@@ -32,6 +32,7 @@ public interface UserService {
     Users findByUsername(String username);
     Users findById(Long id);
     void logout(String username);
+    Users findUserByProviderCompanyName(String companyName);
    
 
 }
