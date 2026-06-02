@@ -2,12 +2,11 @@ import ServiceOverviewSkeleton from "@/components/common/skeleton/ServiceOvervie
 import StatsSkeleton from "@/components/common/skeleton/StatsSkeleton";
 import DetailHeader from "@/components/user/detail/review/DetailHeader";
 import HotelInfoCards from "@/components/user/detail/hotel/HotelInfoCards";
-import SaleOptions from "@/components/user/detail/SaleOptions";
-import ServiceOverview from "@/components/user/detail/ServiceOverview";
 import { useServiceDetail, useSubItemService } from "@/hooks/service/use-service";
 import NotFoundPage from "@/pages/error/NotFoundPage";
 import { useParams } from "react-router-dom";
-import { ReviewSection } from "@/routers/LazyPages";
+import { ReviewSection, SaleOptions } from "@/components/LazyComponent";
+import ServiceOverview from "@/components/user/detail/ServiceOverview";
 
 const HotelDetailPage = () => {
     const { id } = useParams();
@@ -30,6 +29,9 @@ const HotelDetailPage = () => {
 
     const hotel = servicesData?.data || [];
     const subItems = subItemData?.data?.sellableGiaoDienList || [];
+
+    console.log(hotel);
+
 
     return (
         <section className="space-y-5">

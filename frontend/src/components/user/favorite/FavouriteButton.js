@@ -3,7 +3,7 @@ import { useUpdateFavourite } from "@/hooks/user/use-favourite";
 import { Heart } from "lucide-react";
 import { useState } from "react";
 
-const FavouriteButton = ({ id, isLike = false }) => {
+const FavouriteButton = ({ id, isLike = false, size = 8 }) => {
 
     const [liked, setLiked] = useState(isLike);
     const updateFavouriteMutation = useUpdateFavourite();
@@ -27,7 +27,10 @@ const FavouriteButton = ({ id, isLike = false }) => {
             disabled={isUpdating}
             onClick={handleLike}
         >
-            <Heart className={` h-8 w-8 ${liked && "fill-red-500"}`} strokeWidth="1" />
+            <Heart
+                className={`!h-${size} !w-${size} ${liked ? "fill-red-500" : ""}`}
+                strokeWidth={1}
+            />
         </Button>
     );
 

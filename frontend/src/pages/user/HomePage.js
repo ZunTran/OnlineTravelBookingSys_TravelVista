@@ -33,7 +33,6 @@ const HomePage = () => {
     const services = data?.pages.flatMap((page) => page.content) || [];
     const hasServices = services.length > 0;
 
-
     const handleDetail = (serviceType, serviceId) => {
         navigate(`/${serviceType}/${serviceId}`);
     };

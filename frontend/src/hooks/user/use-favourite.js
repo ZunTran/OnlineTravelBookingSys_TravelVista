@@ -15,32 +15,22 @@ export const useUpdateFavourite = () => {
     return useMutation({
         mutationFn: updateFavouriteApi,
 
-        onMutate: async ({ id }) => {
-            await queryClient.cancelQueries({
-                queryKey: ["favourites"],
-            });
+        onSuccess: (data, variables) => {
+            queryClient.invalidateQueries({
+                queryKey: ["service-detail", variables.serviceId],
+            })
 
-            const previousFavourites = queryClient.getQueryData(["favourites"]);
-            queryClient.setQueriesData(["favourites"], (old) => {
-                if (!old?.data)
-                    return old;
+            toast.success(data?.message || "Đã thích");
 
-                return {
-                    ...old, data: old.data.filter(
-                        (item) => item.id !== id
-                    ),
-                };
-            });
-            return { previousFavourites };
         },
         onError: (error, variable, context) => {
-            queryClient.setQueryData(["favourites"], context.previousFavourites);
-
             toast.error(error?.response?.data?.message || "Đã có lỗi xảy ra");
+
 
         },
         onSettled: () => {
             queryClient.invalidateQueries({ queryKey: ["favourites"] });
+
 
         }
 

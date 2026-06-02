@@ -1,5 +1,5 @@
 import ProviderLayout from "@/layouts/ProviderLayout";
-import { ProviderHomePage, ProviderHotelDetailPage, ProviderServicesPage, ProviderTourDetailPage, ProviderTransportDetailPage } from "@/routers/LazyPages";
+import { ProviderHomePage, ProviderHotelDetailPage, ProviderServicesPage, ProviderTourDetailPage, ProviderTransportDetailPage } from "@/pages/LazyPages";
 import RoleRoute from "@/routers/RoleRoutes";
 import { Route } from "react-router-dom";
 
