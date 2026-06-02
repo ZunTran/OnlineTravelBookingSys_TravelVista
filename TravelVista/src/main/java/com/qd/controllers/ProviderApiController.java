@@ -169,7 +169,6 @@ public class ProviderApiController {
                         "message", "Cập nhật item thành công!"));
     }
 
-    // Tạo mới dịch vụ tổng thể kèm ảnh đại diện, trả về ID bài viết mới
     @PostMapping(consumes = { "multipart/form-data" })
     public ResponseEntity<Map<String, Object>> saveComprehensiveService(
             Principal principal, @RequestParam("data") String dataJson,
