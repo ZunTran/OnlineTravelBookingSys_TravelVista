@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.qd.pattern;
+package com.qd.pattern.payment;
 
 import com.qd.pojo.Orders;
 import java.util.Map;
@@ -11,14 +11,14 @@ import java.util.Map;
  *
  * @author ADMIN
  */
-public class ZaloPayment implements PaymentStrategy{
+public class StripePayment implements PaymentStrategy{
     @Override
     public Map<String, Object> processPayment(Orders order) {
-        String mockZaloUrl = "https://payment.zalopay.vn/gateway/mock_order_" + order.getId();
+        String mockStripeUrl = "https://checkout.stripe.com/pay/mock_session_" + order.getId();
         return Map.of(
             "paymentRequired", true,
-            "redirectUrl", mockZaloUrl,
-            "message", "Khởi tạo URL ứng dụng ZaloPay thành công!"
+            "redirectUrl", mockStripeUrl,
+            "message", "Khởi tạo URL thanh toán cổng Stripe quốc tế thành công!"
         );
     }
 }

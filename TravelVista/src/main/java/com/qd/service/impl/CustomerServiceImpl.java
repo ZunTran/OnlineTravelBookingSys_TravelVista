@@ -3,6 +3,8 @@ package com.qd.service.impl;
 import com.qd.enums.ItemStatus;
 import com.qd.enums.ServiceStatus;
 import com.qd.enums.ServiceType;
+import com.qd.pattern.compare.CompareServicesStrategy;
+import com.qd.pattern.compare.CompareStrategyFactory;
 import com.qd.pojo.Categories;
 import com.qd.pojo.OrderDetails;
 import com.qd.pojo.Orders;
@@ -46,6 +48,9 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Autowired
     private Environment env;
+
+    @Autowired
+    private CompareStrategyFactory compareStrategyFactory;
 
     @Override
     @Transactional(readOnly = true)
@@ -263,5 +268,44 @@ public class CustomerServiceImpl implements CustomerService{
         result.put("size", pageSize);             
 
         return result;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Map<String, Object>> compareServices(List<Long> ids) {
+        if (ids == null || ids.size() < 2) {
+            throw new RuntimeException("Vui lòng chọn ít nhất 2 dịch vụ cùng loại để so sánh!");
+        }
+        List<Services> list = customerRepository.getServicesForComparison(ids);
+        if (list.isEmpty()) throw new RuntimeException("Không tìm thấy các dịch vụ hợp lệ!");
+
+        com.qd.enums.ServiceType firstType = list.get(0).getServiceType();
+        boolean isSameType = list.stream().allMatch(s -> s.getServiceType() == firstType);
+        if (!isSameType) {
+            throw new RuntimeException("Hệ thống chỉ hỗ trợ so sánh các dịch vụ cùng loại  với nhau!");
+        }
+        CompareServicesStrategy compareStrategy = compareStrategyFactory.getStrategy(firstType);
+        return list.stream().map(s -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("serviceId", s.getId());
+            map.put("name", s.getName());
+            map.put("averageRating", s.getAverageRating());
+            map.put("reviewCount", s.getReviewCount());
+            map.put("providerName", s.getProviderId().getCompanyName());
+
+            BigDecimal minPrice = s.getSellableItemsSet().stream()
+                    .filter(item -> item.getPrice() != null)
+                    .map(SellableItems::getPrice)
+                    .min(BigDecimal::compareTo).orElse(BigDecimal.ZERO);
+            map.put("minPrice", minPrice);
+
+            String thumbnail = s.getServiceImagesSet().stream()
+                    .filter(img -> img.getIsThumbnail() != null && img.getIsThumbnail())
+                    .map(ServiceImages::getImageUrl).findFirst().orElse("");
+            map.put("thumbnailUrl", thumbnail);
+            map.put("specifications", compareStrategy.extractSpecifications(s)); 
+
+            return map;
+        }).collect(Collectors.toList());
     }
 }

@@ -18,5 +18,5 @@ public interface CustomerRepository {
     List<PaymentMethods> getActivePaymentMethods();
     List<Orders> getCustomerOrdersHistory(String username,Map<String, String> params);
     Long countCustomerOrders(String username) ;
-
+    List<Services> getServicesForComparison(List<Long> ids);
 }

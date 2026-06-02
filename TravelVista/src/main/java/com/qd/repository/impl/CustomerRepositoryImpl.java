@@ -281,4 +281,21 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 
         return session.createQuery(q).getResultList();
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Services> getServicesForComparison(List<Long> ids) {
+        Session session = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder b = session.getCriteriaBuilder();
+        CriteriaQuery<Services> q = b.createQuery(Services.class);
+        Root<Services> root = q.from(Services.class);
+
+        root.fetch("providerId", JoinType.INNER);
+        root.fetch("sellableItemsSet", JoinType.LEFT);
+        root.fetch("serviceImagesSet", JoinType.LEFT);
+        q.select(root).distinct(true).where(
+            b.and(root.get("id").in(ids),b.equal(root.get("status"),ServiceStatus.ACTIVATE))
+        );
+        return session.createQuery(q).getResultList();
+    }
 }

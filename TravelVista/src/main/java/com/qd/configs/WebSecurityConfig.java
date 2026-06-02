@@ -70,7 +70,7 @@ public class WebSecurityConfig {
                 .requestMatchers(new AntPathRequestMatcher("/api/orders/customer/**")).hasRole("CUSTOMER")
                 .requestMatchers(new AntPathRequestMatcher("/api/reviews", "POST")).hasRole("CUSTOMER")
                 .requestMatchers(new AntPathRequestMatcher("/api/customer/**")).hasRole("CUSTOMER")
-                .requestMatchers(new AntPathRequestMatcher("/api/services/orders", "POST")).hasRole("CUSTOMER")
+                .requestMatchers(new AntPathRequestMatcher("/api/services/orders")).hasRole("CUSTOMER")
 
 
                 .requestMatchers(new AntPathRequestMatcher("/api/auth/profile/**")).authenticated()
