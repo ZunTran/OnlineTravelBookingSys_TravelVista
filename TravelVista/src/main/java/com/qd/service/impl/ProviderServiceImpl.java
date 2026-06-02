@@ -230,14 +230,6 @@ public class ProviderServiceImpl implements ProviderService {
                     schedule.setMaxParticipants(sDto.getMaxParticipants());
                     providerRepository.saveTourSchedule(schedule);
 
-                    // if (isPublishAction && sDto.getAvailableSlots() > 0 && sDto.getPrice() != null
-                    //         && sDto.getPrice().compareTo(BigDecimal.ZERO) > 0) {
-                    //     SellableItems sellItem = createUnifiedSellableItem(service, sDto.getPrice(),
-                    //             sDto.getAvailableSlots());
-                    //     sellItem.setTourItemConcId(schedule);
-                    //     providerRepository.saveSellableItem(sellItem);
-                    // }
-
                     ItemStatus itemStatus = ItemStatus.SUSPENDED; 
                     if (ServiceStatus.ACTIVATE.equals(status)) {
                         itemStatus = (sDto.getAvailableSlots() > 0) ? ItemStatus.AVAILABLE : ItemStatus.OUT_OF_STOCK;
@@ -469,12 +461,11 @@ public class ProviderServiceImpl implements ProviderService {
             if (sellableItemsSet != null && !sellableItemsSet.isEmpty()) {
                 for (SellableItems item : sellableItemsSet) {
                     
-                    // Nếu gói nào trước đó bị Provider chủ động khóathì giữ SUSPENDED
                     if (ItemStatus.SUSPENDED.equals(item.getItemStatus()) || item.getItemStatus() == null) {
                         if (item.getAvailableSlots() > 0) {
-                            item.setItemStatus(ItemStatus.AVAILABLE); // Còn chỗ trống ──► Bật AVAILABLE mở bán!
+                            item.setItemStatus(ItemStatus.AVAILABLE); 
                         } else {
-                            item.setItemStatus(ItemStatus.OUT_OF_STOCK); // Hết sạch chỗ ──► Ép sang OUT_OF_STOCK báo hết hàng!
+                            item.setItemStatus(ItemStatus.OUT_OF_STOCK);
                         }
                     }
                 }
@@ -950,6 +941,15 @@ public class ProviderServiceImpl implements ProviderService {
                 odMap.put("providerNameSnapshot", od.getProviderNameSnapshot());
                 odMap.put("itemDescriptionSnapshot", od.getItemDescriptionSnapshot());
                 
+                Map<String, Object> reviewMap = null;
+                if (od.getReviews() != null) {
+                    reviewMap = new HashMap<>();
+                    reviewMap.put("reviewId", od.getReviews().getId());
+                    reviewMap.put("ratingStar", od.getReviews().getRating()); 
+                    reviewMap.put("commentText", od.getReviews().getComment()); 
+                    reviewMap.put("reviewDate", od.getReviews().getCreatedAt()); 
+                }
+                odMap.put("reviewInfo", reviewMap);
                 detailsList.add(odMap);
             }
         }
@@ -963,19 +963,6 @@ public class ProviderServiceImpl implements ProviderService {
     public Providers findProviderByUsername(String username) {
         return this.providerRepository.findProviderByUsername(username);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
