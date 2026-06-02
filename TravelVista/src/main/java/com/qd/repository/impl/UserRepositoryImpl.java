@@ -109,4 +109,15 @@ public class UserRepositoryImpl implements UserRepository {
                 .uniqueResult();
         return user != null && !user.getId().equals(currentUserId);
     }
+
+    @Override
+    public void updateUser(Users user) {
+    Session session = this.factory.getObject().getCurrentSession();
+        try {
+            session.merge(user); 
+        } catch (Exception e) {
+            System.err.println("Lỗi khi cập nhật token user: " + e.getMessage());
+            throw e; 
+        }
+    }
 }

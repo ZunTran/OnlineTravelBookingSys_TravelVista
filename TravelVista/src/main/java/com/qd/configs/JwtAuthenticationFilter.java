@@ -4,6 +4,8 @@
  */
 package com.qd.configs;
 
+import com.qd.pojo.Users;
+import com.qd.repository.UserRepository;
 import com.qd.utils.JwtProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -27,6 +29,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
     @Autowired
     private JwtProvider jwtProvider;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         
@@ -34,22 +39,40 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
             String bearerToken=request.getHeader("Authorization");
             if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
                 String token = bearerToken.substring(7);      
-                // Token vàoJwtProvider để kiểm tra hạn dùng + chữ ký
+
+                // if (jwtProvider.validateToken(token)) {
+                //     String username = jwtProvider.getUsernameFromJWT(token);
+                //     Users user = userRepository.findByUsername(username);
+                //     String role = jwtProvider.getRoleFromJWT(token);
+                //     if (role == null) {
+                //         role = "ROLE_CUSTOMER";
+                //     }
+                    
+                //     if (!role.startsWith("ROLE_")) {
+                //         role = "ROLE_" + role;
+                //     }
+
+                //     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                //             username, null, Collections.singletonList(new SimpleGrantedAuthority(role)));
+
+                //     SecurityContextHolder.getContext().setAuthentication(authentication);
+                // }
+
                 if (jwtProvider.validateToken(token)) {
                     String username = jwtProvider.getUsernameFromJWT(token);
-                    String role = jwtProvider.getRoleFromJWT(token);
-                    if (role == null) {
-                        role = "ROLE_CUSTOMER";
-                    }
-                    
-                    if (!role.startsWith("ROLE_")) {
-                        role = "ROLE_" + role;
-                    }
+                    Users user = userRepository.findByUsername(username);
+                    if (user != null && token.equals(user.getCurrentToken())) {
+                        String role = jwtProvider.getRoleFromJWT(token);
+                        if (role == null)  role = "ROLE_CUSTOMER";
+                        if (!role.startsWith("ROLE_")) role = "ROLE_" + role;
 
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                            username, null, Collections.singletonList(new SimpleGrantedAuthority(role)));
+                        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                                username, null, Collections.singletonList(new SimpleGrantedAuthority(role)));
 
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                        SecurityContextHolder.getContext().setAuthentication(authentication);
+                    } else {
+                        SecurityContextHolder.clearContext();
+                    }
                 }
         }
     }catch (Exception e) {   
