@@ -39,25 +39,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
             String bearerToken=request.getHeader("Authorization");
             if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
                 String token = bearerToken.substring(7);      
-
-                // if (jwtProvider.validateToken(token)) {
-                //     String username = jwtProvider.getUsernameFromJWT(token);
-                //     Users user = userRepository.findByUsername(username);
-                //     String role = jwtProvider.getRoleFromJWT(token);
-                //     if (role == null) {
-                //         role = "ROLE_CUSTOMER";
-                //     }
-                    
-                //     if (!role.startsWith("ROLE_")) {
-                //         role = "ROLE_" + role;
-                //     }
-
-                //     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                //             username, null, Collections.singletonList(new SimpleGrantedAuthority(role)));
-
-                //     SecurityContextHolder.getContext().setAuthentication(authentication);
-                // }
-
                 if (jwtProvider.validateToken(token)) {
                     String username = jwtProvider.getUsernameFromJWT(token);
                     Users user = userRepository.findByUsername(username);
