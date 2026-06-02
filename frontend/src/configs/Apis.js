@@ -26,7 +26,10 @@ export const endpoints = {
         reviews: (id) => `/api/services/${id}/reviews`
     },
 
-    cart: "/api/services/cart",
+    cart: {
+        list: "/api/services/cart",
+        update: (id) => `/api/services/cart/items/${id}`
+    },
 
     favourite: {
         list: "/api/customer/favorites",

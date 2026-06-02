@@ -42,7 +42,6 @@ export const useUpdateFavourite = () => {
         onSettled: () => {
             queryClient.invalidateQueries({ queryKey: ["favourites"] });
 
-            queryClient.invalidateQueries({ queryKey: ["services"] });
         }
 
 
