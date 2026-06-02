@@ -5,7 +5,6 @@ import { MapPin, Plane, Users } from "lucide-react";
 const ProviderTransportInfoCards = ({ transport }) => {
 
     const defaultValue = "Chưa cập nhật"
-    console.log(transport)
 
     const items = [
         {

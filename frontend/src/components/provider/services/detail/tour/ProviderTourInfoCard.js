@@ -2,7 +2,6 @@ import InfoCard from "@/components/common/InfoCard";
 import { CalendarDays, MapPin } from "lucide-react";
 
 const ProviderTourInfoCards = ({ tour }) => {
-    console.log(tour);
     const defaultValue = "Chưa cập nhật"
 
     const items = [

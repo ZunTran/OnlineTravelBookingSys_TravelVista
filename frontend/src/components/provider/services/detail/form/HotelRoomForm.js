@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 
 const HotelRoomForm = ({
     formData,
-    handleChange,
+    onChange,
     onSubmit,
     isLoading,
 }) => {
@@ -19,7 +19,7 @@ const HotelRoomForm = ({
                     <Input
                         name="roomType"
                         value={formData.roomType}
-                        onChange={handleChange}
+                        onChange={onChange}
                     />
                 </div>
 
@@ -29,7 +29,7 @@ const HotelRoomForm = ({
                         type="number"
                         name="capacity"
                         value={formData.capacity}
-                        onChange={handleChange}
+                        onChange={onChange}
                         min={0}
                     />
                 </div>
@@ -39,7 +39,7 @@ const HotelRoomForm = ({
                     <Input
                         name="bedType"
                         value={formData.bedType}
-                        onChange={handleChange}
+                        onChange={onChange}
                     />
                 </div>
 
@@ -49,7 +49,7 @@ const HotelRoomForm = ({
                         type="number"
                         name="roomSizeM2"
                         value={formData.roomSizeM2}
-                        onChange={handleChange}
+                        onChange={onChange}
                         min={0}
                     />
                 </div>
@@ -59,7 +59,7 @@ const HotelRoomForm = ({
                     <Input
                         name="roomAmenities"
                         value={formData.roomAmenities}
-                        onChange={handleChange}
+                        onChange={onChange}
                         min={0}
                     />
                 </div>
@@ -70,7 +70,7 @@ const HotelRoomForm = ({
                         type="number"
                         name="price"
                         value={formData.price}
-                        onChange={handleChange}
+                        onChange={onChange}
                         min={0}
                     />
                 </div>
@@ -81,7 +81,7 @@ const HotelRoomForm = ({
                         type="number"
                         name="availableSlots"
                         value={formData.availableSlots}
-                        onChange={handleChange}
+                        onChange={onChange}
                         min={0}
                     />
                 </div>

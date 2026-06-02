@@ -106,7 +106,7 @@ const ProviderHotelDetailPage = () => {
 
                     <HotelRoomForm
                         formData={formData}
-                        handleChange={handleChange}
+                        onChange={handleChange}
                         onSubmit={handleSubmit}
                     />
 

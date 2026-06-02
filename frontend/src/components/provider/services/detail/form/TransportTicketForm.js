@@ -5,7 +5,7 @@ import { addMinutesToDateTime, getTomorrowStartDateTimeLocal } from "@/utils/for
 
 const TransportTicketForm = ({
     formData,
-    handleChange,
+    onChange,
     onSubmit,
     setFormData,
     isLoading,
@@ -79,7 +79,7 @@ const TransportTicketForm = ({
                     <Input
                         name="seatClass"
                         value={formData.seatClass}
-                        onChange={handleChange}
+                        onChange={onChange}
                         minLength={2}
                         required
                     />
@@ -91,7 +91,7 @@ const TransportTicketForm = ({
                         type="number"
                         name="price"
                         value={formData.price}
-                        onChange={handleChange}
+                        onChange={onChange}
                         min={1000}
                         required
                     />
@@ -103,7 +103,7 @@ const TransportTicketForm = ({
                         type="number"
                         name="availableSlots"
                         value={formData.availableSlots}
-                        onChange={handleChange}
+                        onChange={onChange}
                         min={1}
                         required
                     />

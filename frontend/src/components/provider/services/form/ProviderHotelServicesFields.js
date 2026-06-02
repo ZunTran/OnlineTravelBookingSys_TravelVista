@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-const ProviderHotelServiceFields = ({ formService, handleChange, }) => {
+const ProviderHotelServiceFields = ({ formService, onChange, }) => {
 
     return (
         <div className="space-y-5 rounded-xl border bg-white p-5">
@@ -13,7 +13,7 @@ const ProviderHotelServiceFields = ({ formService, handleChange, }) => {
                     <Input
                         name="address"
                         value={formService.address}
-                        onChange={handleChange}
+                        onChange={onChange}
                         placeholder="123 Đường Lê Lợi..."
                     />
                 </div>
@@ -23,7 +23,7 @@ const ProviderHotelServiceFields = ({ formService, handleChange, }) => {
                     <Input
                         name="city"
                         value={formService.city}
-                        onChange={handleChange}
+                        onChange={onChange}
                         placeholder="Hồ Chí Minh"
                     />
                 </div>
@@ -34,7 +34,7 @@ const ProviderHotelServiceFields = ({ formService, handleChange, }) => {
                         type="number"
                         name="starRating"
                         value={formService.starRating}
-                        onChange={handleChange}
+                        onChange={onChange}
                         min={1}
                         max={5}
                     />
@@ -45,7 +45,7 @@ const ProviderHotelServiceFields = ({ formService, handleChange, }) => {
                     <Input
                         name="amenities"
                         value={formService.amenities}
-                        onChange={handleChange}
+                        onChange={onChange}
                         placeholder="Wifi, Hồ bơi, Spa..."
                     />
                 </div>
@@ -56,7 +56,7 @@ const ProviderHotelServiceFields = ({ formService, handleChange, }) => {
                         type="time"
                         name="checkinTime"
                         value={formService.checkinTime}
-                        onChange={handleChange}
+                        onChange={onChange}
                     />
                 </div>
 
@@ -66,7 +66,7 @@ const ProviderHotelServiceFields = ({ formService, handleChange, }) => {
                         type="time"
                         name="checkoutTime"
                         value={formService.checkoutTime}
-                        onChange={handleChange}
+                        onChange={onChange}
                     />
                 </div>
             </div>

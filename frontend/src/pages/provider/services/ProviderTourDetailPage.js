@@ -102,7 +102,7 @@ const ProviderTourDetailPage = () => {
                     <TourScheduleForm
                         formData={formData}
                         setFormData={setFormData}
-                        handleChange={handleChange}
+                        onChange={handleChange}
                         durationDays={tour.durationDays || 2}
                         durationNights={tour.durationNights || 1}
                         onSubmit={handleSubmit}

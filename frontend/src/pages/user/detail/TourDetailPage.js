@@ -1,3 +1,4 @@
+import ServiceOverviewSkeleton from "@/components/common/skeleton/ServiceOverviewSkeleton";
 import StatsSkeleton from "@/components/common/skeleton/StatsSkeleton";
 import DetailHeader from "@/components/user/detail/review/DetailHeader";
 import ReviewSection from "@/components/user/detail/review/ReviewSection";
@@ -43,7 +44,7 @@ const TourDetailPage = () => {
                 ? (
                     <>
                         <StatsSkeleton />
-                        <ServiceOverview />
+                        <ServiceOverviewSkeleton />
                     </>
                 )
                 : (
