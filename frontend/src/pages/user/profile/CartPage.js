@@ -1,9 +1,11 @@
 import EmptyState from "@/components/common/Empty";
 import CartSkeleton from "@/components/common/skeleton/CartSkeleton";
+import { Button } from "@/components/ui/button";
 import CartProviderSection from "@/components/user/cart/CartProviderSection";
 import CartSummary from "@/components/user/cart/CartSummary";
 import DetailHeader from "@/components/user/detail/review/DetailHeader";
 import { useCart } from "@/hooks/user/use-cart";
+import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
 const CartPage = () => {
@@ -28,6 +30,13 @@ const CartPage = () => {
                 <EmptyState
                     title="Giỏ hàng trống"
                     description="Hãy thêm dịch vụ yêu thích vào giỏ hàng."
+                    action={
+                        <Link to="/">
+                            <Button>
+                                Khám phá dịch vụ
+                            </Button>
+                        </Link>
+                    }
                 />
             </div>
         );

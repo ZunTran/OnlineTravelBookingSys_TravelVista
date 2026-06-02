@@ -34,7 +34,10 @@ const ProviderTourSchedulesTable = ({ schedules = [] }) => {
 
                     <TableBody>
                         {schedules.map((schedule) => (
-                            <TourScheduleRow key={schedule.id} schedule={schedule} />
+                            <TourScheduleRow
+                                key={schedule.scheduleId}
+                                schedule={schedule}
+                            />
                         ))}
                     </TableBody>
                 </Table>

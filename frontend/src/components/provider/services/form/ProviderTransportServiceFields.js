@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-const ProviderTransportServiceFields = ({ formService, handleChange, }) => {
+const ProviderTransportServiceFields = ({ formService, onChange, }) => {
 
     return (
 
@@ -16,7 +16,7 @@ const ProviderTransportServiceFields = ({ formService, handleChange, }) => {
                     <Input
                         name="brandName"
                         value={formService.brandName}
-                        onChange={handleChange}
+                        onChange={onChange}
                         placeholder="Vd: Phương Trang FuTa"
                     />
                 </div>
@@ -27,7 +27,7 @@ const ProviderTransportServiceFields = ({ formService, handleChange, }) => {
                     <Input
                         name="vehicleType"
                         value={formService.vehicleType}
-                        onChange={handleChange}
+                        onChange={onChange}
                         placeholder="Limousine 22"
 
                     />
@@ -38,7 +38,7 @@ const ProviderTransportServiceFields = ({ formService, handleChange, }) => {
                     <Input
                         name="departureStation"
                         value={formService.departureStation}
-                        onChange={handleChange}
+                        onChange={onChange}
                         placeholder="Hồ Chí Minh"
 
                     />
@@ -50,7 +50,7 @@ const ProviderTransportServiceFields = ({ formService, handleChange, }) => {
                     <Input
                         name="arrivalStation"
                         value={formService.arrivalStation}
-                        onChange={handleChange}
+                        onChange={onChange}
                         placeholder="Hà Nội"
 
                     />

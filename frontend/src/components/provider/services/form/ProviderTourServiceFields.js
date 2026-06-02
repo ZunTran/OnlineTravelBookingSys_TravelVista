@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-const ProviderTourServiceFields = ({ formService, handleChange }) => {
+const ProviderTourServiceFields = ({ formService, onChange }) => {
     return (
         <div className="rounded-xl border bg-white p-5 space-y-5">
             <h3 className="text-lg font-semibold">
@@ -14,7 +14,7 @@ const ProviderTourServiceFields = ({ formService, handleChange }) => {
                     <Input
                         name="departureLocation"
                         value={formService.departureLocation}
-                        onChange={handleChange}
+                        onChange={onChange}
                         placeholder="VD: TP.HCM"
                     />
                 </div>
@@ -24,7 +24,7 @@ const ProviderTourServiceFields = ({ formService, handleChange }) => {
                     <Input
                         name="destinationLocation"
                         value={formService.destinationLocation}
-                        onChange={handleChange}
+                        onChange={onChange}
                         placeholder="VD: Đà Lạt"
                     />
                 </div>
@@ -35,7 +35,7 @@ const ProviderTourServiceFields = ({ formService, handleChange }) => {
                         type="number"
                         name="durationDays"
                         value={formService.durationDays}
-                        onChange={handleChange}
+                        onChange={onChange}
                         min={1}
                         max={30}
                     />
@@ -47,7 +47,7 @@ const ProviderTourServiceFields = ({ formService, handleChange }) => {
                         type="number"
                         name="durationNights"
                         value={formService.durationNights}
-                        onChange={handleChange}
+                        onChange={onChange}
                         min={0}
                         max={30}
                     />
@@ -58,7 +58,7 @@ const ProviderTourServiceFields = ({ formService, handleChange }) => {
                     <Input
                         name="transportMode"
                         value={formService.transportMode}
-                        onChange={handleChange}
+                        onChange={onChange}
                         placeholder="VD: Xe khách cao cấp"
                     />
                 </div>

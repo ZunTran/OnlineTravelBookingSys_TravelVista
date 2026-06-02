@@ -5,7 +5,7 @@ import { addDaysToDateTime } from "@/utils/format";
 
 const TourScheduleForm = ({
     formData,
-    handleChange,
+    onChange,
     setFormData,
     onSubmit,
     isLoading,
@@ -14,7 +14,7 @@ const TourScheduleForm = ({
 }) => {
     console.log(durationDays);
 
-    const handleChangeDeparture = (e) => {
+    const onChangeDeparture = (e) => {
         const departureTime = e.target.value;
 
         setFormData((prev) => ({
@@ -39,25 +39,10 @@ const TourScheduleForm = ({
                         type="datetime-local"
                         name="departureTime"
                         value={formData.departureTime}
-                        onChange={handleChangeDeparture}
+                        onChange={onChangeDeparture}
                         min={new Date().toISOString().slice(0, 16)}
                     />
                 </div>
-
-                {/* <div className="space-y-2">
-                    <Label>
-                        Thời lượng dự kiến (phút)
-                    </Label>
-                    <Input
-                        type="number"
-                        name="durationHours"
-                        value={
-                            formData.durationHours
-                        }
-                        onChange={handleDurationChange}
-                        min={1}
-                    />
-                </div> */}
 
                 <div className="space-y-2">
                     <Label>
@@ -81,7 +66,7 @@ const TourScheduleForm = ({
                         value={
                             formData.maxParticipants
                         }
-                        onChange={handleChange}
+                        onChange={onChange}
                         min={0}
                     />
                 </div>
@@ -92,7 +77,7 @@ const TourScheduleForm = ({
                         type="number"
                         name="price"
                         value={formData.price}
-                        onChange={handleChange}
+                        onChange={onChange}
                         min={0}
                     />
                 </div>
@@ -105,7 +90,7 @@ const TourScheduleForm = ({
                         value={
                             formData.availableSlots
                         }
-                        onChange={handleChange}
+                        onChange={onChange}
                         min={0}
                         max={formData.maxParticipants}
                     />

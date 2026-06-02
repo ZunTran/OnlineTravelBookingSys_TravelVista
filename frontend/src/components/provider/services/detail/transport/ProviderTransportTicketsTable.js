@@ -30,7 +30,10 @@ const ProviderTransportTicketsTable = ({ tickets = [] }) => {
 
                     <TableBody>
                         {tickets.map((ticket) => (
-                            <TransportTicketRow key={ticket.id} ticket={ticket} />
+                            <TransportTicketRow
+                                key={ticket.ticketId}
+                                ticket={ticket}
+                            />
                         ))}
                     </TableBody>
                 </Table>

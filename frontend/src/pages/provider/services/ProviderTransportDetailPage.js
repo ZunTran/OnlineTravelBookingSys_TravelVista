@@ -103,7 +103,7 @@ const ProviderTransportDetailPage = () => {
                     <TransportTicketForm
                         formData={formData}
                         setFormData={setFormData}
-                        handleChange={handleChange}
+                        onChange={handleChange}
                         isLoading={isCreating}
                         onSubmit={handleSubmit}
                     />
