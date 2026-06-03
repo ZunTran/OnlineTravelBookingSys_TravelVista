@@ -5,6 +5,7 @@ import CartProviderSection from "@/components/user/cart/CartProviderSection";
 import CartSummary from "@/components/user/cart/CartSummary";
 import DetailHeader from "@/components/user/detail/review/DetailHeader";
 import { useCart } from "@/hooks/user/use-cart";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const CartPage = () => {
@@ -16,10 +17,34 @@ const CartPage = () => {
 
     const providers = cart?.content || [];
     const allItems = providers.flatMap((provider) => provider.items || []);
+    const [selectedIds, setSelectedIds] = useState([]);
+
 
     const totalPrice = allItems.reduce((sum, item) => {
         return sum + item.quantity * item.sellableItemInfo.currentPrice;
     }, 0);
+
+
+
+    const handleToggleSelect = (cartItemId) => {
+        setSelectedIds((prev) =>
+            prev.includes(cartItemId)
+                ? prev.filter((id) => id !== cartItemId)
+                : [...prev, cartItemId]
+        );
+    };
+
+    const handleCheckout = () => {
+        navigate("/checkout?mode=cart", {
+            state: {
+                mode: "cart",
+                cartItemIds: selectedIds,
+            }
+        }
+        )
+    }
+
+
 
     if (isLoading)
         return (<CartSkeleton />);
@@ -50,13 +75,15 @@ const CartPage = () => {
                 <CartProviderSection
                     key={pro.providerId}
                     provider={pro}
+                    onToggleSelect={handleToggleSelect}
+                    selectedIds={selectedIds}
                 />
             ))
             }
             <CartSummary
-                totalItems={cart?.totalItems}
+                totalItems={selectedIds.length}
                 totalPrice={totalPrice}
-                onCheckout={() => navigate("/checkout?mode=cart")}
+                onCheckout={handleCheckout}
             />
 
         </section>

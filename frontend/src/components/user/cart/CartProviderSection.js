@@ -4,7 +4,7 @@ import { useDeleteCart, useUpdateCart } from "@/hooks/user/use-cart";
 
 import { Building, Phone } from "lucide-react";
 
-const CartProviderSection = ({ provider }) => {
+const CartProviderSection = ({ provider, selectedIds, onToggleSelect }) => {
     const updateCartMutation = useUpdateCart();
     const deleteCartMutation = useDeleteCart();
 
@@ -52,6 +52,8 @@ const CartProviderSection = ({ provider }) => {
                             onUpdateQuantity={handleUpdateQuantity}
                             onDelete={handleDelete}
                             isUpdating={isUpdating || isDeleting}
+                            isSelected={selectedIds.includes(item.cartItemId)}
+                            onToggleSelect={onToggleSelect}
                         />
                     );
                 })}

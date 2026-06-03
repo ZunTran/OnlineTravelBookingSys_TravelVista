@@ -1,4 +1,4 @@
-import { checkoutApi, getPaymentMethodApi } from "@/services/checkout.service"
+import { checkoutApi, getPaymentMethodApi, previewCartCheckoutApi } from "@/services/checkout.service"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner"
@@ -9,6 +9,19 @@ export const usePaymentMethod = () => {
         queryKey: ["payment-methods"],
         queryFn: getPaymentMethodApi,
     })
+}
+
+
+
+export const usePreview = (formData, enabled = true) => {
+
+    return useQuery({
+        queryKey: ["preview"],
+        queryFn: () => previewCartCheckoutApi(formData),
+        enabled,
+        retry: false,
+
+    });
 }
 
 export const useBuyNow = () => {

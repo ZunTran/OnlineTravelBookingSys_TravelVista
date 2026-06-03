@@ -7,12 +7,14 @@ const CheckoutItemCard = ({ item }) => {
 
     const total = item.price * item.quantity;
 
+    console.log(item);
+
     return (
         <Card className="grid rounded-2xl m-4 p-4 sm:grid-cols-[120px_1fr_auto]">
             <div className="h28 overflow-hidden rounded-xl">
-                {item.thubnailUrl ? (
+                {item.thumbnailUrl ? (
                     <img
-                        src={item.thubnailUrl}
+                        src={item.thumbnailUrl}
                         alt={item.name}
                         className="h-full w-full object-cover"
                         loading="lazy"

@@ -11,6 +11,8 @@ const CartItemCard = ({
     onUpdateQuantity,
     onDelete,
     isUpdating = false,
+    isSelected,
+    onToggleSelect
 }) => {
 
 
@@ -55,8 +57,17 @@ const CartItemCard = ({
     }, [quantity, cartItem.cartItemId, onUpdateQuantity]);
 
     return (
-        <Card className="mb-4 grid gap-5 p-5 sm:grid-cols-[120px_1fr_auto]">
-            <div className="h-28 overflow-hidden rounded-xl bg-muted">
+        <Card className="mb-4 grid gap-5 p-5 sm:grid-cols-[24px_120px_1fr_auto]">
+            <div className="flex items-start pt-2">
+                <input
+                    type="checkbox"
+                    checked={isSelected}
+                    disabled={!isAvailable || isUpdating}
+                    onChange={() => onToggleSelect?.(cartItem.cartItemId)}
+                    className="h-4 w-4"
+                />
+            </div>
+            <div className="h-28 overflow-hidden rounded-xl">
                 {info.thumbnailUrl ? (
                     <img
                         src={info.thumbnailUrl}

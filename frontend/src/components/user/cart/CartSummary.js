@@ -13,13 +13,14 @@ const CartSummary = ({ totalItems, totalPrice, onCheckout }) => {
                 </div>
 
                 <div className="flex justify-between border-t pt-4 font-semibold text-lg">
-                    <span>Tạm tính:</span>
+                    <span>Tổng tiền trong giỏ:</span>
                     <span className="text-2xl text-green-500">{formatPrice(totalPrice)}</span>
                 </div>
 
                 <Button
                     className="w-full"
                     onClick={onCheckout}
+                    disabled={totalItems === 0}
                 >
                     Thanh toán
                 </Button>

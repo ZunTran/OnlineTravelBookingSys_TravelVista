@@ -29,7 +29,7 @@ const CheckoutSuccessPage = () => {
 
                 <div className="flex flex-col gap-3">
                     {orderId && (
-                        <Button onClick={() => navigate(`/user/orders/${orderId}`)}>
+                        <Button onClick={() => navigate("/user/order")}>
                             <ReceiptText className="mr-2 h-4 w-4" />
                             Xem chi tiết đơn hàng
                         </Button>
