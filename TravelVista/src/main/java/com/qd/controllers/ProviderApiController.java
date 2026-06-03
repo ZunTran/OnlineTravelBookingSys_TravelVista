@@ -48,9 +48,6 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiresApprovedProvider
 public class ProviderApiController {
 
-    // @Autowired
-    // private UserService userService;
-
     @Autowired
     private ProviderService providerService;
 
@@ -124,7 +121,6 @@ public class ProviderApiController {
                 Map.of("success", true, "message", "Đã nạp thêm phân loại con lẻ mới vào bài đăng gốc thành công!"));
     }
 
-    // PATCH /{id}/{serviceType}/{subItemId} -> Thay đổi trạng thái SUSPENDED 
     @DeleteMapping("/{id}/{serviceType}/{subItemId}")
     @CheckServiceOwnership(paramName = "id")
     public ResponseEntity<Map<String, Object>> deleteSubItem(
@@ -257,7 +253,7 @@ public class ProviderApiController {
 
         providerService.updateComprehensiveService(principal.getName(), id, req);
         return ResponseEntity.ok(Map.of("success", true, "message",
-                "Đã lưu cập nhật thành công! Bài đăng đã được kích hoạt hiển thị công khai trên sàn lữ hành!"));
+                "Đã lưu cập nhật thành công! Bài đăng đã được hiển thị công khai trên sàn !"));
     }
 
     @GetMapping("/orders")

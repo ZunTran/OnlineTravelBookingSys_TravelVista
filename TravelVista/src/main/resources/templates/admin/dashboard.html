@@ -1,9 +1,9 @@
-<!doctype html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:replace="~{base :: head('Trang chủ admin')}"></th:block>
+    <th:block th:replace="~{base :: head('Hệ thống quản trị - Dashboard')}"></th:block>
 </head>
-<body>
+<body class="bg-light">
     <div th:replace="~{base :: header}"></div>
 
     <div class="container-fluid">
@@ -11,50 +11,79 @@
             <div th:replace="~{base :: menu('home')}"></div>
 
             <main class="col-md-10 p-4">
-                <div class="card p-4 border-0 shadow-sm rounded-3 bg-white">
-                    <h3 class="fw-bold text-dark border-bottom pb-3 mb-4">BÁO CÁO THỐNG KÊ</h3>
+                <div class="mb-4">
+                    <h2 class="fw-bold text-primary">Dashboard Thống Kê</h2>
+                </div>
 
-                    <div class="row mb-4">
-                        <div class="col-md-4">
-                            <div class="card p-4 bg-light border-0 shadow-sm rounded-3">
-                                <span class="text-muted text-uppercase small fw-bold">Dịch vụ đang chạy</span>
-                                <h2 class="fw-bold mt-2 text-primary">1,245</h2>
+                <div class="card mb-4 border-0 shadow-sm rounded-4">
+                    <div class="card-body p-4">
+                        <div class="row g-3 align-items-end">
+                            <div class="col-md-3">
+                                <label class="fw-bold text-secondary mb-1 small">Từ ngày</label>
+                                <input type="date" id="fromDate" class="form-control rounded-3">
                             </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card p-4 bg-light border-0 shadow-sm rounded-3">
-                                <span class="text-muted text-uppercase small fw-bold">Lượt đặt vé tháng</span>
-                                <h2 class="fw-bold mt-2 text-warning">8,432</h2>
+                            <div class="col-md-3">
+                                <label class="fw-bold text-secondary mb-1 small">Đến ngày</label>
+                                <input type="date" id="toDate" class="form-control rounded-3">
                             </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card p-4 bg-dark text-white border-0 shadow-sm rounded-3">
-                                <span class="text-light text-uppercase small fw-bold" style="opacity: 0.8;">Doanh thu tổng</span>
-                                <h2 class="fw-bold mt-2 text-success">452,000,000đ</h2>
+                            <div class="col-md-3">
+                                <label class="fw-bold text-secondary mb-1 small">Loại dịch vụ</label>
+                                <select id="serviceType" class="form-select rounded-3">
+                                    <option value="">-- Tất cả --</option>
+                                    <option value="TOUR">Tour du lịch</option>
+                                    <option value="HOTEL">Khách sạn</option>
+                                    <option value="TRANSPORT">Vận chuyển</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-primary w-100 rounded-3 fw-bold" onclick="loadStats()">
+                                    Thống kê
+                                </button>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="card p-4 border shadow-sm rounded-3 bg-light">
-                        <h6 class="fw-bold mb-3 text-secondary"><i class="bi bi-sliders"></i> Tùy biến bộ lọc báo cáo</h6>
-                        <form class="row g-3">
-                            <div class="col-md-4">
-                                <select class="form-select border-2">
-                                    <option selected>Xem theo: Tháng này</option>
-                                    <option>Xem theo: Cả năm</option>
-                                </select>
+                <div class="row g-4">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="card border-0 shadow-sm rounded-4 h-100">
+                            <div class="card-body p-4 text-center">
+                                <h6 class="text-muted fw-bold">Dịch vụ đang chạy</h6>
+                                <h2 class="fw-bold text-primary mt-2" id="activeServices">0</h2>
                             </div>
-                            <div class="col-md-4">
-                                <select class="form-select border-2">
-                                    <option selected>Loại hình: Tất cả</option>
-                                    <option>Loại hình: TOUR</option>
-                                    <option>Loại hình: HOTEL</option>
-                                </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="card border-0 shadow-sm rounded-4 h-100">
+                            <div class="card-body p-4 text-center">
+                                <h6 class="text-muted fw-bold">Tổng lượt đặt vé</h6>
+                                <h2 class="fw-bold text-warning mt-2" id="orderFrequency">0</h2>
                             </div>
-                            <div class="col-md-4">
-                                <button type="button" class="btn btn-primary w-100 fw-bold rounded-2">Tìm kiếm</button>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="card border-0 shadow-sm rounded-4 h-100 bg-dark text-white">
+                            <div class="card-body p-4 text-center">
+                                <h6 class="fw-bold text-white-50">Tổng doanh thu</h6>
+                                <h2 class="fw-bold text-success mt-2" id="totalRevenue">0 đ</h2>
                             </div>
-                        </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="card border-0 shadow-sm rounded-4 h-100">
+                            <div class="card-body p-4 text-center">
+                                <h6 class="text-muted fw-bold">Tổng nhà cung cấp</h6>
+                                <h2 class="fw-bold text-info mt-2" id="totalProviders">0</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="card border-0 shadow-sm rounded-4 h-100">
+                            <div class="card-body p-4 text-center">
+                                <h6 class="text-muted fw-bold">Tổng khách hàng</h6>
+                                <h2 class="fw-bold text-danger mt-2" id="totalCustomers">0</h2>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </main>
@@ -63,5 +92,35 @@
 
     <div th:replace="~{base :: footer}"></div>
     <th:block th:replace="~{base :: scripts}"></th:block>
+
+    <script>
+        async function loadStats() {
+            const token = localStorage.getItem("admin_token");
+            if (!token) { setTimeout(loadStats, 300); return; }
+
+            const params = new URLSearchParams({
+                fromDate: document.getElementById("fromDate").value,
+                toDate: document.getElementById("toDate").value,
+                serviceType: document.getElementById("serviceType").value
+            });
+
+            try {
+                const response = await fetch(`/TravelVista/api/admin/stats?${params.toString()}`, {
+                    headers: { "Authorization": "Bearer " + token }
+                });
+
+                const json = await response.json();
+                if (json.success) {
+                    const d = json.data;
+                    document.getElementById("activeServices").innerText = d.activeServices;
+                    document.getElementById("orderFrequency").innerText = d.orderFrequency;
+                    document.getElementById("totalProviders").innerText = d.totalProviders;
+                    document.getElementById("totalCustomers").innerText = d.totalCustomers;
+                    document.getElementById("totalRevenue").innerText = Number(d.totalRevenue).toLocaleString("vi-VN") + " đ";
+                }
+            } catch (err) { console.error("Lỗi:", err); }
+        }
+        window.addEventListener('DOMContentLoaded', loadStats);
+    </script>
 </body>
 </html>

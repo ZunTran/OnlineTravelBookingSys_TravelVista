@@ -114,19 +114,42 @@ public class ProviderRepositoryImpl implements ProviderRepository {
         Join<Providers, Users> userJoin = (Join) root.fetch("userId");
         List<Predicate> predicates = new ArrayList<>();
         predicates.add(b.equal(root.get("isApproved"), isApproved));
-        
+
         if (!isApproved) {
             String type = (params != null) ? params.get("type") : "";
 
+
+
+
+            
             if ("rejected".equalsIgnoreCase(type)) {
-                predicates.add(b.equal(userJoin.get("isActive"), true));
-                predicates.add(b.isNotNull(root.get("statusReason"))); 
-            } else {
-                predicates.add(b.equal(userJoin.get("isActive"), true));
-                predicates.add(b.isNull(root.get("statusReason")));  
-            }
-        } else predicates.add(b.equal(userJoin.get("isActive"), true));
-        
+
+    predicates.add(
+        b.equal(userJoin.get("isActive"), true)
+    );
+
+    predicates.add(
+        b.isNotNull(root.get("statusReason"))
+    );
+
+}
+else if ("banned".equalsIgnoreCase(type)) {
+
+    predicates.add(
+        b.equal(userJoin.get("isActive"), false)
+    );
+
+    predicates.add(
+        b.isNotNull(root.get("statusReason"))
+    );
+
+}
+
+
+
+        } else
+            predicates.add(b.equal(userJoin.get("isActive"), true));
+
         q.where(predicates.toArray(Predicate[]::new));
         q.orderBy(b.desc(userJoin.get("createdAt")));
         Query<Providers> query = session.createQuery(q);
@@ -136,15 +159,15 @@ public class ProviderRepositoryImpl implements ProviderRepository {
             int page = Integer.parseInt(params.getOrDefault("page", "1"));
 
             int start = (page - 1) * pageSize;
-            query.setMaxResults(pageSize); 
-            query.setFirstResult(start); 
+            query.setMaxResults(pageSize);
+            query.setFirstResult(start);
         }
 
         return query.getResultList();
     }
 
     @Override
-    public Long countProvidersByStatus(boolean isApproved,Map<String, String> params) {
+    public Long countProvidersByStatus(boolean isApproved, Map<String, String> params) {
         Session session = this.factory.getObject().getCurrentSession();
         CriteriaBuilder b = session.getCriteriaBuilder();
         CriteriaQuery<Long> q = b.createQuery(Long.class);
@@ -157,15 +180,16 @@ public class ProviderRepositoryImpl implements ProviderRepository {
 
         if (!isApproved) {
             String type = (params != null) ? params.get("type") : "";
-            
+
             if ("rejected".equalsIgnoreCase(type)) {
                 predicates.add(b.equal(userJoin.get("isActive"), true));
                 predicates.add(b.isNotNull(root.get("statusReason"))); // Đếm cho hội Rejected
             } else {
                 predicates.add(b.equal(userJoin.get("isActive"), true));
-                predicates.add(b.isNull(root.get("statusReason")));    // Đếm cho hội Pending gốc
+                predicates.add(b.isNull(root.get("statusReason"))); // Đếm cho hội Pending gốc
             }
-        } else predicates.add(b.equal(userJoin.get("isActive"), true));
+        } else
+            predicates.add(b.equal(userJoin.get("isActive"), true));
 
         q.where(predicates.toArray(Predicate[]::new));
         Query<Long> query = session.createQuery(q);
@@ -174,7 +198,8 @@ public class ProviderRepositoryImpl implements ProviderRepository {
 
     @Override
     public List<Providers> getProviders(Map<String, String> params) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from                                                                  // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from //
+                                                                       // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
@@ -191,7 +216,7 @@ public class ProviderRepositoryImpl implements ProviderRepository {
         try {
             return query.getSingleResult();
         } catch (Exception e) {
-            return null; 
+            return null;
         }
     }
 
@@ -207,9 +232,9 @@ public class ProviderRepositoryImpl implements ProviderRepository {
         CriteriaBuilder b = session.getCriteriaBuilder();
         CriteriaQuery<Services> q = b.createQuery(Services.class);
         Root<Services> root = q.from(Services.class);
-        root.fetch("serviceImagesSet",JoinType.LEFT);
+        root.fetch("serviceImagesSet", JoinType.LEFT);
 
-        q.select(root).distinct(true); 
+        q.select(root).distinct(true);
 
         List<Predicate> predicates = new ArrayList<>();
         predicates.add(b.equal(root.get("providerId").get("id"), providerId));
@@ -254,7 +279,8 @@ public class ProviderRepositoryImpl implements ProviderRepository {
         predicates.add(b.equal(root.get("providerId").get("id"), providerId));
 
         if (params != null && params.get("serviceType") != null) {
-            predicates.add(b.equal(root.get("serviceType"), ServiceType.valueOf(params.get("serviceType").toUpperCase())));
+            predicates.add(
+                    b.equal(root.get("serviceType"), ServiceType.valueOf(params.get("serviceType").toUpperCase())));
         }
         if (params != null && params.get("status") != null) {
             predicates.add(b.equal(root.get("status"), ServiceStatus.valueOf(params.get("status").toUpperCase())));
@@ -290,10 +316,12 @@ public class ProviderRepositoryImpl implements ProviderRepository {
         }
 
         q.where(b.and(b.equal(root.get("id"), serviceId), b.equal(root.get("serviceType"), type)));
-        try { 
+        try {
             List<Services> resultList = session.createQuery(q).getResultList();
             return (resultList != null && !resultList.isEmpty()) ? resultList.get(0) : null;
-        } catch (Exception e) { return null; }
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
@@ -301,7 +329,6 @@ public class ProviderRepositoryImpl implements ProviderRepository {
         return this.factory.getObject().getCurrentSession().get(Services.class, id);
     }
 
-    
     @Override
     public void updateService(Services s) {
         this.factory.getObject().getCurrentSession().merge(s);
@@ -311,11 +338,10 @@ public class ProviderRepositoryImpl implements ProviderRepository {
     public void saveService(Services service) {
         Session session = this.factory.getObject().getCurrentSession();
         if (service.getId() == null) {
-            session.persist(service); 
-            session.merge(service); 
+            session.persist(service);
+            session.merge(service);
         }
     }
-    
 
     @Override
     public void saveTourDetails(TourDetails tourDetails) {
@@ -395,7 +421,7 @@ public class ProviderRepositoryImpl implements ProviderRepository {
     @Override
     public void saveServiceImage(ServiceImages img) {
         this.factory.getObject().getCurrentSession().merge(img);
-}
+    }
 
     @Override
     public void removeServiceImage(ServiceImages img) {
@@ -411,14 +437,13 @@ public class ProviderRepositoryImpl implements ProviderRepository {
 
         q.set(root.get("itemStatus"), status);
         q.where(b.and(
-            b.equal(root.get("serviceId").get("id"), serviceId),
-            b.equal(root.get(targetField).get("id"), subItemId)
-        ));
+                b.equal(root.get("serviceId").get("id"), serviceId),
+                b.equal(root.get(targetField).get("id"), subItemId)));
 
         session.createMutationQuery(q).executeUpdate();
     }
 
-//////////////////////////////////////////////============
+    ////////////////////////////////////////////// ============
     @Override
     public void updateAllSellableStatusByService(Long serviceId, ItemStatus status) {
         Session session = this.factory.getObject().getCurrentSession();
@@ -440,9 +465,8 @@ public class ProviderRepositoryImpl implements ProviderRepository {
         Root<SellableItems> root = q.from(SellableItems.class);
 
         q.select(root).where(b.and(
-            b.equal(root.get("serviceId").get("id"), serviceId),
-            b.equal(root.get(targetField).get("id"), subItemId)
-        ));
+                b.equal(root.get("serviceId").get("id"), serviceId),
+                b.equal(root.get(targetField).get("id"), subItemId)));
 
         return session.createQuery(q).getSingleResultOrNull();
     }
@@ -475,20 +499,22 @@ public class ProviderRepositoryImpl implements ProviderRepository {
         CriteriaQuery<Orders> q = b.createQuery(Orders.class);
         Root<Orders> root = q.from(Orders.class);
 
-        root.fetch("userId",JoinType.INNER);
-        root.fetch("paymentMethodId",JoinType.INNER);
+        root.fetch("userId", JoinType.INNER);
+        root.fetch("paymentMethodId", JoinType.INNER);
 
         List<Predicate> predicates = new ArrayList<>();
         predicates.add(b.equal(root.get("providerId").get("id"), providerId));
         if (params != null && params.containsKey("paymentStatus") && !params.get("paymentStatus").trim().isEmpty()) {
-            predicates.add(b.equal(root.get("paymentStatus"), PaymentStatus.valueOf(params.get("paymentStatus").toUpperCase())));
+            predicates.add(b.equal(root.get("paymentStatus"),
+                    PaymentStatus.valueOf(params.get("paymentStatus").toUpperCase())));
         }
-        if (params != null && params.containsKey("transactionReference") && !params.get("transactionReference").trim().isEmpty()) {
+        if (params != null && params.containsKey("transactionReference")
+                && !params.get("transactionReference").trim().isEmpty()) {
             predicates.add(b.equal(root.get("transactionReference"), params.get("transactionReference").trim()));
         }
 
         q.select(root).where(predicates.toArray(new Predicate[0]));
-        q.orderBy(b.desc(root.get("createdAt"))); 
+        q.orderBy(b.desc(root.get("createdAt")));
 
         var query = session.createQuery(q);
         String pageSizeStr = this.env.getProperty("order.page_size", "10");
@@ -513,7 +539,8 @@ public class ProviderRepositoryImpl implements ProviderRepository {
         predicates.add(b.equal(root.get("providerId").get("id"), providerId));
 
         if (params != null && params.containsKey("paymentStatus") && !params.get("paymentStatus").trim().isEmpty()) {
-            predicates.add(b.equal(root.get("paymentStatus"), PaymentStatus.valueOf(params.get("paymentStatus").toUpperCase())));
+            predicates.add(b.equal(root.get("paymentStatus"),
+                    PaymentStatus.valueOf(params.get("paymentStatus").toUpperCase())));
         }
 
         q.select(b.count(root)).where(predicates.toArray(new Predicate[0]));
@@ -533,21 +560,21 @@ public class ProviderRepositoryImpl implements ProviderRepository {
         fetchDetails.fetch("reviews", JoinType.LEFT);
 
         q.select(root).where(
-            b.equal(root.get("id"), orderId),
-            b.equal(root.get("providerId").get("id"), providerId)
-        );
+                b.equal(root.get("id"), orderId),
+                b.equal(root.get("providerId").get("id"), providerId));
 
         try {
             return session.createQuery(q).getSingleResult();
         } catch (Exception e) {
-            return null; 
+            return null;
         }
     }
 
     @Override
     @Transactional(readOnly = true)
     public Providers findProviderByUsername(String username) {
-        if (username == null || username.trim().isEmpty()) return null;
+        if (username == null || username.trim().isEmpty())
+            return null;
 
         Session session = this.factory.getObject().getCurrentSession();
         CriteriaBuilder b = session.getCriteriaBuilder();
@@ -571,9 +598,9 @@ public class ProviderRepositoryImpl implements ProviderRepository {
     public List<Object[]> getRevenueByService(Long providerId) {
         Session session = this.factory.getObject().getCurrentSession();
         CriteriaBuilder b = session.getCriteriaBuilder();
-        CriteriaQuery<Object[]> q = b.createQuery(Object[].class); 
+        CriteriaQuery<Object[]> q = b.createQuery(Object[].class);
         Root<OrderDetails> root = q.from(OrderDetails.class);
-        
+
         Join<OrderDetails, Orders> joinOrder = root.join("orderId", JoinType.INNER);
         Join<OrderDetails, SellableItems> joinSellable = root.join("itemId", JoinType.INNER);
         Expression<BigDecimal> rowRevenue = b.prod(root.get("price"), root.get("quantity"));
@@ -581,13 +608,12 @@ public class ProviderRepositoryImpl implements ProviderRepository {
         Predicate filterStatus = b.equal(joinOrder.get("paymentStatus"), com.qd.enums.PaymentStatus.PAY);
 
         q.multiselect(
-            joinSellable.get("serviceId").get("id"), 
-            root.get("serviceNameSnapshot"),        
-            b.sum(rowRevenue),                      
-            b.countDistinct(joinOrder.get("id"))
-        );
+                joinSellable.get("serviceId").get("id"),
+                root.get("serviceNameSnapshot"),
+                b.sum(rowRevenue),
+                b.countDistinct(joinOrder.get("id")));
         q.where(b.and(filterProvider, filterStatus));
-        q.groupBy(joinSellable.get("serviceId").get("id"), root.get("serviceNameSnapshot")); 
+        q.groupBy(joinSellable.get("serviceId").get("id"), root.get("serviceNameSnapshot"));
         return session.createQuery(q).getResultList();
     }
 
@@ -629,6 +655,5 @@ public class ProviderRepositoryImpl implements ProviderRepository {
 
         return session.createQuery(q).getResultList();
     }
-
 
 }

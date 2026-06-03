@@ -46,10 +46,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -391,10 +394,10 @@ public class UserServiceImpl implements UserService {
         int currentPage = (params != null) ? Integer.parseInt(params.getOrDefault("page", "1")) : 1;
 
         List<AdminProviderResponse> content = providers.stream()
-                .map(com.qd.dto.AdminProviderResponse::new)
-                .collect(java.util.stream.Collectors.toList());
+                .map(AdminProviderResponse::new)
+                .collect(Collectors.toList());
 
-        Map<String, Object> result = new java.util.HashMap<>();
+        Map<String, Object> result = new HashMap<>();
         result.put("content", content);
         result.put("totalElements", totalElements);
         result.put("page", currentPage);         
