@@ -1,0 +1,105 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{base :: head('Duyệt nhà cung cấp')}"></th:block>
+</head>
+<body>
+    <div th:replace="~{base :: header}"></div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div th:replace="~{base :: menu('prov')}"></div>
+
+            <main class="col-md-10 p-4">
+                <div class="card p-4 border-0 shadow-sm rounded-3 bg-white">
+                    <h3 class="fw-bold text-dark border-bottom pb-3 mb-4">XÉT DUYỆT ĐỐI TÁC</h3>
+
+                    <ul class="nav nav-pills mb-4 bg-light p-1 rounded-2" style="width: fit-content;">
+                        <li class="nav-item">
+                            <button class="nav-link active fw-bold px-4" id="tab1" onclick="load('pending')">Chờ xét duyệt</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link text-secondary fw-bold px-4" id="tab2" onclick="load('approved')">Đã phê duyệt</button>
+                        </li>
+                    </ul>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle border m-0">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Tên công ty đối tác</th>
+                                    <th>Mã số thuế (MST)</th>
+                                    <th>Đường dây nóng</th>
+                                    <th class="text-center">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody id="listProv"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div th:replace="~{base :: footer}"></div>
+    <th:block th:replace="~{base :: scripts}"></th:block>
+
+    <script>
+        async function load(type) {
+            let isPending = type === 'pending';
+            document.getElementById('tab1').className = isPending ? "nav-link active fw-bold px-4" : "nav-link text-secondary fw-bold px-4";
+            document.getElementById('tab2').className = !isPending ? "nav-link active fw-bold px-4" : "nav-link text-secondary fw-bold px-4";
+            
+            let tk = localStorage.getItem('admin_token');
+            let url = isPending ? '/TravelVista/api/admin/providers/pending' : '/TravelVista/api/admin/providers/approved';
+            
+            try {
+                let res = await fetch(url, { headers: { 'Authorization': 'Bearer ' + tk } });
+                let json = await res.json();
+                let html = '';
+                
+                if(json.success && json.data && json.data.content) {
+                    json.data.content.forEach(p => {
+                        html += `
+                            <tr>
+                                <td><code>#PROV_${p.id}</code></td>
+                                <td class="fw-bold text-secondary">${p.companyName}</td>
+                                <td><span class="badge bg-light text-dark border fw-medium px-2 py-1">${p.taxCode}</span></td>
+                                <td><span class="text-success fw-medium"><i class="bi bi-telephone-fill me-1 small"></i>${p.hotline}</span></td>
+                                <td class="text-center">
+                                    ${isPending ? 
+                                        `<button onclick="duyet(${p.id}, 'approve')" class="btn btn-sm btn-success fw-bold px-2 py-1 me-1">Duyệt</button>
+                                         <button onclick="duyet(${p.id}, 'reject')" class="btn btn-sm btn-outline-danger fw-bold px-2 py-1">Từ chối</button>` : 
+                                        `<button onclick="duyet(${p.id}, 'ban')" class="btn btn-sm btn-dark fw-bold px-2 py-1">Khóa tài khoản</button>`
+                                    }
+                                </td>
+                            </tr>`;
+                    });
+                }
+                document.getElementById('listProv').innerHTML = html || '<tr><td colspan="5" class="text-center py-3 text-muted">Danh sách đang trống trơn!</td></tr>';
+            } catch (err) { console.error(err); }
+        }
+
+        async function duyet(id, action) {
+            if(!confirm("Xác nhận thực hiện thao tác bảo an này?")) return;
+            let tk = localStorage.getItem('admin_token');
+            let body = action === 'approve' ? null : JSON.stringify({ reason: "Vi phạm quy chế hệ thống" });
+
+            let res = await fetch(`/TravelVista/api/admin/providers/${id}/${action}`, {
+                method: 'PUT',
+                headers: { 'Authorization': 'Bearer ' + tk, 'Content-Type': 'application/json' },
+                body: body
+            });
+
+            if(res.ok) {
+                alert("Thao tác thành công!");
+                load(action === 'ban' ? 'approved' : 'pending');
+            } else {
+                alert("Thao tác thất bại!");
+            }
+        }
+        window.addEventListener('DOMContentLoaded', () => load('pending'));
+    </script>
+</body>
+</html>

@@ -37,7 +37,13 @@ public class WebSecurityConfig {
             
             .authorizeHttpRequests(auth -> auth
         
-
+                .requestMatchers(new AntPathRequestMatcher("/admin/dashboard")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/admin/categories")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/admin/providers")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/admin/login")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/index")).permitAll()
+                
                 .requestMatchers(new AntPathRequestMatcher("/api/auth/register")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/auth/login")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/services/**", "GET")).permitAll()
@@ -54,6 +60,7 @@ public class WebSecurityConfig {
 
                 .requestMatchers(new AntPathRequestMatcher("/api/admin/**")).hasRole("ADMIN")
                 .requestMatchers(new AntPathRequestMatcher("/api/analytics/admin/**")).hasRole("ADMIN")
+                
 
 
                 .requestMatchers(new AntPathRequestMatcher("/api/provider/**")).hasRole("PROVIDER")

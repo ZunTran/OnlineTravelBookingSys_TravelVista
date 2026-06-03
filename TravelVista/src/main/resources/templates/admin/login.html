@@ -1,0 +1,84 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{base :: head('Đăng nhập quản trị')}"></th:block>
+</head>
+<body class="bg-secondary-subtle d-flex align-items-center" style="height: 100vh;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <div class="card border-0 shadow p-4">
+                    <h3 class="text-center fw-bold mb-4 text-dark">ADMIN LOGIN</h3>
+                    <div id="msg" class="alert d-none"></div>
+                    <form id="formLogin">
+                        <div class="mb-3">
+                            <label class="form-label text-muted">Tên đăng nhập</label>
+                            <input type="text" id="user" class="form-control" required placeholder="Nhập username...">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-muted">Mật khẩu</label>
+                            <input type="password" id="pass" class="form-control" required placeholder="Nhập password...">
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 fw-bold">ĐĂNG NHẬP</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function checkAdmin(token) {
+            try {
+                let data = JSON.parse(atob(token.split('.')[1]));
+                let role = data.role || data.roles || data.sub || data.authorities;
+                return String(role).toUpperCase().includes('ADMIN');
+            } catch(e) { return false; }
+        }
+
+        document.getElementById('formLogin').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            let msg = document.getElementById('msg');
+            msg.className = "alert d-none";
+
+            try {
+                let res = await fetch('/TravelVista/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username: document.getElementById('user').value,
+                        password: document.getElementById('pass').value
+                    })
+                });
+
+                let data = await res.json();
+                
+                if (res.ok && data.success && data.token) {
+                    if (checkAdmin(data.token)) {
+                        localStorage.setItem('admin_token', data.token);
+                        
+                        msg.className = "alert alert-success";
+                        msg.innerText = "Đăng nhập thành công! Đang chuyển hướng...";
+                        msg.classList.remove('d-none');
+                        
+                        setTimeout(() => {
+                            window.location.href = '/TravelVista/admin/dashboard';
+                        }, 300);
+                    } else {
+                        msg.className = "alert alert-danger";
+                        msg.innerText = "Tài khoản của bạn không có quyền Admin!";
+                        msg.classList.remove('d-none');
+                    }
+                } else {
+                    msg.className = "alert alert-danger";
+                    msg.innerText = data.message || "Tài khoản hoặc mật khẩu sai!";
+                    msg.classList.remove('d-none');
+                }
+            } catch (err) {
+                msg.className = "alert alert-danger";
+                msg.innerText = "Lỗi kết nối server!";
+                msg.classList.remove('d-none');
+            }
+        });
+    </script>
+</body>
+</html>

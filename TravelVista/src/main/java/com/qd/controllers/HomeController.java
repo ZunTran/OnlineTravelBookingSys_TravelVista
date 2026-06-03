@@ -24,9 +24,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class HomeController {
     @Autowired
     private CategoryService cateService;
-//    @Autowired
-//    private ProductService prodService;
-//    
 
     @ModelAttribute
     public void commonResponses(Model model){
@@ -41,7 +38,8 @@ public class HomeController {
     public String index(Model model,@RequestParam Map<String,String> params){
 //        model.addAttribute("products",this.prodService.getProducts(params));
 
-        return "index";
+        // return "index";
+        return "redirect:/admin/login";
     }
     
 }
