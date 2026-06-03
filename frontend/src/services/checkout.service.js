@@ -18,3 +18,16 @@ export const checkoutApi = async (formData) => {
 
     return res.data;
 }
+
+export const previewCartCheckoutApi = async (cartItemIds) => {
+    const res = await Apis.post(endpoints.cart.preview,
+        cartItemIds, {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }
+    );
+
+    return res.data;
+
+}

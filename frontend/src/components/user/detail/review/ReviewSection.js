@@ -16,7 +16,6 @@ const ReviewSection = ({
 
     const reviews = reviewData?.data?.customerReviewsFeedback || [];
 
-    console.log(reviews);
     if (reviews.length === 0) {
         return (
             <section className="space-y-4">

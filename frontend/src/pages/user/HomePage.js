@@ -2,7 +2,6 @@ import EmptyState from "@/components/common/Empty";
 import ServiceCard from "@/components/common/ServiceCard";
 import ServiceCardSkeleton from "@/components/common/skeleton/ServiceCardSkeleton";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import ServiceFilter from "@/components/user/ServiceFilter";
 import useSearchFilter from "@/hooks/common/use-search-filter";
 import { useCategories, useServices } from "@/hooks/service/use-service";

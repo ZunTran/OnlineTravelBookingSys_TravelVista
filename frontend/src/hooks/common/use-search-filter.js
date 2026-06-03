@@ -7,6 +7,7 @@ const useSearchFilter = () => {
         return searchParams.get(key) || defaultValue;
     };
 
+
     const handleFilterChange = (key, value) => {
         const params = new URLSearchParams(searchParams);
 
