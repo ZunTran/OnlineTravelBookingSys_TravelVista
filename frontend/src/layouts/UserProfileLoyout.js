@@ -7,15 +7,17 @@ const UserProfileLayout = () => {
     const { user, logout } = useAuth();
 
     return (
-        <section className="mx-auto w-full max-w-7xl px-6 py-8">
+        <section className="w-full max-w-7xl px-6 py-8">
             <MyBreadcrumb path="Profile" />
             <div className="grid gap-6 lg:grid-cols-[300px_1fr]">
-                <ProfileSidebar
-                    user={user}
-                    onLogout={logout}
-                />
+                <aside className="self-start">
+                    <ProfileSidebar
+                        user={user}
+                        onLogout={logout}
+                    />
+                </aside>
 
-                <main className="min-w-0">
+                <main>
                     <Outlet />
                 </main>
             </div>

@@ -5,10 +5,11 @@ import CartProviderSection from "@/components/user/cart/CartProviderSection";
 import CartSummary from "@/components/user/cart/CartSummary";
 import DetailHeader from "@/components/user/detail/review/DetailHeader";
 import { useCart } from "@/hooks/user/use-cart";
-import { Link } from "react-router-dom";
-import { toast } from "sonner";
+import { Link, useNavigate } from "react-router-dom";
 
 const CartPage = () => {
+
+    const navigate = useNavigate();
 
     const { data, isLoading } = useCart();
     const cart = data?.data || [];
@@ -19,7 +20,6 @@ const CartPage = () => {
     const totalPrice = allItems.reduce((sum, item) => {
         return sum + item.quantity * item.sellableItemInfo.currentPrice;
     }, 0);
-
 
     if (isLoading)
         return (<CartSkeleton />);
@@ -56,7 +56,7 @@ const CartPage = () => {
             <CartSummary
                 totalItems={cart?.totalItems}
                 totalPrice={totalPrice}
-                onCheckout={() => toast.info("checkout")}
+                onCheckout={() => navigate("/checkout?mode=cart")}
             />
 
         </section>

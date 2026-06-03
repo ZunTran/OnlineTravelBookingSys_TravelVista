@@ -13,7 +13,7 @@ const CheckoutSection = ({ items = [] }) => {
             <div className="space-y-5">
                 {items.map((item) => (
                     <CheckoutItemCard
-                        key={item.sellableItemId}
+                        key={item.itemId}
                         item={item} />
                 ))}
             </div>

@@ -9,6 +9,7 @@ export const AUTH_EVENTS = {
     LOGOUT: "LOGOUT",
     UPDATE_PROFILE: "UPDATE_PROFILE",
     TOKEN_EXPIRED: "TOKEN_EXPIRED",
+    ANOTHER_DEVICE_LOGIN: "ANOTHER_DEVIDE_LOGIN",
 };
 
 const notifyAuthEvent = (type) => {

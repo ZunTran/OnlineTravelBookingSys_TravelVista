@@ -7,7 +7,7 @@ const EmptyState = ({
     action = null,
 }) => {
     return (
-        <div className="flex min-h-[300px] flex-col items-center justify-center rounded-2xl border border-dashed bg-muted/20 p-8 text-center">
+        <div className="flex min-h-[130px] flex-col items-center justify-center rounded-2xl border bg-muted/20 p-8 text-center">
             <div className="mb-4 rounded-full bg-muted p-4">
                 <Icon className="h-10 w-10 text-muted-foreground" />
             </div>

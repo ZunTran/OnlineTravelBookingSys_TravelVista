@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import { useUpdateFavourite } from "@/hooks/user/use-favourite";
 import { Heart } from "lucide-react";
 import { useState } from "react";
@@ -21,17 +20,19 @@ const FavouriteButton = ({ id, isLike = false, size = 8 }) => {
     }
 
     return (
-        <Button
+        <button
             type="button"
             variant="ghost"
+
             disabled={isUpdating}
             onClick={handleLike}
         >
             <Heart
-                className={`!h-${size} !w-${size} ${liked ? "fill-red-500" : ""}`}
+                className={` ${liked ? "fill-red-500 text-red-500" : ""}`}
                 strokeWidth={1}
+                size={size}
             />
-        </Button>
+        </button>
     );
 
 }

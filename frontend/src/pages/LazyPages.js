@@ -7,8 +7,6 @@ export const RegisterPage = lazy(() => import("@/pages/auth/RegisterPage"));
 
 export const HomePage = lazy(() => import("@/pages/user/HomePage"));
 export const TransportPage = lazy(() => import("@/pages/user/transport/TransportPage"));
-export const UserProfilePage = lazy(() => import("@/pages/user/profile/UserProfilePage"));
-export const UserSecurityPage = lazy(() => import("@/pages/user/profile/UserSecurityPage"));
 
 export const HotelDetailPage = lazy(() => import('@/pages/user/detail/HotelDetailPage'))
 export const TourDetailPage = lazy(() => import("@/pages/user/detail/TourDetailPage"));
@@ -17,6 +15,7 @@ export const CheckoutPage = lazy(() => import("@/pages/user/CheckoutPage"))
 
 export const CartPage = lazy(() => import("@/pages/user/profile/CartPage"));
 export const FavouritePage = lazy(() => import("@/pages/user/profile/FavouritePage"))
+export const CheckoutSuccessPage = lazy(() => import("@/pages/user/CheckoutSuccessPage"));
 
 
 export const ProviderHomePage = lazy(() => import("@/pages/provider/ProviderHomePage"));

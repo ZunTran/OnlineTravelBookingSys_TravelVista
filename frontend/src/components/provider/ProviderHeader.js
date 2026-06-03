@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 
-import { BriefcaseBusiness, LayoutDashboard, LogOut } from "lucide-react";
+import { BriefcaseBusiness, LayoutDashboard, LogOut, MessageSquare } from "lucide-react";
 
 import { Separator } from "@/components/ui/separator";
 
@@ -23,6 +23,11 @@ const ProviderHeader = () => {
             label: "Quản lý dịch vụ",
             path: "/provider/services"
         },
+        {
+            icon: MessageSquare,
+            label: "Chat",
+            path: "/provider/chat"
+        }
     ];
 
     return (

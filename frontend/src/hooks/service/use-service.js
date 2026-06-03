@@ -41,12 +41,17 @@ export const useSubItemService = (id) => {
         queryFn: () => getPublicSubItemServiceApi(id),
         enabled: Number.isFinite(id) || id > 1,
         retry: false,
+        staleTime: 1000 * 60 * 2,
+
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: true,
     });
 }
 
 export const useReviews = (id) => {
+
     return useQuery({
-        queryKey: ["review", id],
+        queryKey: ["reviews", id],
         queryFn: () => getReviewApi(id),
         enabled: Number.isFinite(id) || id > 1,
         retry: false

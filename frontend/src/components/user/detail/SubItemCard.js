@@ -70,15 +70,15 @@ const SubItemCard = ({ subItem, type, isDisable }) => {
         });
     };
 
+
     const handleBuyNow = () => {
         if (!isAvailable)
             return;
 
-        navigate("/checkout", {
+        navigate("/checkout?mode=buy-now", {
             state: {
-                mode: "BUY_NOW",
                 item: {
-                    sellableItemId: subItem.sellableItemId,
+                    itemId: subItem.sellableItemId,
                     subItemName: subItem.subItemName,
                     details: subItem.details,
                     price: subItem.price,
@@ -192,7 +192,11 @@ const SubItemCard = ({ subItem, type, isDisable }) => {
                                             : "Không khả dụng"
                                     }
                                 </Button>
-                                <Button variant="outline" onClick={handleBuyNow}>
+                                <Button
+                                    variant="outline"
+                                    onClick={handleBuyNow}
+                                    disabled={!isAvailable || isUpdating}
+                                >
                                     {text.button}
                                 </Button>
                             </div>)

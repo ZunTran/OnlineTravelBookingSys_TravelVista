@@ -16,7 +16,7 @@ const CheckoutSummary = ({
                     <span>
                         Số loại dịch vụ:
                     </span>
-                    <span>{totalItems}</span>
+                    <span className="font-bold text-sm">{totalItems}</span>
                 </div>
 
                 <div className="flex justify-between border-t pt-4 text-xl">

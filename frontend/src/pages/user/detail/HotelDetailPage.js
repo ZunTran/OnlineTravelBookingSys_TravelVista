@@ -30,9 +30,6 @@ const HotelDetailPage = () => {
     const hotel = servicesData?.data || [];
     const subItems = subItemData?.data?.sellableGiaoDienList || [];
 
-    console.log(hotel);
-
-
     return (
         <section className="space-y-5">
             <DetailHeader title={hotel.name} />

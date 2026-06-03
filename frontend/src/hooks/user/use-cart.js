@@ -21,7 +21,8 @@ export const useAddToCart = () => {
                 queryKey: ["cart"]
             })
         },
-        onError: (error) => {
+        onError: (error, variables) => {
+            console.log(variables);
             toast.warning(error?.response?.data?.message || "Đã có lỗi xảy ra")
         }
 

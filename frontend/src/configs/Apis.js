@@ -23,7 +23,7 @@ export const endpoints = {
         list: "/api/services",
         detail: (id) => `/api/services/${id}`,
         subItems: (id) => `/api/services/${id}/sub-items`,
-        reviews: (id) => `/api/services/${id}/reviews`
+        reviews: (id) => `/api/services/${id}/reviews`,
     },
 
     cart: {
@@ -34,7 +34,23 @@ export const endpoints = {
     favourite: {
         list: "/api/customer/favorites",
         update: (id) => `/api/customer/favorites/${id}`
+    },
+
+    paymentMethod: "/api/services/payment",
+
+    checkout: "/api/services/orders",
+
+    orders: {
+        list: "/api/services/orders",
+        review: (orderId) => `/api/customer/order-details/${orderId}/reviews`
+    },
+
+
+    chat: {
+        token: "/api/chat/tokens",
+        rooms: "/api/chat/rooms",
     }
+
 
 };
 
@@ -61,26 +77,34 @@ Apis.interceptors.request.use(
         return Promise.reject(error);
     }
 );
+
 Apis.interceptors.response.use(
     (response) => response,
 
     (error) => {
+        const status = error.response?.status;
+        const code = error.response?.data?.code;
 
         const isLoginRequest =
-            error.config?.url?.includes("/api/auth/login");
+            error.config?.url?.includes(endpoints.auth.login);
 
-        if (
-            error.response?.status === 401 &&
-            !isLoginRequest
-        ) {
+        if (status === 401 && !isLoginRequest) {
+            let reason = "expired";
+
+            if (code === "TOKEN_REPLACED") {
+                reason = "another-device";
+            }
 
             authStorage.clearAuth();
 
             authStorage.notify(
-                AUTH_EVENTS.TOKEN_EXPIRED
+                reason === "another-device"
+                    ? AUTH_EVENTS.ANOTHER_DEVICE_LOGIN
+                    : AUTH_EVENTS.TOKEN_EXPIRED
             );
 
-            window.location.href = "/login";
+            window.location.href =
+                `/login?reason=${reason}&redirect=/`;
         }
 
         return Promise.reject(error);

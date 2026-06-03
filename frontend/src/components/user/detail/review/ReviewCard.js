@@ -7,7 +7,7 @@ import { memo } from "react"
 
 const reviewCard = ({ review }) => {
     return (
-        <Card className="rounded-2xl m-5">
+        <Card className="rounded-2xl mx-5">
             <CardContent className="space-y-3 p-5">
                 <div className="flex items-start justify-between gap-4">
                     <div className="flex items-center gap-3">
@@ -28,18 +28,18 @@ const reviewCard = ({ review }) => {
                         </div>
                     </div>
 
-                    <div className="flex items-center gap-1 font-medium">
-                        <Star className="h-4 w-4 fill-green-500" />
+                    <div className="flex items-center gap-1 font-bold text-lg">
+                        <Star className="h-6 w-6 fill-yellow-400 text-yellow-400" />
                         {review.ratingStar ?? 0}
                     </div>
                 </div>
 
-                <p className="text-sm leading-6 text-muted-foreground">
+                <p className="text-lg leading-6">
                     {review.commentText || "Không có nội dung đánh giá."}
                 </p>
 
                 {review.subItemSnapshot && (
-                    <p className="rounded-xl bg-muted/50 px-3 py-2 text-xs text-muted-foreground">
+                    <p className="rounded-xl bg-muted/50 px-3 py-2 text-xs">
                         Dịch vụ đã đặt: {review.subItemSnapshot}
                     </p>
                 )}

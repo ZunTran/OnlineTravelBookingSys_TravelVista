@@ -1,3 +1,5 @@
+import { Banknote, CircleDollarSign, CreditCard, Wallet } from "lucide-react";
+
 export const SERVICE_TYPES = [
     {
         value: "HOTEL",
@@ -61,5 +63,35 @@ export const SUB_LABEL = {
         slot: "chỗ",
         button: "Chọn lịch",
         price: "Giá tour",
+    },
+};
+
+
+
+export const PAYMENT_METHOD_UI = {
+    CASH: {
+        label: "Thanh toán tiền mặt",
+        description: "Thanh toán trực tiếp khi sử dụng dịch vụ.",
+        icon: Banknote,
+    },
+    MOMO: {
+        label: "Ví MoMo",
+        description: "Thanh toán nhanh qua ví điện tử MoMo.",
+        icon: Wallet,
+    },
+    ZALOPAY: {
+        label: "ZaloPay",
+        description: "Thanh toán qua ví điện tử ZaloPay.",
+        icon: Wallet,
+    },
+    PAYPAL: {
+        label: "PayPal",
+        description: "Thanh toán quốc tế qua PayPal.",
+        icon: CircleDollarSign,
+    },
+    STRIPE: {
+        label: "Thẻ quốc tế",
+        description: "Thanh toán bằng thẻ qua Stripe.",
+        icon: CreditCard,
     },
 };

@@ -4,11 +4,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 const CartSkeleton = ({ length = 3 }) => {
     return (
         <Card >
-            <div className="space-y-2 m-3">
-                <Skeleton className="h-9 w-40" />
-                <Skeleton className="h-4 w-64" />
-            </div>
-
             {Array.from({ length }).map((_, index) => (
                 <Card
                     key={index}
@@ -30,15 +25,7 @@ const CartSkeleton = ({ length = 3 }) => {
                         </div>
                     </div>
                 </Card>
-
             ))}
-
-            {/* // <div className="h-fit rounded-2xl border bg-white p-6">
-            //     <Skeleton className="mb-6 h-7 w-40" />
-            //     <Skeleton className="mb-4 h-5 w-full" />
-            //     <Skeleton className="mb-6 h-8 w-full" />
-            //     <Skeleton className="h-10 w-full" />
-            // </div> */}
         </Card>
     );
 };

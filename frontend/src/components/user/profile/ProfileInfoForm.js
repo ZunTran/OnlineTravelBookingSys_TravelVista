@@ -40,27 +40,34 @@ const ProfileInfoForm = ({ user }) => {
 
     };
 
-    const handleSubmit = async (e) => {
+    const avatarChanged = avatarUrl !== null;
+
+
+    const isProfileChanged =
+        formUpdate.fullName !== (user?.fullName || "") ||
+        formUpdate.email !== (user?.email || "") ||
+        formUpdate.phone !== (user?.phone || "") ||
+        formUpdate.address !== (user?.address || "");
+
+    const handleSubmit = (e) => {
         e.preventDefault();
-
-        if (isLoading) return;
-
-        const avatarChanged = (avatarUrl !== null);
-
-        const isProfileChanged =
-            formUpdate.fullName !== (user?.fullName || "") ||
-            formUpdate.email !== (user?.email || "") ||
-            formUpdate.phone !== (user?.phone || "") ||
-            formUpdate.address !== (user?.address || "");
 
         if (!avatarChanged && !isProfileChanged) {
             toast.info("Bạn chưa thay đổi thông tin nào");
             return;
         }
-        avatarMutation.mutate(avatarUrl);
 
+        if (isLoading) return;
 
-        profileMutation.mutate(formUpdate);
+        if (avatarChanged) {
+            avatarMutation.mutate(avatarUrl);
+        }
+
+        if (isProfileChanged) {
+            profileMutation.mutate(formUpdate);
+        }
+
+        setAvatarUrl(null);
     };
 
     const handleCancel = () => {
