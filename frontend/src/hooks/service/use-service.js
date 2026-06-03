@@ -49,8 +49,9 @@ export const useSubItemService = (id) => {
 }
 
 export const useReviews = (id) => {
+
     return useQuery({
-        queryKey: ["review", id],
+        queryKey: ["reviews", id],
         queryFn: () => getReviewApi(id),
         enabled: Number.isFinite(id) || id > 1,
         retry: false

@@ -7,10 +7,6 @@ export const RegisterPage = lazy(() => import("@/pages/auth/RegisterPage"));
 
 export const HomePage = lazy(() => import("@/pages/user/HomePage"));
 export const TransportPage = lazy(() => import("@/pages/user/transport/TransportPage"));
-export const UserProfilePage = lazy(() => import("@/pages/user/profile/UserProfilePage"));
-export const UserSecurityPage = lazy(() => import("@/pages/user/profile/UserSecurityPage"));
-export const OrderPage = lazy(() => import("@/pages/user/profile/OrderPage"));
-
 
 export const HotelDetailPage = lazy(() => import('@/pages/user/detail/HotelDetailPage'))
 export const TourDetailPage = lazy(() => import("@/pages/user/detail/TourDetailPage"));

@@ -64,6 +64,7 @@ const FavouriteCard = ({ favourite }) => {
                     <FavouriteButton
                         id={Number(favourite.serviceId)}
                         isLike={true}
+                        size={35}
                     />
 
                 </div>

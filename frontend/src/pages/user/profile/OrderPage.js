@@ -16,7 +16,6 @@ const OrderPage = () => {
     } = useOrders();
 
     const orders = data?.pages.flatMap((page) => page.data.content) || [];
-    console.log(data);
 
     if (isLoading) {
         return (<OrderSkeleton />);

@@ -1,5 +1,6 @@
-import { getOrdersApi } from "@/services/order.service";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { getOrdersApi, reviewOrderApi } from "@/services/order.service";
+import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 export const useOrders = (params) => {
     return useInfiniteQuery({
@@ -26,3 +27,23 @@ export const useOrders = (params) => {
         },
     });
 };
+
+
+
+export const usePostReview = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: reviewOrderApi,
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({
+                queryKey: ["orders"]
+            });
+
+
+            toast.success(data?.message || "Đánh giá thành công");
+        },
+        onError: (error) => {
+            toast.warning(error?.response?.data?.message || "Đã có lỗi xảy ra");
+        }
+    });
+}

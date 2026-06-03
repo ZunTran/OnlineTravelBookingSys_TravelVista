@@ -23,7 +23,7 @@ export const endpoints = {
         list: "/api/services",
         detail: (id) => `/api/services/${id}`,
         subItems: (id) => `/api/services/${id}/sub-items`,
-        reviews: (id) => `/api/services/${id}/reviews`
+        reviews: (id) => `/api/services/${id}/reviews`,
     },
 
     cart: {
@@ -40,7 +40,16 @@ export const endpoints = {
 
     checkout: "/api/services/orders",
 
-    orders: "/api/services/orders",
+    orders: {
+        list: "/api/services/orders",
+        review: (orderId) => `/api/customer/order-details/${orderId}/reviews`
+    },
+
+
+    chat: {
+        token: "/api/chat/tokens",
+        rooms: "/api/chat/rooms",
+    }
 
 
 };
@@ -94,11 +103,8 @@ Apis.interceptors.response.use(
                     : AUTH_EVENTS.TOKEN_EXPIRED
             );
 
-            const currentUrl =
-                window.location.pathname + window.location.search;
-
             window.location.href =
-                `/login?reason=${reason}&redirect=${encodeURIComponent(currentUrl)}`;
+                `/login?reason=${reason}&redirect=/`;
         }
 
         return Promise.reject(error);

@@ -3,9 +3,13 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { formatPrice } from "@/utils/format";
 import { fromNow } from "@/utils/date";
 import { memo } from "react";
-import { Button } from "@/components/ui/button";
+import ReviewDialog from "@/components/user/profile/ReviewDialog";
+import { usePostReview } from "@/hooks/user/use-order";
 
 const OrderCard = ({ order }) => {
+    const postReviewMutation = usePostReview();
+    const isLoading = postReviewMutation.isPending;
+
     return (
         <Card className="rounded-2xl mx-5">
             <CardHeader className="border-b">
@@ -49,13 +53,19 @@ const OrderCard = ({ order }) => {
                         </div>
 
                         <div className="text-right">
-                            {item.isReviewed
-                                ? <p className="text-green-500">Đã đánh giá</p>
-                                : <Button
-                                    variant="outline"
-                                >
-                                    Đánh giá
-                                </Button>}
+                            {(!item.isReviewed && order.paymentStatus !== "PENDING") && (
+                                <ReviewDialog
+                                    orderId={item.detailId}
+                                    serviceName={item.serviceName}
+                                    isLoading={isLoading}
+                                    onSubmit={(data) =>
+                                        postReviewMutation.mutate({
+                                            id: item.detailId,
+                                            formData: data,
+                                        },)
+                                    }
+                                />
+                            )}
 
                             <p className="font-semibold text-lg mt-2">
                                 {formatPrice(item.priceSnapshot)}
@@ -69,7 +79,6 @@ const OrderCard = ({ order }) => {
                         Tổng tiền: {formatPrice(order.totalAmount)}
                     </p>
                 </div>
-
             </CardContent>
         </Card>
     );

@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { SERVICE_TYPES } from "@/constants/FilterMenu";
 import { useAuth } from "@/hooks/auth/use-auth";
-import { Heart, LogOut, ShoppingCart, UserIcon } from "lucide-react";
+import { Heart, LogOut, MessageCircle, ShoppingCart, UserIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Header = () => {
@@ -42,19 +42,25 @@ const Header = () => {
                 </nav>
 
                 {isAuthenticated ? (
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-1">
 
                         {user?.roleName === "CUSTOMER" &&
                             <>
-                                <Button variant="ghost" size="icon" className="mr-4">
+                                <Button variant="ghost" size="icon">
                                     <Link to="/user/favourite">
-                                        <Heart className="h-5 w-5" />
+                                        <Heart className="h-7 w-7" />
                                     </Link>
                                 </Button>
 
                                 <Button variant="ghost" size="icon">
                                     <Link to="/user/cart">
-                                        <ShoppingCart className="h-5 w-5" />
+                                        <ShoppingCart className="h-7 w-7" />
+                                    </Link>
+                                </Button>
+
+                                <Button variant="ghost" size="icon">
+                                    <Link to="/chat">
+                                        <MessageCircle className="h-7 w-7" />
                                     </Link>
                                 </Button>
                             </>}

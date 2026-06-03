@@ -1,10 +1,32 @@
 import ServiceImages from "@/components/common/ServicesImage";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import FavouriteButton from "@/components/user/favorite/FavouriteButton";
+import { createChatRoomApi } from "@/services/chat.service";
 import { getServiceTypeLabel } from "@/utils/helper";
 import { Building2, Star, Ticket } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const ServiceOverview = ({ service }) => {
+
+    const navigate = useNavigate();
+
+    const handleOpenChat = async () => {
+        try {
+            const res = await createChatRoomApi({
+                providerName: service.providerCompany,
+            });
+
+            navigate(`/chat/${res.roomId}`);
+        }
+        catch (error) {
+            toast.error(error?.response?.data?.message || "Không thể mở phòng chat")
+        };
+
+
+    }
 
     return (
         <div className="grid gap-8 lg:grid-cols-[1.4fr_0.8fr]">
@@ -13,8 +35,8 @@ const ServiceOverview = ({ service }) => {
                 title={service?.name}
             />
 
-            <div className="h-fit rounded-3xl border bg-white p-6 shadow-sm">
-                <div className="space-y-5">
+            <Card className="h-fit rounded-3xl p-6 shadow-sm">
+                <CardContent className="space-y-5">
                     <Badge>
                         {getServiceTypeLabel(service?.serviceType)}
                     </Badge>
@@ -24,7 +46,7 @@ const ServiceOverview = ({ service }) => {
                             {service?.name}
                         </h1>
 
-                        <p className="text-muted-foreground">
+                        <p >
                             {service?.description}
                         </p>
                     </div>
@@ -41,14 +63,25 @@ const ServiceOverview = ({ service }) => {
                         <InfoLine icon={Ticket}>
                             {service?.bookingCount || 0} lượt đặt
                         </InfoLine>
-                        <FavouriteButton
-                            isLike={service.isFavorited}
-                            id={service.serviceId}
-                            size={8}
-                        />
+
                     </div>
-                </div>
-            </div>
+                </CardContent>
+                <CardFooter className="flex justify-between">
+                    <FavouriteButton
+                        isLike={service.isFavorited}
+                        id={service.serviceId}
+                        size={45}
+                        content={"like"}
+                    />
+
+                    <Button
+                        variant="outline"
+                        onClick={handleOpenChat}
+                    >
+                        Chat với nhà cung cấp
+                    </Button>
+                </CardFooter>
+            </Card>
         </div>
     );
 };

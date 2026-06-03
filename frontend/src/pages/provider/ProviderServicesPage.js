@@ -130,7 +130,7 @@ const ProviderServicesPage = () => {
                     <p className="font-bold">Tổng: {data?.totalElements}</p>
                     <ProviderServiceTable
                         services={services}
-                        onEdit={(service) => console.log(service)}
+                        // onEdit={(service) => console.log(service)}
                         onDelete={() => toast.info("comming soon")}
                         onUpdateStatus={handleUpdateStatus}
                     />

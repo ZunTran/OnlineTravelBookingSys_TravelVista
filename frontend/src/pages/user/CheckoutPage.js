@@ -28,7 +28,7 @@ const CheckoutPage = () => {
     const paymentMethods = methodsData?.data || [];
     const [selectedMethodId, setSelectedMethodId] = useState(paymentMethods[0]?.methodId || 1);
 
-    const items = [location.stat?.item];
+    const items = [location.state?.item];
 
     const buyNowMutation = useBuyNow();
     const isCheckout = buyNowMutation.isPending;

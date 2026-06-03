@@ -20,10 +20,13 @@ export const useBuyNow = () => {
 
         mutationFn: checkoutApi,
         onSuccess: (data, variables) => {
-            console.log(data);
             querryClient.invalidateQueries({
                 queryKey: ["service-subitem", variables.itemId],
             })
+            querryClient.invalidateQueries({
+                queryKey: ["orders"],
+            });
+
 
             const orderId = data?.data?.orderId;
 

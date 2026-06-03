@@ -2,6 +2,7 @@ import EmptyState from "@/components/common/Empty";
 import ServiceCard from "@/components/common/ServiceCard";
 import ServiceCardSkeleton from "@/components/common/skeleton/ServiceCardSkeleton";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import ServiceFilter from "@/components/user/ServiceFilter";
 import useSearchFilter from "@/hooks/common/use-search-filter";
 import { useServices } from "@/hooks/service/use-service";
@@ -49,12 +50,10 @@ const HomePage = () => {
 
         if (!hasServices) {
             return (
-                <div className="flex min-h-[40vh] flex-col items-center justify-center rounded-2xl border border-dashed border-gray-200 bg-gray-50/50 p-8">
-                    <EmptyState
-                        title="Không tìm thấy dịch vụ phù hợp."
-                        description="Thử thay đổi từ khóa hoặc bộ lọc để tìm kiếm lại xem sao nhé."
-                    />
-                </div>
+                <EmptyState
+                    title="Không có dịch vụ."
+                    description="Hôm khác quay lại nhé."
+                />
             );
         }
 

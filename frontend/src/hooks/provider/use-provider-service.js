@@ -79,7 +79,6 @@ export const useUpdateProviderService = () => {
         mutationFn: updateProviderServicesApi,
 
         onSuccess: (data) => {
-            console.log(data);
             toast.success(data?.response || "Đổi trạng thái thành công");
 
             queryClient.invalidateQueries({
