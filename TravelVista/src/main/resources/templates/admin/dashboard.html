@@ -1,0 +1,67 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{base :: head('Trang chủ admin')}"></th:block>
+</head>
+<body>
+    <div th:replace="~{base :: header}"></div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div th:replace="~{base :: menu('home')}"></div>
+
+            <main class="col-md-10 p-4">
+                <div class="card p-4 border-0 shadow-sm rounded-3 bg-white">
+                    <h3 class="fw-bold text-dark border-bottom pb-3 mb-4">BÁO CÁO THỐNG KÊ</h3>
+
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            <div class="card p-4 bg-light border-0 shadow-sm rounded-3">
+                                <span class="text-muted text-uppercase small fw-bold">Dịch vụ đang chạy</span>
+                                <h2 class="fw-bold mt-2 text-primary">1,245</h2>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card p-4 bg-light border-0 shadow-sm rounded-3">
+                                <span class="text-muted text-uppercase small fw-bold">Lượt đặt vé tháng</span>
+                                <h2 class="fw-bold mt-2 text-warning">8,432</h2>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card p-4 bg-dark text-white border-0 shadow-sm rounded-3">
+                                <span class="text-light text-uppercase small fw-bold" style="opacity: 0.8;">Doanh thu tổng</span>
+                                <h2 class="fw-bold mt-2 text-success">452,000,000đ</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card p-4 border shadow-sm rounded-3 bg-light">
+                        <h6 class="fw-bold mb-3 text-secondary"><i class="bi bi-sliders"></i> Tùy biến bộ lọc báo cáo</h6>
+                        <form class="row g-3">
+                            <div class="col-md-4">
+                                <select class="form-select border-2">
+                                    <option selected>Xem theo: Tháng này</option>
+                                    <option>Xem theo: Cả năm</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <select class="form-select border-2">
+                                    <option selected>Loại hình: Tất cả</option>
+                                    <option>Loại hình: TOUR</option>
+                                    <option>Loại hình: HOTEL</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <button type="button" class="btn btn-primary w-100 fw-bold rounded-2">Tìm kiếm</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div th:replace="~{base :: footer}"></div>
+    <th:block th:replace="~{base :: scripts}"></th:block>
+</body>
+</html>

@@ -74,7 +74,7 @@ public class AuthApiController {
             return ResponseEntity.ok(response);
         }
 
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response); // Ma 401
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response); 
     }
 
     @PostMapping("/logout")
