@@ -1,4 +1,4 @@
-import { getPublicServiceDetailApi, getPublicServicesApi, getPublicSubItemServiceApi, getReviewApi } from "@/services/service.service";
+import { getCategoriesApi, getPublicServiceDetailApi, getPublicServicesApi, getPublicSubItemServiceApi, getReviewApi } from "@/services/service.service";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
 export const useServices = (params) => {
@@ -56,4 +56,14 @@ export const useReviews = (id) => {
         enabled: Number.isFinite(id) || id > 1,
         retry: false
     });
+}
+
+export const useCategories = () => {
+
+    return useQuery({
+        queryKey: ["categories"],
+        queryFn: getCategoriesApi,
+
+    });
+
 }

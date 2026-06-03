@@ -10,7 +10,7 @@ const useSearchFilter = () => {
     const handleFilterChange = (key, value) => {
         const params = new URLSearchParams(searchParams);
 
-        if (!value) {
+        if (!value || value === "" || value === null || value === undefined) {
             params.delete(key);
         } else {
             params.set(key, String(value));

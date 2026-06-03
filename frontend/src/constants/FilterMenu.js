@@ -42,6 +42,22 @@ export const SERVICE_STATUS = [
 ];
 
 
+export const SORT_OPTIONS = [
+    {
+        value: "newest",
+        label: "Mới nhất"
+    },
+    {
+        value: "popularity",
+        label: "Phổ biến"
+    },
+    {
+        value: "rating",
+        label: "Đánh giá"
+    }
+];
+
+
 export const SUB_LABEL = {
     ROOM: {
         available: "Còn phòng",
@@ -95,3 +111,36 @@ export const PAYMENT_METHOD_UI = {
         icon: CreditCard,
     },
 };
+
+export const PRICE_RANGES = [
+    {
+        value: "under500k",
+        label: "Dưới 500.000đ",
+        minPrice: 0,
+        maxPrice: 500000,
+    },
+    {
+        value: "500k-1m",
+        label: "500.000đ - 1 triệu",
+        minPrice: 500000,
+        maxPrice: 1000000,
+    },
+    {
+        value: "1m-3m",
+        label: "1 - 3 triệu",
+        minPrice: 1000000,
+        maxPrice: 3000000,
+    },
+    {
+        value: "3m-5m",
+        label: "3 - 5 triệu",
+        minPrice: 3000000,
+        maxPrice: 5000000,
+    },
+    {
+        value: "over5m",
+        label: "Trên 5 triệu",
+        minPrice: 5000000,
+        maxPrice: null,
+    },
+];

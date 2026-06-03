@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import ServiceFilter from "@/components/user/ServiceFilter";
 import useSearchFilter from "@/hooks/common/use-search-filter";
-import { useServices } from "@/hooks/service/use-service";
+import { useCategories, useServices } from "@/hooks/service/use-service";
 import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -18,9 +18,15 @@ const HomePage = () => {
     const filters = useMemo(() => ({
         page: Number(getParam("page", 1)),
         size: 20,
-        serviceType: getParam("serviceType", null),
-        cateId: getParam("cateId", null),
-        name: getParam("name", null),
+
+        serviceType: getParam("serviceType", ""),
+        cateId: getParam("cateId", ""),
+        name: getParam("name", ""),
+
+        location: getParam("location", ""),
+        minPrice: getParam("minPrice", ""),
+        maxPrice: getParam("maxPrice", ""),
+        sortBy: getParam("sortBy", ""),
     }), [getParam]);
 
     const {
@@ -34,13 +40,18 @@ const HomePage = () => {
     const services = data?.pages.flatMap((page) => page.content) || [];
     const hasServices = services.length > 0;
 
+    const { data: cateData, isLoading: isLoadingCate } = useCategories();
+
+    const categories = cateData?.data || [];
+
+
     const handleDetail = (serviceType, serviceId) => {
         navigate(`/${serviceType}/${serviceId}`);
     };
 
 
     const renderContent = () => {
-        if (isLoading) {
+        if (isLoading || isLoadingCate) {
             return (
                 <div className="grid gap-6 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-4">
                     <ServiceCardSkeleton length={8} />
@@ -103,7 +114,7 @@ const HomePage = () => {
 
             <ServiceFilter
                 filters={filters}
-                categories={[]}
+                categories={categories}
                 onChange={handleFilterChange}
                 showServiceType={true}
                 onReset={clearAllParams}

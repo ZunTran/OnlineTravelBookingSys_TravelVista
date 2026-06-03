@@ -24,6 +24,7 @@ export const endpoints = {
         detail: (id) => `/api/services/${id}`,
         subItems: (id) => `/api/services/${id}/sub-items`,
         reviews: (id) => `/api/services/${id}/reviews`,
+        categories: "/api/customer/categories"
     },
 
     cart: {
