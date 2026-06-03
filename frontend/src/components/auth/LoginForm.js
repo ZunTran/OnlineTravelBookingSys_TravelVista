@@ -6,7 +6,9 @@ import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { useLogin } from "@/hooks/auth/use-login";
 import { useLoginForm } from "@/hooks/forms/use-login-form";
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import { toast } from "sonner";
 
 const FormLogin = () => {
 
@@ -19,6 +21,24 @@ const FormLogin = () => {
 
         loginMutation.mutate(formLogin);
     }
+
+    const [searchParams] = useSearchParams();
+
+    useEffect(() => {
+        const reason = searchParams.get("reason");
+
+        if (reason === "another-device") {
+            toast.warning(
+                "Tài khoản đã đăng nhập ở thiết bị khác. Vui lòng đăng nhập lại."
+            );
+        }
+
+        if (reason === "expired") {
+            toast.warning(
+                "Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại."
+            );
+        }
+    }, [searchParams]);
 
     return (
         <section className="w-full flex flex-col justify-center items-center">

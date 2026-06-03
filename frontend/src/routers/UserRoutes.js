@@ -2,8 +2,9 @@ import UserLayout from "@/layouts/UserLayout";
 import UserProfileLayout from "@/layouts/UserProfileLoyout";
 import {
     CartPage, CheckoutPage,
+    CheckoutSuccessPage,
     FavouritePage, HomePage,
-    HotelDetailPage, TourDetailPage,
+    HotelDetailPage, OrderPage, TourDetailPage,
     TransportDetailPage, TransportPage,
     UserProfilePage, UserSecurityPage
 } from "@/pages/LazyPages";
@@ -12,8 +13,6 @@ import { Route } from "react-router-dom";
 
 const UserRoutes = () => {
     return (
-
-
         <Route element={<UserLayout />}>
             <Route
                 index
@@ -34,6 +33,11 @@ const UserRoutes = () => {
             <Route
                 path="/tour/:id"
                 element={<TourDetailPage />}
+            />
+
+            <Route
+                path="/checkout/success"
+                element={<CheckoutSuccessPage />}
             />
 
             <Route Route element={< RoleRoute allowedRoles={["CUSTOMER"]} />}>
@@ -61,6 +65,10 @@ const UserRoutes = () => {
                     <Route
                         path="/user/security"
                         element={<UserSecurityPage />}
+                    />
+                    <Route
+                        path="/user/order"
+                        element={<OrderPage />}
                     />
                 </Route>
             </Route >

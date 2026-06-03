@@ -34,7 +34,14 @@ export const endpoints = {
     favourite: {
         list: "/api/customer/favorites",
         update: (id) => `/api/customer/favorites/${id}`
-    }
+    },
+
+    paymentMethod: "/api/services/payment",
+
+    checkout: "/api/services/orders",
+
+    orders: "/api/services/orders",
+
 
 };
 
@@ -61,26 +68,37 @@ Apis.interceptors.request.use(
         return Promise.reject(error);
     }
 );
+
 Apis.interceptors.response.use(
     (response) => response,
 
     (error) => {
+        const status = error.response?.status;
+        const code = error.response?.data?.code;
 
         const isLoginRequest =
-            error.config?.url?.includes("/api/auth/login");
+            error.config?.url?.includes(endpoints.auth.login);
 
-        if (
-            error.response?.status === 401 &&
-            !isLoginRequest
-        ) {
+        if (status === 401 && !isLoginRequest) {
+            let reason = "expired";
+
+            if (code === "TOKEN_REPLACED") {
+                reason = "another-device";
+            }
 
             authStorage.clearAuth();
 
             authStorage.notify(
-                AUTH_EVENTS.TOKEN_EXPIRED
+                reason === "another-device"
+                    ? AUTH_EVENTS.ANOTHER_DEVICE_LOGIN
+                    : AUTH_EVENTS.TOKEN_EXPIRED
             );
 
-            window.location.href = "/login";
+            const currentUrl =
+                window.location.pathname + window.location.search;
+
+            window.location.href =
+                `/login?reason=${reason}&redirect=${encodeURIComponent(currentUrl)}`;
         }
 
         return Promise.reject(error);

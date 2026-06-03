@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Bell, ChevronRight, CreditCard, Heart, LogOut, Shield, Ticket, User } from "lucide-react";
+import { ChevronRight, Heart, LogOut, Shield, Ticket, User } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 const ProfileSidebar = ({ user, onLogout }) => {
@@ -8,10 +8,9 @@ const ProfileSidebar = ({ user, onLogout }) => {
 
     const menus = [
         { label: "Tài khoản của tôi", icon: User, path: "/user/profile" },
-        { label: "Đơn đặt chỗ", icon: Ticket, path: "/user/bookings" },
-        { label: "Ưu đãi của tôi", icon: CreditCard, path: "/user/vouchers" },
-        { label: "Yêu thích", icon: Heart, path: "/user/favorites" },
-        { label: "Thông báo", icon: Bell, path: "/user/notifications" },
+        { label: "Đơn đặt chỗ", icon: Ticket, path: "/user/order" },
+        { label: "Yêu thích", icon: Heart, path: "/user/favourite" },
+        // { label: "Thông báo", icon: Bell, path: "/user/notifications" },
         { label: "Bảo mật tài khoản", icon: Shield, path: "/user/security" },
     ];
 

@@ -1,24 +1,57 @@
+import Loading from "@/components/common/Loading";
+import CartSkeleton from "@/components/common/skeleton/CartSkeleton";
+import CheckoutSummarySkeleton from "@/components/common/skeleton/CheckoutSummarySekeleton";
+import CustomerInfoSkeleton from "@/components/common/skeleton/CustomerInfoSkeleton";
+import PaymentMethodSkeleton from "@/components/common/skeleton/PaymentMethodSkeleton";
 import CheckoutSection from "@/components/user/checkout/CheckoutSection";
 import CheckoutSummary from "@/components/user/checkout/CheckoutSummary";
 import CustomerInfoBox from "@/components/user/checkout/CustomerInfoBox";
+import PaymentMethods from "@/components/user/checkout/PaymentMethods";
 import DetailHeader from "@/components/user/detail/review/DetailHeader";
 import { useAuth } from "@/hooks/auth/use-auth";
-import { Navigate, useLocation } from "react-router-dom";
+import { useBuyNow, usePaymentMethod } from "@/hooks/user/use-checkout";
+import { useState } from "react";
+import { Navigate, useLocation, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 
 const CheckoutPage = () => {
-    const location = useLocation();
-    const checkoutData = location.state;
-    const item = checkoutData.item;
 
+    const [searchParams] = useSearchParams();
+    const mode = searchParams.get("mode");
+    const location = useLocation();
 
     const { user } = useAuth();
-    const items = [item] || [];
 
-    // const buyNow = checkoutData.mode === "BUY_NOW";
+    const isBuyNow = mode === "buy-now";
+    const { data: methodsData, isLoading: isGetPayments } = usePaymentMethod();
+
+    const paymentMethods = methodsData?.data || [];
+    const [selectedMethodId, setSelectedMethodId] = useState(paymentMethods[0]?.methodId || 1);
+
+    const items = [location.stat?.item];
+
+    const buyNowMutation = useBuyNow();
+    const isCheckout = buyNowMutation.isPending;
 
 
-    if (items.length === 0) {
+    if (isGetPayments) {
+        return (
+            <section className="mx-auto grid max-w-7xl gap-5 p-5 lg:grid-cols-[1fr_360px]">
+                <div className="space-y-5">
+                    <CustomerInfoSkeleton />
+                    <CartSkeleton length={1} />
+                </div>
+
+                <div className="space-y-5">
+                    <PaymentMethodSkeleton />
+                    <CheckoutSummarySkeleton />
+                </div>
+            </section>
+        );
+    }
+
+
+    if (items.length === 0 || !location.state?.item) {
         return <Navigate to="/" replace />
     }
 
@@ -27,28 +60,53 @@ const CheckoutPage = () => {
         0
     );
 
-
     const handleCheckout = () => {
-        toast.success("Checkout");
+        if (isBuyNow) {
+            buyNowMutation.mutate(
+                {
+                    buyNow: true,
+                    itemId: items[0].itemId,
+                    quantity: items[0].quantity,
+                    paymentMethodId: selectedMethodId,
+
+                }
+            )
+
+        } else {
+            toast.info("Commingsoon");
+        }
+
+
+
     }
 
+
     return (
-        <section className="mx-auto grid max-w-7xl gap-5 p-5 lg:grid-cols-[1fr_360px]">
+        <section className=" max-w-7xl p-5 space-y-5">
 
-            <div className="space-y-5">
-                <DetailHeader title={"Thanh toán"} />
-                <CustomerInfoBox customer={user} />
-                <CheckoutSection items={items} />
-            </div>
+            {isCheckout && <Loading content={"Đang thanh toán..."} />}
 
-            <div className="space-y-5 ">
-                <CheckoutSummary
-                    totalItems={items.length}
-                    totalPrice={totalPrice}
-                    onCheckout={handleCheckout}
+            <DetailHeader title="Thanh toán" />
 
-                />
+            <div className="grid gap-5 lg:grid-cols-[1fr_360px]">
+                <div className="space-y-5">
+                    <CustomerInfoBox customer={user} />
+                    <CheckoutSection items={items} />
+                </div>
 
+                <div className="space-y-5">
+                    <PaymentMethods
+                        paymentMethods={paymentMethods}
+                        selectedMethodId={selectedMethodId}
+                        chooseMethod={setSelectedMethodId}
+                    />
+
+                    <CheckoutSummary
+                        totalItems={items.length}
+                        totalPrice={totalPrice}
+                        onCheckout={handleCheckout}
+                    />
+                </div>
             </div>
         </section>
     );
