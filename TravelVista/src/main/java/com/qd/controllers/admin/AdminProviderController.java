@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.qd.controllers;
+package com.qd.controllers.admin;
 
 import com.qd.annotation.RequireAdmin;
 import com.qd.dto.AdminActionRequest;
@@ -55,6 +55,20 @@ public class AdminProviderController {
         return ResponseEntity.ok(Map.of("success", true, "data", data));
     }
     
+    @GetMapping("/banned")
+public ResponseEntity<Map<String, Object>> getBannedProviders(
+        @RequestParam Map<String, String> params) {
+
+    params.put("type", "banned");
+
+    Map<String, Object> data =
+            userService.getAdminProvidersList(false, params);
+
+    return ResponseEntity.ok(
+            Map.of("success", true, "data", data)
+    );
+}
+
     @PutMapping("/{id}/approve")
     public ResponseEntity<AuthResponse> approveProvider(@PathVariable("id") Long id) {
         AuthResponse response = userService.approveProvider(id);

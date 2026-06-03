@@ -6,6 +6,8 @@ package com.qd.dto;
 
 import java.util.Date;
 
+import com.qd.pojo.Providers;
+
 /**
  *
  * @author ADMIN
@@ -23,8 +25,9 @@ public class AdminProviderResponse {
     private String businessAddress;
     private Boolean isApproved;
     private Date createdAt;
+    private String statusReason;
 
-    public AdminProviderResponse(com.qd.pojo.Providers p) {
+    public AdminProviderResponse(Providers p) {
         if (p != null) {
             this.providerId = p.getId();
             this.companyName = p.getCompanyName();
@@ -32,6 +35,8 @@ public class AdminProviderResponse {
             this.hotline = p.getHotline();
             this.businessAddress = p.getBusinessAddress();
             this.isApproved = p.getIsApproved();
+            this.statusReason = p.getStatusReason(); 
+
             
             if (p.getUserId() != null) {
                 this.userId = p.getUserId().getId();
@@ -42,6 +47,13 @@ public class AdminProviderResponse {
                 this.createdAt = p.getUserId().getCreatedAt();
             }
         }
+    }
+
+    public String getStatusReason() {
+        return statusReason;
+    }
+    public void setStatusReason(String statusReason) {
+        this.statusReason = statusReason;
     }
 
     public Long getProviderId() { return providerId; }

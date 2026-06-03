@@ -134,14 +134,6 @@ public class Orders implements Serializable {
         this.orderDetailsSet = orderDetailsSet;
     }
 
-    // public Set<ProviderOrders> getProviderOrdersSet() {
-    //     return providerOrdersSet;
-    // }
-
-    // public void setProviderOrdersSet(Set<ProviderOrders> providerOrdersSet) {
-    //     this.providerOrdersSet = providerOrdersSet;
-    // }
-
     public PaymentMethods getPaymentMethodId() {
         return paymentMethodId;
     }
