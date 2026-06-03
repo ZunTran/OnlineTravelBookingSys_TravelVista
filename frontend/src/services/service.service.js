@@ -22,7 +22,14 @@ export const getPublicSubItemServiceApi = async (id) => {
 }
 
 export const getReviewApi = async (id) => {
-    const res = await Apis.get(endpoints.services.reviews(id),);
+    const res = await Apis.get(endpoints.services.reviews(id));
+
+    return res.data;
+}
+
+
+export const getCategoriesApi = async () => {
+    const res = await Apis.get(endpoints.services.categories);
 
     return res.data;
 }
