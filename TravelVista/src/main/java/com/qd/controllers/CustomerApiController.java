@@ -1,5 +1,6 @@
 package com.qd.controllers;
 
+import com.qd.dto.customer.CartPreviewRequest;
 import com.qd.dto.customer.CheckoutRequest;
 import com.qd.pojo.Reviews;
 import com.qd.pojo.Users;
@@ -11,7 +12,9 @@ import com.qd.service.UserService;
 import com.qd.service.impl.CheckoutServiceImpl;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -224,5 +227,15 @@ public class CustomerApiController {
         return ResponseEntity.ok(response);
     }
 
+
+    @PostMapping("/preview")
+    public ResponseEntity<Map<String, Object>> previewCartSelection(@RequestBody CartPreviewRequest request) {
+        Map<String, Object> result = cartService.previewCartItems(request.getCartItemIds());
+                if (result.containsKey("success") && !(boolean)result.get("success")) {
+            return ResponseEntity.badRequest().body(result);
+        }
+        
+        return ResponseEntity.ok(result);
+    }
 
 }

@@ -30,14 +30,6 @@ public class WebSecurityConfig {
     }
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // http.cors(cors -> cors.disable())
-        //     .csrf(csrf -> csrf.disable())
-        //     .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            
-        //     .authorizeHttpRequests(auth -> auth
-        //         .requestMatchers(new AntPathRequestMatcher("/**")).permitAll()
-        //     );
-
 
             http.cors(cors -> cors.disable())
             .csrf(csrf -> csrf.disable())
@@ -71,6 +63,7 @@ public class WebSecurityConfig {
                 .requestMatchers(new AntPathRequestMatcher("/api/reviews", "POST")).hasRole("CUSTOMER")
                 .requestMatchers(new AntPathRequestMatcher("/api/customer/**")).hasRole("CUSTOMER")
                 .requestMatchers(new AntPathRequestMatcher("/api/services/orders")).hasRole("CUSTOMER")
+                .requestMatchers(new AntPathRequestMatcher("/api/services/preview")).hasRole("CUSTOMER")
 
 
                 .requestMatchers(new AntPathRequestMatcher("/api/auth/profile/**")).authenticated()
@@ -174,6 +167,8 @@ public class WebSecurityConfig {
 //                 .requestMatchers(new AntPathRequestMatcher("/api/cart/**")).hasRole("CUSTOMER")
 //                 .requestMatchers(new AntPathRequestMatcher("/api/orders/customer/**")).hasRole("CUSTOMER")
 //                 .requestMatchers(new AntPathRequestMatcher("/api/reviews", "POST")).hasRole("CUSTOMER")
+//                .requestMatchers(new AntPathRequestMatcher("/api/services/preview")).hasRole("CUSTOMER")
+
 
 //                 // 5. Nhóm Yêu cầu đăng nhập nói chung
 //                 .requestMatchers(new AntPathRequestMatcher("/api/auth/profile/**")).authenticated()
