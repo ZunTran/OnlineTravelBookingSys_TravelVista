@@ -78,12 +78,6 @@ export const useReviews = (id) => {
     });
 
 
-    // return useQuery({
-    //     queryKey: ["reviews", id],
-    //     queryFn: () => getReviewApi(id),
-    //     enabled: Number.isFinite(id) || id > 1,
-    //     retry: false
-    // });
 }
 
 export const useCategories = () => {

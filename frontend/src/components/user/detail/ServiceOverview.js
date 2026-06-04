@@ -9,7 +9,7 @@ import { Building2, Star, Ticket } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
-const ServiceOverview = ({ service }) => {
+const ServiceOverview = ({ service, isAuthenticated }) => {
 
     const navigate = useNavigate();
 
@@ -66,7 +66,7 @@ const ServiceOverview = ({ service }) => {
 
                     </div>
                 </CardContent>
-                <CardFooter className="flex justify-between">
+                {isAuthenticated && <CardFooter className="flex justify-between">
                     <FavouriteButton
                         isLike={service.isFavorited}
                         id={service.serviceId}
@@ -80,7 +80,7 @@ const ServiceOverview = ({ service }) => {
                     >
                         Chat với nhà cung cấp
                     </Button>
-                </CardFooter>
+                </CardFooter>}
             </Card>
         </div>
     );

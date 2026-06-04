@@ -23,7 +23,7 @@ export const useUpdateFavourite = () => {
             toast.success(data?.message || "Đã thích");
 
         },
-        onError: (error, variable, context) => {
+        onError: (error) => {
             toast.error(error?.response?.data?.message || "Đã có lỗi xảy ra");
 
 

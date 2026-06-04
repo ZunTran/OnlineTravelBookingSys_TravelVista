@@ -16,7 +16,8 @@ const FavouriteButton = ({ id, isLike = false, size = 8 }) => {
 
         setLiked((prev) => !prev);
 
-        updateFavouriteMutation.mutate(id);
+        updateFavouriteMutation.mutate(id, {
+        });
     }
 
     return (

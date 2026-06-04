@@ -15,6 +15,7 @@ export const endpoints = {
             base: "/api/provider/services",
             info: (id) => `/api/provider/services/${id}`,
             detail: (id, serviceType) => `/api/provider/services/${id}/${serviceType.toLowerCase()}`,
+            subItem: (id, serviceType, subItemId) => `/ap/provider/services/${id}/${id}/${serviceType.toLowerCase()}/${subItemId}`
         },
         stats: "/api/provider/services/stats",
         order: {

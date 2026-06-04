@@ -2,7 +2,6 @@ import Apis, { endpoints } from "@/configs/Apis"
 
 export const getProviderOrdersApi = async (params) => {
 
-    console.log(endpoints.provider.order.list, params);
 
     const res = await Apis.get(endpoints.provider.order.list, {
         params

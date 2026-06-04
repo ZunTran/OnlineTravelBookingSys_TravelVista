@@ -33,6 +33,7 @@ export const useBuyNow = () => {
 
         mutationFn: checkoutApi,
         onSuccess: (data, variables) => {
+
             querryClient.invalidateQueries({
                 queryKey: ["service-subitem", variables.itemId],
             })
@@ -66,9 +67,13 @@ export const useCartCheckout = () => {
 
     return useMutation({
         mutationFn: checkoutApi,
-        onSuccess: (data) => {
+        onSuccess: (data, variables) => {
+
             querryClient.invalidateQueries({
                 queryKey: ["cart"],
+            })
+            querryClient.invalidateQueries({
+                queryKey: ["service-subitem", variables.itemId],
             })
 
             toast.success(data?.message || "Thanh toán giỏ hàng thành công");

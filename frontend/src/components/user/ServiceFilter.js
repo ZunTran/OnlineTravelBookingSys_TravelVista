@@ -15,16 +15,20 @@ const ServiceFilter = ({
 
 
     const [kw, setKw] = useState("");
+    const [location, setLocation] = useState("")
 
     const handleEnter = (e) => {
-        if (e.key === "Enter")
-            onChange("name", kw.trim())
-    }
+        if (e.key !== "Enter") return;
+
+        onChange("name", kw.trim());
+        onChange("location", location.trim());
+    };
 
     useEffect(() => {
         setKw(filters.name || "");
+        setLocation(filters.location || "")
 
-    }, [filters.name]);
+    }, [filters.name, filters.location]);
 
     return (
         <div className="rounded-2xl border bg-white p-4 shadow-sm">
@@ -68,12 +72,12 @@ const ServiceFilter = ({
 
                 <Input
                     placeholder="Địa điểm..."
-                    value={filters.location || ""}
+                    value={location}
                     onChange={(e) =>
-                        onChange("location", e.target.value)
+                        setLocation(e.target.value)
                     }
+                    onKeyDown={handleEnter}
                 />
-
                 <Select
                     onValueChange={(value) => {
                         const range = PRICE_RANGES.find(

@@ -27,8 +27,7 @@ const SubItemCard = ({ subItem, type, isDisable }) => {
 
     const isAvailable =
         subItem.itemStatus === "AVAILABLE" &&
-        subItem.availableSlots > 0 &&
-        subItem.price > 0;
+        subItem.availableSlots > 0;
 
     const maxQuantity = subItem.availableSlots || 0;
 
@@ -169,11 +168,11 @@ const SubItemCard = ({ subItem, type, isDisable }) => {
                 <div className="flex items-center justify-between border-t pt-4">
                     <div>
                         <p className="text-sm text-muted-foreground">
-                            {text.price === 0 ? "Miễn phí" : text.price}
+                            {subItem.price === 0 ? "Miễn phí" : text.price}
                         </p>
 
                         <p className="text-xl font-bold text-primary">
-                            {formatPrice(subItem.price)}
+                            {subItem.price === 0 ? "Miễn phí" : formatPrice(subItem.price)}
                         </p>
                     </div>
 

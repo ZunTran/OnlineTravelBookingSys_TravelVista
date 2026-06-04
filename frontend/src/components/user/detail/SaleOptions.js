@@ -2,14 +2,13 @@ import EmptyState from "@/components/common/Empty";
 import SubItemCardSkeleton from "@/components/common/skeleton/SubItemCardSkeleton";
 import SectionHeader from "@/components/user/SectionHeader";
 import SubItemCard from "@/components/user/detail/SubItemCard";
-import { useAuth } from "@/hooks/auth/use-auth";
 
 const SaleOptions = ({
     items,
     type = "ROOM",
     isLoading = false,
+    isAuthenticated
 }) => {
-    const { isAuthenticated } = useAuth();
 
     if (items.length === 0) {
         return (

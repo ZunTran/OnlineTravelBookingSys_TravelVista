@@ -1,14 +1,11 @@
 import { Card } from "@/components/ui/card";
 import { formatPrice } from "@/utils/format";
 import { memo } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const ProviderOrderCart = ({
     order,
 }) => {
-
-    const { id } = useParams();
-
     const navigate = useNavigate();
 
     const handleCard = (id) => {

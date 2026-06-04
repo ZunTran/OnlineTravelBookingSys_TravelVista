@@ -7,8 +7,11 @@ import NotFoundPage from "@/pages/error/NotFoundPage";
 import { useParams } from "react-router-dom";
 import { ReviewSection, SaleOptions } from "@/components/LazyComponent";
 import ServiceOverview from "@/components/user/detail/ServiceOverview";
+import { useAuth } from "@/hooks/auth/use-auth";
 
 const HotelDetailPage = () => {
+
+    const { isAuthenticated } = useAuth();
     const { id } = useParams();
 
     const hotelId = Number(id);
@@ -43,12 +46,14 @@ const HotelDetailPage = () => {
                 )
                 : (
                     <>
-                        <HotelInfoCards details={hotel.hotelDetails} />
-                        <ServiceOverview service={hotel} />
+                        <HotelInfoCards details={hotel.hotelDetails}
+                        />
+                        <ServiceOverview service={hotel} isAuthenticated={isAuthenticated} />
                         <SaleOptions
                             items={subItems}
                             isLoading={isLoadingSubItem}
                             type="ROOM"
+                            isAuthenticated={isAuthenticated}
                         />
                         <ReviewSection serviceId={hotelId} />
                     </>

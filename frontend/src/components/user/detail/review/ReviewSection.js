@@ -57,19 +57,21 @@ const ReviewSection = ({
                                     review={review}
                                 />
                             ))}
+
+                            {hasNextPage ? (
+                                <Button
+                                    variant="outline"
+                                    onClick={() => fetchNextPage()}
+                                    disabled={isFetchingNextPage}
+                                >
+                                    {isFetchingNextPage ? "Đang tải..." : "Xem thêm đánh giá"}
+                                </Button>
+                            )
+                                : <p className="text-center ">Hết rồi.</p>
+                            }
+
                         </Card>
 
-                        {hasNextPage ? (
-                            <Button
-                                variant="outline"
-                                onClick={() => fetchNextPage()}
-                                disabled={isFetchingNextPage}
-                            >
-                                {isFetchingNextPage ? "Đang tải..." : "Xem thêm đánh giá"}
-                            </Button>
-                        )
-                            : <p className="text-center ">Hết rồi.</p>
-                        }
                     </>
                 )}
 

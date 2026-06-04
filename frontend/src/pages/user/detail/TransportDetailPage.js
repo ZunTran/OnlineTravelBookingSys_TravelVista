@@ -2,11 +2,14 @@ import ServiceOverviewSkeleton from "@/components/common/skeleton/ServiceOvervie
 import { ReviewSection, SaleOptions } from "@/components/LazyComponent";
 import DetailHeader from "@/components/user/detail/review/DetailHeader";
 import ServiceOverview from "@/components/user/detail/ServiceOverview";
+import { useAuth } from "@/hooks/auth/use-auth";
 import { useReviews, useServiceDetail, useSubItemService } from "@/hooks/service/use-service";
 import NotFoundPage from "@/pages/error/NotFoundPage";
 import { useParams } from "react-router-dom";
 
 const TransportDetailPage = () => {
+
+    const { isAuthenticated } = useAuth();
 
     const { id } = useParams()
     const transportId = Number(id);
@@ -45,11 +48,15 @@ const TransportDetailPage = () => {
                 )
                 : (
                     <div className="space-y-20">
-                        <ServiceOverview service={transport} />
+                        <ServiceOverview
+                            service={transport}
+                            isAuthenticated={isAuthenticated}
+                        />
                         <SaleOptions
                             items={subItems}
                             isLoading={loadingSubitem}
                             type="TICKET"
+                            isAuthenticated={isAuthenticated}
                         />
                         <ReviewSection
                             reviews={reviews}
