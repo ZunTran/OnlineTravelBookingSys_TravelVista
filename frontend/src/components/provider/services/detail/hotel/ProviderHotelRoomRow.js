@@ -47,6 +47,7 @@ const ProviderHotelRoomRow = ({ room }) => {
                     {room.sellItem?.availableSlots || 0} phòng
                 </Badge>
             </TableCell>
+
         </TableRow>
     );
 }

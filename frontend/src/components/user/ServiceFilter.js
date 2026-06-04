@@ -1,7 +1,8 @@
+import ServiceTypeFilter from "@/components/common/ServiceTypeFilter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { PRICE_RANGES, SERVICE_TYPES, SORT_OPTIONS } from "@/constants/FilterMenu";
+import { PRICE_RANGES, SORT_OPTIONS } from "@/constants/FilterMenu";
 import { useEffect, useState } from "react";
 
 const ServiceFilter = ({
@@ -14,16 +15,20 @@ const ServiceFilter = ({
 
 
     const [kw, setKw] = useState("");
+    const [location, setLocation] = useState("")
 
     const handleEnter = (e) => {
-        if (e.key === "Enter")
-            onChange("name", kw.trim())
-    }
+        if (e.key !== "Enter") return;
+
+        onChange("name", kw.trim());
+        onChange("location", location.trim());
+    };
 
     useEffect(() => {
         setKw(filters.name || "");
+        setLocation(filters.location || "")
 
-    }, [filters.name]);
+    }, [filters.name, filters.location]);
 
     return (
         <div className="rounded-2xl border bg-white p-4 shadow-sm">
@@ -36,31 +41,7 @@ const ServiceFilter = ({
                 />
 
                 {showServiceType && (
-                    <Select
-                        value={filters.serviceType || "all"}
-                        onValueChange={(value) =>
-                            onChange(
-                                "serviceType",
-                                value === "all" ? "" : value
-                            )
-                        }
-                    >
-                        <SelectTrigger className="bg-white">
-                            <SelectValue placeholder="Loại dịch vụ" />
-                        </SelectTrigger>
-
-                        <SelectContent className="bg-white">
-                            <SelectItem value="all">
-                                Tất cả
-                            </SelectItem>
-
-                            {SERVICE_TYPES.map((item) => (
-                                <SelectItem value={item.value} key={item.value}>
-                                    {item.label}
-                                </SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
+                    <ServiceTypeFilter isShowLabel={false} filters={filters} onChange={onChange} />
                 )}
 
                 <Select
@@ -91,12 +72,12 @@ const ServiceFilter = ({
 
                 <Input
                     placeholder="Địa điểm..."
-                    value={filters.location || ""}
+                    value={location}
                     onChange={(e) =>
-                        onChange("location", e.target.value)
+                        setLocation(e.target.value)
                     }
+                    onKeyDown={handleEnter}
                 />
-
                 <Select
                     onValueChange={(value) => {
                         const range = PRICE_RANGES.find(

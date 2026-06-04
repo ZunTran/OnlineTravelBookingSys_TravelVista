@@ -67,3 +67,11 @@ export const createProviderDetailServiceApi = async ({ id, serviceType, data }) 
 
     return res.data;
 }
+
+
+export const deleteProviderSubItem = async ({ id, serviceType, subItemId }) => {
+    const res = await Apis.delete(
+        endpoints.provider.services.subItem(id, serviceType, subItemId));
+
+    return res.data;
+}

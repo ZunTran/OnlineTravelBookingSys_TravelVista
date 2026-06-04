@@ -4,11 +4,14 @@ import { ReviewSection, SaleOptions } from "@/components/LazyComponent";
 import DetailHeader from "@/components/user/detail/review/DetailHeader";
 import ServiceOverview from "@/components/user/detail/ServiceOverview";
 import TourInfoCards from "@/components/user/detail/tour/TourInfoCards";
+import { useAuth } from "@/hooks/auth/use-auth";
 import { useReviews, useServiceDetail, useSubItemService } from "@/hooks/service/use-service";
 import NotFoundPage from "@/pages/error/NotFoundPage";
 import { useParams } from "react-router-dom";
 
 const TourDetailPage = () => {
+
+    const { isAuthenticated } = useAuth();
 
     const { id } = useParams();
     const tourId = Number(id);
@@ -35,6 +38,7 @@ const TourDetailPage = () => {
     const tour = tourData?.data || [];
     const reviews = reviewData?.data?.customerReviewsFeedback || [];
 
+
     return (
         <section className="space-y-6">
             <DetailHeader title={tour?.name} />
@@ -49,11 +53,13 @@ const TourDetailPage = () => {
                 : (
                     <>
                         <TourInfoCards tourDetails={tour?.tourDetails} />
-                        <ServiceOverview service={tour} />
+                        isAuthenticated={isAuthenticated}
+                        <ServiceOverview service={tour} isAuthenticated={isAuthenticated} />
                         <SaleOptions
                             items={subItems}
                             isLoading={loadingSubitem}
                             type="SCHEDULE"
+                            isAuthenticated={isAuthenticated}
                         />
                         <ReviewSection
                             isLoading={loadingReviews}

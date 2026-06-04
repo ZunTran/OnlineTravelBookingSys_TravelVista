@@ -1,7 +1,8 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { BriefcaseBusiness, CheckCircle, PauseCircle } from "lucide-react";
+import { formatPrice } from "@/utils/format";
+import { BriefcaseBusiness, CheckCircle } from "lucide-react";
 
-const ProviderServiceStats = ({ total = 0, active = 0, inactive = 0 }) => {
+const ProviderServiceStats = ({ total = 0, totalBookings = 0, totalRevenue = 0 }) => {
     const items = [
         {
             label: "Tổng dịch vụ",
@@ -9,14 +10,14 @@ const ProviderServiceStats = ({ total = 0, active = 0, inactive = 0 }) => {
             icon: BriefcaseBusiness,
         },
         {
-            label: "Đang hoạt động",
-            value: active,
+            label: "Tổng lượt đặt",
+            value: totalBookings,
             icon: CheckCircle,
         },
         {
-            label: "Không hoạt động",
-            value: inactive,
-            icon: PauseCircle,
+            label: "Tổng doanh thu",
+            value: formatPrice(totalRevenue),
+            icon: CheckCircle,
         },
     ];
 

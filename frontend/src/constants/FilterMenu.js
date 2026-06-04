@@ -18,6 +18,60 @@ export const SERVICE_TYPES = [
     },
 ];
 
+
+export const PAYMENT_METHOD_FILTER = [
+    {
+        value: "PAY",
+        label: "tiền mặt",
+        path: "hotel",
+    },
+    {
+        value: "MOMO",
+        label: "Ví MoMo",
+        path: "tour",
+    },
+    {
+        value: "PAYPAL",
+        label: "Ví Paypal",
+        path: "transport",
+    },
+    {
+        value: "STRIPE",
+        label: "thẻ quốc tế",
+        path: "transport",
+    },
+    {
+        value: "ZALOPAY",
+        label: "Ví ZaloPay",
+        path: "transport",
+    },
+];
+
+
+export const PAYMENT_STATUS_FILTER = [
+    {
+        value: "pay",
+        label: "Đã thanh toán",
+        path: "hotel",
+    },
+    {
+        value: "pending",
+        label: "Đang đợi thanh toán",
+        path: "tour",
+    },
+    {
+        value: "fail",
+        label: "Thất bại",
+        path: "transport",
+    },
+    {
+        value: "refund",
+        label: "Hoàn tiền",
+        path: "transport",
+    },
+
+];
+
 export const SERVICE_STATUS = [
     {
         value: "DRAFT",
@@ -63,21 +117,21 @@ export const SUB_LABEL = {
         available: "Còn phòng",
         unavailable: "Hết phòng",
         slot: "phòng",
-        button: "Chọn phòng",
+        button: "Đặt phòng ngay",
         price: "Giá từ",
     },
     TICKET: {
         available: "Còn vé",
         unavailable: "Hết vé",
         slot: "vé",
-        button: "Chọn vé",
+        button: "Mua vé ngay",
         price: "Giá vé",
     },
     SCHEDULE: {
         available: "Còn chỗ",
         unavailable: "Hết chỗ",
         slot: "chỗ",
-        button: "Chọn lịch",
+        button: "Đặt lịch ngay",
         price: "Giá tour",
     },
 };
@@ -144,3 +198,17 @@ export const PRICE_RANGES = [
         maxPrice: null,
     },
 ];
+
+export const PERIOD_OPTIONS = [
+    {
+        value: "year",
+        label: "Năm",
+    },
+    {
+        value: "month",
+        label: "Tháng",
+    }, {
+        value: "quarter",
+        label: "Quý",
+    },
+]

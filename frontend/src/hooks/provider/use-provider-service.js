@@ -1,4 +1,4 @@
-import { createProviderServiceApi, getProviderHotelDetailApi, getProviderServicesApi, getProviderTourDetailApi, getProviderTransportApi, updateProviderServicesApi } from "@/services/provider-service.service"
+import { createProviderServiceApi, deleteProviderSubItem, getProviderHotelDetailApi, getProviderServicesApi, getProviderTourDetailApi, getProviderTransportApi, updateProviderServicesApi } from "@/services/provider/provider-service.service"
 import { updateItemInListCache } from "@/utils/helper";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner";
@@ -39,6 +39,69 @@ export const useProviderTourDetail = (id) => {
         retry: false,
     });
 }
+
+
+export const useDeleteProviderHotelSubItem = (id, subItemId) => {
+
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: () => deleteProviderSubItem(id, "HOTEL", subItemId),
+
+        onSuccess: (data) => {
+
+            queryClient.fetchInfiniteQuery({
+                queryKey: ["provider-service-detail", "HOTEL", id],
+            });
+            toast.success(data?.message || "xóa subitem của hotel thành công");
+        },
+        onError: (error) => {
+            toast.warning(error?.response?.data?.message || "Có lỗi xảy ra")
+        }
+    });
+}
+
+export const useDeleteProviderTourSubItem = (id, subItemId) => {
+
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: () => deleteProviderSubItem(id, "TOUR", subItemId),
+
+        onSuccess: (data) => {
+
+            queryClient.fetchInfiniteQuery({
+                queryKey: ["provider-service-detail", "TOUR", id],
+            });
+            toast.success(data?.message || "xóa subitem của tour thành công");
+        },
+        onError: (error) => {
+            toast.warning(error?.response?.data?.message || "Có lỗi xảy ra")
+        }
+    });
+}
+
+export const useDeleteProviderTransportSubItem = (id, subItemId) => {
+
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: () => deleteProviderSubItem(id, "TRANSPORT", subItemId),
+
+        onSuccess: (data) => {
+
+            queryClient.fetchInfiniteQuery({
+                queryKey: ["provider-service-detail", "TRANSPORT", id],
+            });
+            toast.success(data?.message || "xóa subitem của transport thành công");
+        },
+        onError: (error) => {
+            toast.warning(error?.response?.data?.message || "Có lỗi xảy ra")
+        }
+    });
+}
+
+
 
 export const useCreateProviderService = () => {
     const queryClient = useQueryClient();

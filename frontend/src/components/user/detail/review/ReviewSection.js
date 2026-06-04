@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import ReviewHeader from "@/components/user/detail/review/ReviewHeader";
 import ReviewCard from "@/components/user/detail/review/ReviewCard";
 import { useReviews } from "@/hooks/service/use-service";
+import { Button } from "@/components/ui/button";
 
 const ReviewSection = ({
     serviceId
@@ -11,10 +12,16 @@ const ReviewSection = ({
 
     const {
         data: reviewData,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
         isLoading,
     } = useReviews(serviceId);
 
-    const reviews = reviewData?.data?.customerReviewsFeedback || [];
+
+    const reviews = reviewData?.pages.flatMap(
+        (page) => page?.data?.customerReviewsFeedback || []) || [];
+
 
     if (reviews.length === 0) {
         return (
@@ -50,7 +57,21 @@ const ReviewSection = ({
                                     review={review}
                                 />
                             ))}
+
+                            {hasNextPage ? (
+                                <Button
+                                    variant="outline"
+                                    onClick={() => fetchNextPage()}
+                                    disabled={isFetchingNextPage}
+                                >
+                                    {isFetchingNextPage ? "Đang tải..." : "Xem thêm đánh giá"}
+                                </Button>
+                            )
+                                : <p className="text-center ">Hết rồi.</p>
+                            }
+
                         </Card>
+
                     </>
                 )}
 

@@ -1,18 +1,12 @@
 import UserLayout from "@/layouts/UserLayout";
 import UserProfileLayout from "@/layouts/UserProfileLoyout";
-import { CheckoutPage, CheckoutSuccessPage, HomePage, HotelDetailPage, TourDetailPage, TransportDetailPage, TransportPage } from "@/pages/LazyPages";
+import { ChatRoomPage, ChatRoomsPage, CheckoutPage, HomePage, HotelDetailPage, OrderPage, TourDetailPage, TransportDetailPage, TransportPage, UserProfilePage, UserSecurityPage } from "@/pages/LazyPages";
+import CheckoutSuccessPage from "@/pages/user/CheckoutSuccessPage";
 import CartPage from "@/pages/user/profile/CartPage";
 import FavouritePage from "@/pages/user/profile/FavouritePage";
 
 import RoleRoute from "@/routers/RoleRoutes";
-import { lazy } from "react";
 import { Route } from "react-router-dom";
-
-const UserSecurityPage = lazy(() => import("@/pages/user/profile/UserSecurityPage"));
-const OrderPage = lazy(() => import("@/pages/user/profile/OrderPage"));
-const UserProfilePage = lazy(() => import("@/pages/user/profile/UserProfilePage"));
-const ChatRoomPage = lazy(() => import("@/pages/ChatRoomPage"));
-const ChatRoomsPage = lazy(() => import("@/pages/ChatRoomsPage"))
 
 const UserRoutes = () => {
     return (

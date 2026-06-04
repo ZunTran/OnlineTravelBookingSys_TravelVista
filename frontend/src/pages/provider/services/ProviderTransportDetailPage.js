@@ -3,6 +3,7 @@ import ServiceImages from "@/components/common/ServicesImage";
 import ServiceImagesSkeleton from "@/components/common/skeleton/ServiceImagesSkeleton";
 import StatsSkeleton from "@/components/common/skeleton/StatsSkeleton";
 import TableSkeleton from "@/components/common/skeleton/TableSkeleton";
+import { ReviewSection } from "@/components/LazyComponent";
 import TransportTicketForm from "@/components/provider/services/detail/form/TransportTicketForm";
 import ProviderDetailHeader from "@/components/provider/services/detail/ProviderDetailHeader";
 import ProviderTransportInfoCards from "@/components/provider/services/detail/transport/ProviderTransportInoCard";
@@ -88,6 +89,7 @@ const ProviderTransportDetailPage = () => {
                         <TransportTicketsTable
                             tickets={transport?.tickets || []}
                         />
+                        <ReviewSection serviceId={transportId} />
                     </>
                 )
             }

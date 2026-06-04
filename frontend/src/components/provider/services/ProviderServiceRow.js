@@ -5,6 +5,7 @@ import { getServiceImage } from "@/utils/format";
 import { ImageIcon, Lock, LockOpen, Pencil, Trash2 } from "lucide-react";
 import { memo } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const SERVICE_STATUS = {
     DRAFT: {
@@ -30,7 +31,7 @@ const SERVICE_STATUS = {
 
 
 
-const ProviderServiceRow = ({ service, onDelete, onUpdateStatus, onEdit }) => {
+const ProviderServiceRow = ({ service, onDelete, onUpdateStatus }) => {
     const navigate = useNavigate();
 
     const handleDetail = (service) => {
@@ -123,7 +124,7 @@ const ProviderServiceRow = ({ service, onDelete, onUpdateStatus, onEdit }) => {
                     <Button
                         size="icon"
                         variant="ghost"
-                        onClick={() => onEdit(service)}
+                        onClick={() => toast.info("Comming soon")}
                     >
                         <Pencil className="h-5 w-5" />
                     </Button>
@@ -131,7 +132,7 @@ const ProviderServiceRow = ({ service, onDelete, onUpdateStatus, onEdit }) => {
                     <Button
                         size="icon"
                         variant="ghost"
-                        onDelete={onDelete}
+                        onClick={() => onDelete(service.id)}
                     >
                         <Trash2 className="h-5 w-5 stroke-red-600" />
                     </Button>

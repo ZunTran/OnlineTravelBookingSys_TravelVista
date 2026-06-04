@@ -73,7 +73,7 @@ const ChatRoomPage = () => {
     return (
         <section>
             <DetailHeader title={`Phòng chat #${roomId}`} />
-            <Card className="mx-auto flex h-[calc(100vh-150px)] max-w-4xl flex-col overflow-hidden ">
+            <Card className="mx-auto flex h-[calc(100vh-150px)] max-w-4xl flex-col overflow-hidden mt-4">
                 <div className="min-h-0 flex-1 overflow-y-auto space-y-2 bg-muted/40 p-4 m-3">
                     {messages.map((message) => (
                         <Message

@@ -14,6 +14,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import ProviderHotelInfoCards from "@/components/provider/services/detail/hotel/ProviderHotelInfoCard";
 import ProviderHotelRoomsTable from "@/components/provider/services/detail/hotel/ProviderHotelRoomsTable";
+import { ReviewSection } from "@/components/LazyComponent";
 
 
 const initialHotelRoom = {
@@ -91,6 +92,7 @@ const ProviderHotelDetailPage = () => {
                         <ProviderHotelInfoCards hotel={hotel} />
                         <ServiceImages images={hotel?.images} />
                         <ProviderHotelRoomsTable rooms={hotel?.rooms || []} />
+                        <ReviewSection serviceId={hotelId} />
                     </>
                 )
             }
