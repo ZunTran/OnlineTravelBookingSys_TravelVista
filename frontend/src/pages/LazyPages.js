@@ -15,7 +15,12 @@ export const CheckoutPage = lazy(() => import("@/pages/user/CheckoutPage"))
 
 export const CartPage = lazy(() => import("@/pages/user/profile/CartPage"));
 export const FavouritePage = lazy(() => import("@/pages/user/profile/FavouritePage"))
-export const CheckoutSuccessPage = lazy(() => import("@/pages/user/CheckoutSuccessPage"));
+export const UserSecurityPage = lazy(() => import("@/pages/user/profile/UserSecurityPage"));
+export const OrderPage = lazy(() => import("@/pages/user/profile/OrderPage"));
+export const UserProfilePage = lazy(() => import("@/pages/user/profile/UserProfilePage"));
+export const ChatRoomPage = lazy(() => import("@/pages/ChatRoomPage"));
+export const ChatRoomsPage = lazy(() => import("@/pages/ChatRoomsPage"))
+
 
 
 export const ProviderHomePage = lazy(() => import("@/pages/provider/ProviderHomePage"));
@@ -23,6 +28,8 @@ export const ProviderServicesPage = lazy(() => import("@/pages/provider/Provider
 export const ProviderHotelDetailPage = lazy(() => import("@/pages/provider/services/ProviderHotelDetailPage"));
 export const ProviderTransportDetailPage = lazy(() => import("@/pages/provider/services/ProviderTransportDetailPage"));
 export const ProviderTourDetailPage = lazy(() => import("@/pages/provider/services/ProviderTourDetailPage"));
+export const ProviderOrderPage = lazy(() => import("@/pages/provider/ProviderOrderPage"));
+export const ProviderOrderDetailPage = lazy(() => import("@/pages/provider/ProviderOrderDetailPage"));
 
 
 export const AdminHomePage = lazy(() => import("@/pages/admin/AdminHomePage"));

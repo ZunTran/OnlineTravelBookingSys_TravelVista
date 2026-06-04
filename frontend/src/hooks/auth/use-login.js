@@ -1,10 +1,10 @@
-import { loginApi } from "@/services/auth.service";
+import { loginApi } from "@/services/auth/auth.service";
 import { useMutation } from "@tanstack/react-query"
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "@/store/authSlice";
-import { getProfileApi } from "@/services/profile.service";
+import { getProfileApi } from "@/services/user/profile.service";
 import { AUTH_EVENTS, authStorage } from "@/utils/auth-storage";
 
 export const useLogin = () => {

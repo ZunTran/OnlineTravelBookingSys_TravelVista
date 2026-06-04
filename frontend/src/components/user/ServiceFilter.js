@@ -1,7 +1,8 @@
+import ServiceTypeFilter from "@/components/common/ServiceTypeFilter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { PRICE_RANGES, SERVICE_TYPES, SORT_OPTIONS } from "@/constants/FilterMenu";
+import { PRICE_RANGES, SORT_OPTIONS } from "@/constants/FilterMenu";
 import { useEffect, useState } from "react";
 
 const ServiceFilter = ({
@@ -36,31 +37,7 @@ const ServiceFilter = ({
                 />
 
                 {showServiceType && (
-                    <Select
-                        value={filters.serviceType || "all"}
-                        onValueChange={(value) =>
-                            onChange(
-                                "serviceType",
-                                value === "all" ? "" : value
-                            )
-                        }
-                    >
-                        <SelectTrigger className="bg-white">
-                            <SelectValue placeholder="Loại dịch vụ" />
-                        </SelectTrigger>
-
-                        <SelectContent className="bg-white">
-                            <SelectItem value="all">
-                                Tất cả
-                            </SelectItem>
-
-                            {SERVICE_TYPES.map((item) => (
-                                <SelectItem value={item.value} key={item.value}>
-                                    {item.label}
-                                </SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
+                    <ServiceTypeFilter isShowLabel={false} filters={filters} onChange={onChange} />
                 )}
 
                 <Select

@@ -49,7 +49,7 @@ const OrderPage = () => {
                             ))}
                         </div>
 
-                        {hasNextPage && (
+                        {hasNextPage ? (
                             <Button
                                 onClick={() => fetchNextPage()}
                                 disabled={isFetchingNextPage}
@@ -58,9 +58,11 @@ const OrderPage = () => {
                                     ? "Đang tải..."
                                     : "Xem thêm"}
                             </Button>
-                        )}</>
+                        )
+                            : <p className="text-center ">Hết rồi.</p>
+                        }
+                    </>
                 )}
-
 
         </Card>
     );

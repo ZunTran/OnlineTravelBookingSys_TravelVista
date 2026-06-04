@@ -1,4 +1,4 @@
-import { getOrdersApi, reviewOrderApi } from "@/services/order.service";
+import { getOrdersApi, reviewOrderApi } from "@/services/user/order.service";
 import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 

@@ -1,4 +1,4 @@
-import { getFavouriteApi, updateFavouriteApi } from "@/services/favourite.service";
+import { getFavouriteApi, updateFavouriteApi } from "@/services/user/favourite.service";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner";
 

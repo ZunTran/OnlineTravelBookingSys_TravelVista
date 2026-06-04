@@ -15,6 +15,11 @@ export const endpoints = {
             base: "/api/provider/services",
             info: (id) => `/api/provider/services/${id}`,
             detail: (id, serviceType) => `/api/provider/services/${id}/${serviceType.toLowerCase()}`,
+        },
+        stats: "/api/provider/services/stats",
+        order: {
+            list: "/api/provider/services/orders",
+            detail: (id) => `/api/provider/services/orders/${id}`
         }
     },
 

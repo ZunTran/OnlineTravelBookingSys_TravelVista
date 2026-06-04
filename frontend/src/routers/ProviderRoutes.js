@@ -1,5 +1,5 @@
 import ProviderLayout from "@/layouts/ProviderLayout";
-import { ProviderHomePage, ProviderHotelDetailPage, ProviderServicesPage, ProviderTourDetailPage, ProviderTransportDetailPage } from "@/pages/LazyPages";
+import { ProviderHomePage, ProviderHotelDetailPage, ProviderOrderDetailPage, ProviderOrderPage, ProviderServicesPage, ProviderTourDetailPage, ProviderTransportDetailPage } from "@/pages/LazyPages";
 import RoleRoute from "@/routers/RoleRoutes";
 import { lazy } from "react";
 import { Route } from "react-router-dom";
@@ -41,6 +41,16 @@ const ProviderRoutes = () => {
                 <Route
                     path="/provider/chat/:roomId"
                     element={<ChatRoomPage />}
+                />
+
+                <Route
+                    path="/provider/order"
+                    element={<ProviderOrderPage />}
+                />
+
+                <Route
+                    path="/provider/order-detail/:id"
+                    element={<ProviderOrderDetailPage />}
                 />
             </Route>
         </Route>

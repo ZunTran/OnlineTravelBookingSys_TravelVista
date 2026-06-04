@@ -1,4 +1,4 @@
-import { createProviderDetailServiceApi } from "@/services/provider-service.service";
+import { createProviderDetailServiceApi } from "@/services/provider/provider-service.service";
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner";
 

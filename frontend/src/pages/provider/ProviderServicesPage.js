@@ -100,6 +100,16 @@ const ProviderServicesPage = () => {
 
     };
 
+    const handleDelete = (id) => {
+        updateStatusMutation.mutate({
+            id,
+            params: {
+                status: "DELETED"
+            },
+            formData: null,
+        });
+    }
+
     return (
         <div className="space-y-6">
             {(isCreating || isUpdating) && <Loading content={"Đang xử lý..."} />}
@@ -130,8 +140,7 @@ const ProviderServicesPage = () => {
                     <p className="font-bold">Tổng: {data?.totalElements}</p>
                     <ProviderServiceTable
                         services={services}
-                        // onEdit={(service) => console.log(service)}
-                        onDelete={() => toast.info("comming soon")}
+                        onDelete={handleDelete}
                         onUpdateStatus={handleUpdateStatus}
                     />
                 </>

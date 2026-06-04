@@ -1,4 +1,4 @@
-import { checkoutApi, getPaymentMethodApi, previewCartCheckoutApi } from "@/services/checkout.service"
+import { checkoutApi, getPaymentMethodApi, previewCartCheckoutApi } from "@/services/user/checkout.service"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner"

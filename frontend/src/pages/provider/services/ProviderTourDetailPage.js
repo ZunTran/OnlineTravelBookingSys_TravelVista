@@ -1,3 +1,4 @@
+import { ReviewSection } from "@/components/LazyComponent";
 import Loading from "@/components/common/Loading";
 import ServiceImages from "@/components/common/ServicesImage";
 import ServiceImagesSkeleton from "@/components/common/skeleton/ServiceImagesSkeleton";
@@ -46,6 +47,8 @@ const ProviderTourDetailPage = () => {
 
     const tour = data || [];
 
+    console.log("Tour: ", tour);
+
     const payload = {
         serviceType: "TOUR",
         tourSchedules: [
@@ -87,6 +90,7 @@ const ProviderTourDetailPage = () => {
                         <TourInfoCards tour={tour} />
                         <ServiceImages images={tour?.images} />
                         <TourSchedulesTable schedules={tour?.schedules || []} />
+                        <ReviewSection serviceId={tourId} />
                     </>
                 )
             }

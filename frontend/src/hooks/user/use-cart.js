@@ -1,4 +1,4 @@
-import { addToCartApi, deleteCartApi, getCartApi, updateCartApi } from "@/services/cart.service";
+import { addToCartApi, deleteCartApi, getCartApi, updateCartApi } from "@/services/user/cart.service";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner";
 
